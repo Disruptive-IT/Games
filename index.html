@@ -43,6 +43,11 @@
     </div>
 
     <div class="header-controls">
+      <!-- Indicador de Estado Reubicado a un Lado -->
+      <div class="status-connection-badge" id="center-hub" title="Estado de la relación">
+        <span class="status-indicator-dot"></span>
+        <span class="hub-label" id="hub-label">Sin Conectar</span>
+      </div>
       <button class="icon-btn" id="btn-sound" title="Activar/Silenciar sonido" aria-label="Sonido">
         <span class="sound-icon" id="sound-icon">🔊</span>
       </button>
@@ -115,24 +120,6 @@
       <g id="cable-particles" class="cable-particles"></g>
     </svg>
 
-    <!-- HUB Central (Icono de DB / Conectado) -->
-    <div class="center-hub" id="center-hub">
-      <div class="hub-pill" id="hub-pill">
-        <div class="hub-icon-circle" id="hub-icon-circle">
-          <!-- Icono BD normal -->
-          <svg class="icon-db-default" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#2563eb" stroke-width="2">
-            <ellipse cx="12" cy="5" rx="8" ry="3"/>
-            <path d="M4 5v6c0 1.66 3.58 3 8 3s8-1.34 8-3V5"/>
-            <path d="M4 11v6c0 1.66 3.58 3 8 3s8-1.34 8-3v-6"/>
-          </svg>
-          <!-- Icono Estrella Conectado -->
-          <svg class="icon-db-success" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#ffffff" stroke-width="2.5">
-            <polyline points="20 6 9 17 4 12"/>
-          </svg>
-        </div>
-        <span class="hub-label" id="hub-label">UNIR TABLAS</span>
-      </div>
-    </div>
 
     <!-- TABLA 1: Clientes (Tabla Principal) -->
     <section class="table-card table-left" id="card-clientes" aria-label="Tabla Clientes">

@@ -843,9 +843,14 @@
       leftEnd.element.classList.add('connected-pulse');
       rightEnd.element.classList.add('connected-pulse');
 
-      // Actualizar Hub Central a '✓ CONECTADO'
-      this.dom.centerHub.classList.add('connected');
-      document.getElementById('hub-label').textContent = '✓ CONECTADO';
+      // Actualizar Indicador de Estado en la Cabecera
+      if (this.dom.centerHub) {
+        this.dom.centerHub.classList.add('connected');
+      }
+      const hubLabel = document.getElementById('hub-label');
+      if (hubLabel) {
+        hubLabel.textContent = '✓ Conectado';
+      }
 
       // Mostrar badges de datos enlazados
       document.getElementById('status-badge-left').classList.remove('hidden');
@@ -954,8 +959,13 @@
     resetConnectionVisuals() {
       this.hideToast();
       this.dom.bottomSuccessBar.classList.remove('active');
-      this.dom.centerHub.classList.remove('connected');
-      document.getElementById('hub-label').textContent = 'UNIR TABLAS';
+      if (this.dom.centerHub) {
+        this.dom.centerHub.classList.remove('connected');
+      }
+      const hubLabel = document.getElementById('hub-label');
+      if (hubLabel) {
+        hubLabel.textContent = 'Sin Conectar';
+      }
 
       this.dom.activeDragCable.setAttribute('d', '');
       this.dom.connectedCable.setAttribute('d', '');
