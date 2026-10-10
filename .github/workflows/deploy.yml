@@ -1,0 +1,57 @@
+name: CI/CD Despliegue Continuo - DIT Games
+
+on:
+  push:
+    branches:
+      - dev
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Despliegue en Servidor Local (Self-Hosted Runner)
+    runs-on: self-hosted
+
+    steps:
+      - name: 📥 Obtener código fuente (Checkout)
+        uses: actions/checkout@v4
+
+      - name: 📁 Sincronizar archivos hacia /home/Disruptive/Projects/Games
+        run: |
+          echo "Creando directorio destino si no existe..."
+          mkdir -p /home/Disruptive/Projects/Games
+          
+          echo "Sincronizando archivos del proyecto..."
+          rsync -av --delete \
+            --exclude='.git' \
+            --exclude='.env.local' \
+            ./ /home/Disruptive/Projects/Games/
+
+      - name: ⚙️ Configurar variables de entorno y permisos
+        run: |
+          cd /home/Disruptive/Projects/Games
+          if [ ! -f .env.local ]; then
+            echo "PORT=3000" > .env.local
+            echo "NODE_ENV=production" >> .env.local
+            echo "APP_NAME=DIT-Conecta-Tablas" >> .env.local
+            echo "Archivo .env.local inicializado con éxito."
+          fi
+          chmod +x scripts/*.sh 2>/dev/null || true
+
+      - name: 🐳 Desplegar contenedor Docker
+        run: |
+          cd /home/Disruptive/Projects/Games
+          echo "Deteniendo contenedor previo si existe..."
+          docker compose down || true
+          
+          echo "Construyendo y levantando contenedor con Docker Compose..."
+          docker compose up -d --build
+          
+          echo "Verificando estado del contenedor..."
+          docker ps --filter "name=dit_conecta_tablas" --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
+
+      - name: 🌐 Verificar servicio en puerto local
+        run: |
+          sleep 2
+          curl -I http://127.0.0.1:3000 || exit 1
+          echo "✅ Despliegue local completado exitosamente en http://127.0.0.1:3000"

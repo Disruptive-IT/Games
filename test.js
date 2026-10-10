@@ -22,7 +22,18 @@ function runTests() {
   }
 
   // 1. Verificar existencia de archivos obligatorios
-  const requiredFiles = ['index.html', 'style.css', 'game.js', '.env.local', '.gitignore', 'Dockerfile', 'docker-compose.yml'];
+  const requiredFiles = [
+    'index.html',
+    'style.css',
+    'game.js',
+    '.env.local',
+    '.gitignore',
+    'Dockerfile',
+    'docker-compose.yml',
+    '.github/workflows/deploy.yml',
+    'nginx/play.neurodit.com.conf',
+    'scripts/setup-ssl-nginx.sh'
+  ];
   requiredFiles.forEach(file => {
     assert(fs.existsSync(path.join(__dirname, file)), `Archivo presente: ${file}`);
   });
