@@ -1,0 +1,7 @@
+# DIT Project Git Ignore
+node_modules/
+dist/
+.env.local
+.env*.local
+.DS_Store
+Thumbs.db
