@@ -409,6 +409,7 @@
         btnRestartHeader: document.getElementById('btn-restart-header'),
         btnBrandHome: document.getElementById('btn-brand-home'),
         btnToggleCatalog: document.getElementById('btn-toggle-catalog'),
+        btnLobbyNeurodit: document.getElementById('btn-lobby-neurodit'),
         btnStartConectaTablas: document.getElementById('btn-start-conecta-tablas'),
         btnStartChefPrompter: document.getElementById('btn-start-chef-prompter'),
         btnStartSdlc: document.getElementById('btn-start-sdlc'),
@@ -487,6 +488,12 @@
       this.dom.levelNavContainer.classList.remove('hidden');
       this.dom.centerHub.classList.remove('hidden');
 
+      if (this.dom.btnLobbyNeurodit) this.dom.btnLobbyNeurodit.classList.add('hidden');
+      if (this.dom.btnToggleCatalog) this.dom.btnToggleCatalog.classList.remove('hidden');
+      if (this.dom.btnSound) this.dom.btnSound.classList.remove('hidden');
+      if (this.dom.btnHelpHeader) this.dom.btnHelpHeader.classList.remove('hidden');
+      if (this.dom.btnRestartHeader) this.dom.btnRestartHeader.classList.remove('hidden');
+
       const chefStage = document.getElementById('chef-prompter-stage');
       if (chefStage) {
         chefStage.classList.add('hidden');
@@ -504,6 +511,13 @@
       this.dom.levelNavContainer.classList.add('hidden');
       this.dom.centerHub.classList.add('hidden');
       this.dom.bottomSuccessBar.classList.remove('active');
+
+      // En el Lobby / Catálogo: ocultar controles de juegos y mostrar enlace a id.neurodit.com
+      if (this.dom.btnLobbyNeurodit) this.dom.btnLobbyNeurodit.classList.remove('hidden');
+      if (this.dom.btnToggleCatalog) this.dom.btnToggleCatalog.classList.add('hidden');
+      if (this.dom.btnSound) this.dom.btnSound.classList.add('hidden');
+      if (this.dom.btnHelpHeader) this.dom.btnHelpHeader.classList.add('hidden');
+      if (this.dom.btnRestartHeader) this.dom.btnRestartHeader.classList.add('hidden');
 
       // Mostrar tarjeta de bienvenida con diamante púrpura si aún no se ha aceptado
       if (!this.welcomeAccepted && this.dom.modalWelcome) {
@@ -539,6 +553,12 @@
       this.dom.centerHub.classList.add('hidden');
       this.dom.bottomSuccessBar.classList.remove('active');
       this.dom.modalInstructions.classList.remove('active');
+
+      if (this.dom.btnLobbyNeurodit) this.dom.btnLobbyNeurodit.classList.add('hidden');
+      if (this.dom.btnToggleCatalog) this.dom.btnToggleCatalog.classList.remove('hidden');
+      if (this.dom.btnSound) this.dom.btnSound.classList.remove('hidden');
+      if (this.dom.btnHelpHeader) this.dom.btnHelpHeader.classList.add('hidden');
+      if (this.dom.btnRestartHeader) this.dom.btnRestartHeader.classList.add('hidden');
       if (this.dom.modalFinalVictory) {
         this.dom.modalFinalVictory.classList.remove('active');
       }
@@ -565,6 +585,12 @@
       this.dom.centerHub.classList.add('hidden');
       this.dom.bottomSuccessBar.classList.remove('active');
       this.dom.modalInstructions.classList.remove('active');
+
+      if (this.dom.btnLobbyNeurodit) this.dom.btnLobbyNeurodit.classList.add('hidden');
+      if (this.dom.btnToggleCatalog) this.dom.btnToggleCatalog.classList.remove('hidden');
+      if (this.dom.btnSound) this.dom.btnSound.classList.remove('hidden');
+      if (this.dom.btnHelpHeader) this.dom.btnHelpHeader.classList.add('hidden');
+      if (this.dom.btnRestartHeader) this.dom.btnRestartHeader.classList.add('hidden');
       if (this.dom.modalFinalVictory) {
         this.dom.modalFinalVictory.classList.remove('active');
       }

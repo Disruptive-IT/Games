@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=2.2">
+  <link rel="stylesheet" href="style.css?v=2.3">
 </head>
 <body>
   <!-- Fondo futurista 2D limpio con cuadrícula y tonalidades suaves -->
@@ -53,6 +53,13 @@
     </div>
 
     <div class="header-controls">
+      <!-- Enlace Corporativo en el Lobby / Catálogo -->
+      <a href="https://id.neurodit.com" target="_blank" rel="noopener noreferrer" class="btn-lobby-neurodit hidden" id="btn-lobby-neurodit" title="Visitar Disruptive IT (id.neurodit.com)">
+        <span class="lobby-neurodit-icon">🌐</span>
+        <span class="lobby-neurodit-text">id.neurodit.com</span>
+        <span class="lobby-neurodit-arrow">↗</span>
+      </a>
+
       <!-- Botón para ir al Catálogo de Juegos -->
       <button class="btn-catalog-nav" id="btn-toggle-catalog" title="Ver catálogo de juegos">
         <span class="catalog-icon">🎮</span> <span class="catalog-label">Catálogo</span>
@@ -875,9 +882,6 @@
         <button class="btn-sdlc-action btn-reset-slate" id="btn-sdlc-reset" title="Reiniciar la rueda">
           <span>🔄</span> Reiniciar
         </button>
-        <button class="btn-sdlc-action btn-back-hub" id="btn-sdlc-back-catalog" title="Volver al Catálogo de Juegos">
-          <span>🎮</span> Catálogo
-        </button>
       </div>
     </div>
 
@@ -913,7 +917,7 @@
 
       <!-- Columna 2: Panel Tutor Interactivo de NaviBot (Feedback en tiempo real) -->
       <div class="sdlc-mentor-zone">
-        <div class="sdlc-mentor-card">
+        <div class="sdlc-mentor-card" id="sdlc-mentor-card">
           <div class="mentor-card-header">
             <div class="mentor-avatar-wrap">
               <img src="NaviBot-512x512.png" alt="NaviBot Tutor" class="mentor-navibot-avatar" id="sdlc-mentor-avatar">
@@ -1236,8 +1240,8 @@
   <!-- Confeti / Partículas de Celebración en Canvas -->
   <canvas id="confetti-canvas" class="confetti-canvas" aria-hidden="true"></canvas>
 
-  <script src="game.js?v=2.2"></script>
-  <script src="chef-prompter.js?v=2.2"></script>
-  <script src="sdlc-game.js?v=2.2"></script>
+  <script src="game.js?v=2.3"></script>
+  <script src="chef-prompter.js?v=2.3"></script>
+  <script src="sdlc-game.js?v=2.3"></script>
 </body>
 </html>

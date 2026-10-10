@@ -3853,5 +3853,72 @@ body {
   }
 }
 
+/* ==========================================================================
+   Botón Corporativo de Cabecera en el Lobby (id.neurodit.com)
+   ========================================================================== */
+.btn-lobby-neurodit {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.92);
+  color: #1e1b4b;
+  border: 1.5px solid rgba(125, 60, 158, 0.28);
+  padding: 7px 16px;
+  border-radius: var(--radius-pill);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(125, 60, 158, 0.1);
+  letter-spacing: 0.01em;
+}
+
+.btn-lobby-neurodit .lobby-neurodit-icon {
+  font-size: 0.95rem;
+}
+
+.btn-lobby-neurodit .lobby-neurodit-text {
+  color: #7d3c9e;
+  font-weight: 800;
+  transition: color 0.2s;
+}
+
+.btn-lobby-neurodit .lobby-neurodit-arrow {
+  color: #4f7fff;
+  font-size: 0.82rem;
+  transition: transform 0.22s ease;
+}
+
+.btn-lobby-neurodit:hover {
+  background: #ffffff;
+  border-color: #7d3c9e;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(125, 60, 158, 0.22);
+}
+
+.btn-lobby-neurodit:hover .lobby-neurodit-text {
+  color: #5c207d;
+}
+
+.btn-lobby-neurodit:hover .lobby-neurodit-arrow {
+  transform: translate(2px, -2px);
+}
+
+/* Animación de Alerta Pedagógica para el Tutor SDLC */
+.sdlc-mentor-card.card-error-pulse {
+  animation: mentorPulseError 0.8s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  border-color: rgba(239, 68, 68, 0.65) !important;
+  box-shadow: 0 8px 30px rgba(239, 68, 68, 0.18), 0 0 0 3px rgba(239, 68, 68, 0.12) !important;
+}
+
+@keyframes mentorPulseError {
+  0% { transform: translateY(0); }
+  20% { transform: translateY(-4px) scale(1.01); }
+  40% { transform: translateY(2px) scale(0.99); }
+  60% { transform: translateY(-2px) scale(1.005); }
+  100% { transform: translateY(0) scale(1); }
+}
+
+
 
 

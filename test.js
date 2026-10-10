@@ -126,6 +126,10 @@ function runTests() {
   assert(sdlcJsContent.includes('Planificación') && sdlcJsContent.includes('Despliegue'), 'sdlc-game.js cubre desde Planificación hasta Despliegue');
   assert(sdlcJsContent.includes('handleIncorrectSelection'), 'sdlc-game.js implementa validación con retroalimentación de error');
   assert(sdlcJsContent.includes('getPhaseHint'), 'sdlc-game.js implementa sistema de pistas pedagógicas');
+  assert(sdlcJsContent.includes('scrollIntoView'), 'sdlc-game.js centra la pantalla en el tutor en error pedagógico');
+  assert(htmlContent.includes('btn-lobby-neurodit'), 'HTML contiene el botón corporativo id.neurodit.com en cabecera');
+  assert(!htmlContent.includes('btn-sdlc-back-catalog'), 'HTML ha removido el botón redundante de catálogo de la barra SDLC');
+  assert(jsContent.includes('btnLobbyNeurodit'), 'game.js gestiona dinámicamente la visibilidad de controles en el lobby');
 
   console.log(`\n========================================`);
   console.log(`Resultados: ${passed} pruebas exitosas, ${failed} fallos.`);

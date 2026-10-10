@@ -549,6 +549,15 @@
           <span class="hint-lamp">💡</span> <strong>Pista para la Fase ${expectedPhase.order}:</strong> ${hintText}
         </div>`
       );
+
+      // Centrar suavemente en el panel del tutor arriba para que el estudiante lea el error y la pista
+      const mentorCard = document.getElementById('sdlc-mentor-card') || document.querySelector('.sdlc-mentor-card') || this.dom.mentorSpeech;
+      if (mentorCard) {
+        mentorCard.classList.remove('card-error-pulse');
+        void mentorCard.offsetWidth;
+        mentorCard.classList.add('card-error-pulse');
+        mentorCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
     }
 
     getPhaseHint(phase) {
@@ -750,6 +759,11 @@
         `<p>${hint}</p>
         <p class="hint-subtext">Busca en las tarjetas de abajo la que coincida con esta etapa del desarrollo.</p>`
       );
+
+      const mentorCard = document.getElementById('sdlc-mentor-card') || document.querySelector('.sdlc-mentor-card') || this.dom.mentorSpeech;
+      if (mentorCard) {
+        mentorCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
     }
 
     // =======================================================================
