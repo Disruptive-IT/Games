@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DIT - Conecta Tablas | Minijuego de Base de Datos Relacional</title>
+  <meta name="description" content="Minijuego interactivo 2D para aprender las relaciones de bases de datos, claves primarias (PK) y claves foráneas (FK) conectando tablas.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Fondo futurista 2D limpio con cuadrícula y tonalidades suaves -->
+  <div class="background-grid" aria-hidden="true">
+    <div class="bg-glow bg-glow-blue"></div>
+    <div class="bg-glow bg-glow-purple"></div>
+    <div class="bg-glow bg-glow-gold"></div>
+    <svg class="bg-scenery" viewBox="0 0 1440 600" preserveAspectRatio="none">
+      <path d="M-100,500 L250,380 L600,480 L950,390 L1300,460 L1540,380 L1540,600 L-100,600 Z" fill="rgba(224, 231, 255, 0.35)"/>
+      <path d="M-50,550 L320,440 L700,520 L1100,430 L1500,510 L1500,600 L-50,600 Z" fill="rgba(238, 242, 255, 0.6)"/>
+      <circle cx="140" cy="360" r="45" fill="none" stroke="rgba(165, 180, 252, 0.4)" stroke-width="2" stroke-dasharray="6 6"/>
+      <rect x="110" y="340" width="60" height="90" rx="30" fill="none" stroke="rgba(147, 197, 253, 0.45)" stroke-width="4"/>
+    </svg>
+  </div>
+
+  <!-- HUD Superior -->
+  <header class="game-header">
+    <div class="header-left">
+      <div class="dit-pill-badge">
+        <span class="dit-logo-gem">✦</span>
+        <span class="dit-logo-text"><span class="dit-c1">D</span><span class="dit-c2">I</span><span class="dit-c3">T</span></span>
+        <span class="header-divider">|</span>
+        <span class="header-subtitle">Bases de Datos</span>
+      </div>
+      <div class="level-indicator" id="level-indicator">Nivel 1: Clientes y Pedidos</div>
+    </div>
+
+    <!-- Misión Banner Central -->
+    <div class="mission-banner" id="mission-banner">
+      <span class="mission-sparkle">✨</span>
+      <span class="mission-text"><strong>Misión:</strong> Une el <span class="badge-mini-gold">🔑 ID Cliente</span> con su <span class="badge-mini-purple">🔗 ID Cliente</span> en la tabla Pedidos.</span>
+    </div>
+
+    <div class="header-controls">
+      <button class="icon-btn" id="btn-sound" title="Activar/Silenciar sonido" aria-label="Sonido">
+        <span class="sound-icon" id="sound-icon">🔊</span>
+      </button>
+      <button class="icon-btn" id="btn-help-header" title="Ver instrucciones" aria-label="Instrucciones">
+        <span>❓</span>
+      </button>
+      <button class="icon-btn" id="btn-restart-header" title="Reiniciar conexión" aria-label="Reiniciar">
+        <span>🔄</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Notificación Toast de Error (Estilo Captura 4) -->
+  <div class="error-toast" id="error-toast" role="alert" aria-live="polite">
+    <div class="toast-content">
+      <div class="toast-icon-circle">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="3">
+          <circle cx="12" cy="12" r="10" stroke="currentColor" fill="rgba(239, 68, 68, 0.2)"/>
+          <line x1="8" y1="8" x2="16" y2="16" stroke="white"/>
+          <line x1="16" y1="8" x2="8" y2="16" stroke="white"/>
+        </svg>
+      </div>
+      <div class="toast-texts">
+        <h4 class="toast-title" id="toast-title">CONEXIÓN INCORRECTA</h4>
+        <p class="toast-message" id="toast-message">
+          Estás conectando un campo de texto con un ID. Debes conectar el identificador único 🔑 "id_cliente" con su enlace 🔗 "id_cliente".
+        </p>
+      </div>
+      <button class="toast-close" id="btn-close-toast" aria-label="Cerrar notificación">✕</button>
+    </div>
+  </div>
+
+  <!-- Contenedor Principal de Tablas y Conexión -->
+  <main class="game-stage" id="game-stage">
+    <!-- Capa SVG Dinámica para Cables y Líneas de Conexión -->
+    <svg class="connection-canvas" id="connection-svg" aria-hidden="true">
+      <defs>
+        <!-- Gradiente para el cable en proceso de arrastre -->
+        <linearGradient id="dragGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.9"/>
+          <stop offset="50%" stop-color="#8b5cf6" stop-opacity="0.9"/>
+          <stop offset="100%" stop-color="#3b82f6" stop-opacity="0.9"/>
+        </linearGradient>
+
+        <!-- Gradiente para la conexión exitosa -->
+        <linearGradient id="successGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#10b981"/>
+          <stop offset="50%" stop-color="#06b6d4"/>
+          <stop offset="100%" stop-color="#10b981"/>
+        </linearGradient>
+
+        <!-- Filtro Glow Neon para el cable conectado -->
+        <filter id="neonGlow" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="4" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+
+      <!-- Cable de arrastre activo -->
+      <path id="active-drag-cable" class="drag-cable" d="" fill="none" stroke="url(#dragGradient)" stroke-width="4" stroke-dasharray="8 6"/>
+
+      <!-- Cable completado/conectado -->
+      <path id="connected-cable-glow" class="connected-cable-glow" d="" fill="none" stroke="#10b981" stroke-width="8" opacity="0.4" filter="url(#neonGlow)"/>
+      <path id="connected-cable" class="connected-cable" d="" fill="none" stroke="url(#successGradient)" stroke-width="4"/>
+      
+      <!-- Círculos de partículas energéticas a lo largo del cable -->
+      <g id="cable-particles" class="cable-particles"></g>
+    </svg>
+
+    <!-- HUB Central (Icono de DB / Conectado) -->
+    <div class="center-hub" id="center-hub">
+      <div class="hub-pill" id="hub-pill">
+        <div class="hub-icon-circle" id="hub-icon-circle">
+          <!-- Icono BD normal -->
+          <svg class="icon-db-default" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#2563eb" stroke-width="2">
+            <ellipse cx="12" cy="5" rx="8" ry="3"/>
+            <path d="M4 5v6c0 1.66 3.58 3 8 3s8-1.34 8-3V5"/>
+            <path d="M4 11v6c0 1.66 3.58 3 8 3s8-1.34 8-3v-6"/>
+          </svg>
+          <!-- Icono Estrella Conectado -->
+          <svg class="icon-db-success" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#ffffff" stroke-width="2.5">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+        </div>
+        <span class="hub-label" id="hub-label">UNIR TABLAS</span>
+      </div>
+    </div>
+
+    <!-- TABLA 1: Clientes (Tabla Principal) -->
+    <section class="table-card table-left" id="card-clientes" aria-label="Tabla Clientes">
+      <!-- Encabezado de la Tabla -->
+      <div class="table-header header-clientes">
+        <div class="header-main-info">
+          <div class="db-3d-icon icon-orange">
+            <svg viewBox="0 0 32 32" width="28" height="28" fill="none">
+              <path d="M6 10 C6 6, 26 6, 26 10 C26 14, 6 14, 6 10 Z" fill="#fdba74"/>
+              <path d="M6 10 V16 C6 20, 26 20, 26 16 V10" fill="#f97316"/>
+              <path d="M6 16 V22 C6 26, 26 26, 26 22 V16" fill="#ea580c"/>
+              <ellipse cx="16" cy="10" rx="9" ry="3" fill="#ffedd5"/>
+            </svg>
+          </div>
+          <div class="header-titles">
+            <h2 class="table-title" id="title-table-left">Tabla Clientes</h2>
+            <p class="table-subtitle" id="subtitle-table-left">Datos de las personas que compran.</p>
+          </div>
+        </div>
+        <span class="table-role-badge badge-primary-table">Tabla Principal</span>
+      </div>
+
+      <!-- Barra de Instrucción de Campos -->
+      <div class="fields-bar">
+        <span class="fields-section-title">CAMPOS DE LA TABLA</span>
+        <span class="fields-section-hint">TOCA O ARRASTRA PARA CONECTAR</span>
+      </div>
+
+      <!-- Lista de Campos Conectables -->
+      <div class="fields-list" id="fields-list-left">
+        <!-- Campo 1: Clave Primaria (id_cliente) -->
+        <div class="field-row row-pk" data-table="clientes" data-field="id_cliente" data-field-type="pk" id="row-clientes-pk" tabindex="0" role="button" aria-label="Campo Clave Primaria id_cliente">
+          <div class="field-left-meta">
+            <span class="pill-info-pk">
+              <span class="info-icon">ℹ️</span>
+              <span class="key-icon">🔑</span>
+              <strong>ID Principal</strong>
+            </span>
+            <span class="field-name-label">
+              <strong class="field-code">id_cliente</strong> <span class="field-type-tag">(Número)</span>
+            </span>
+          </div>
+          <!-- Nodo Conector Derecho -->
+          <div class="node-wrapper node-right">
+            <div class="connection-node node-gold" id="node-clientes-id_cliente" data-node-id="clientes-id_cliente" title="Arrastra o toca para conectar">
+              <div class="node-ring"></div>
+              <div class="node-dot"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Campo 2: nombre (Texto) -->
+        <div class="field-row row-regular" data-table="clientes" data-field="nombre" data-field-type="data" id="row-clientes-nombre" tabindex="0" role="button" aria-label="Campo nombre">
+          <div class="field-left-meta">
+            <span class="pill-regular-tag">Dato</span>
+            <span class="field-name-label">
+              <strong class="field-code">nombre</strong> <span class="field-type-tag">(Texto)</span>
+            </span>
+          </div>
+          <div class="node-wrapper node-right">
+            <div class="connection-node node-neutral" id="node-clientes-nombre" data-node-id="clientes-nombre" title="Campo de datos">
+              <div class="node-ring"></div>
+              <div class="node-dot"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Campo 3: email (Texto) -->
+        <div class="field-row row-regular" data-table="clientes" data-field="email" data-field-type="data" id="row-clientes-email" tabindex="0" role="button" aria-label="Campo email">
+          <div class="field-left-meta">
+            <span class="pill-regular-tag">Dato</span>
+            <span class="field-name-label">
+              <strong class="field-code">email</strong> <span class="field-type-tag">(Texto)</span>
+            </span>
+          </div>
+          <div class="node-wrapper node-right">
+            <div class="connection-node node-neutral" id="node-clientes-email" data-node-id="clientes-email" title="Campo de datos">
+              <div class="node-ring"></div>
+              <div class="node-dot"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sección de Ejemplo de Datos / Vista Previa -->
+      <div class="data-preview-section">
+        <div class="data-preview-header">
+          <span class="data-preview-title">EJEMPLO DE DATOS</span>
+          <span class="link-status-badge hidden" id="status-badge-left">
+            <span class="status-dot"></span> Enlazado
+          </span>
+        </div>
+        <div class="table-responsive-wrapper">
+          <table class="records-table" id="records-table-left">
+            <thead>
+              <tr>
+                <th class="th-pk">id_cliente</th>
+                <th>nombre</th>
+                <th>email</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-clientes">
+              <tr data-customer-id="1" class="record-row" title="Haz clic para ver sus pedidos relacionados">
+                <td class="cell-pk"><span class="pk-badge-number">1</span></td>
+                <td>Ana García</td>
+                <td class="cell-email">ana@ejemplo.com</td>
+              </tr>
+              <tr data-customer-id="2" class="record-row" title="Haz clic para ver sus pedidos relacionados">
+                <td class="cell-pk"><span class="pk-badge-number">2</span></td>
+                <td>Carlos Ruiz</td>
+                <td class="cell-email">carlos@ejemplo.com</td>
+              </tr>
+              <tr data-customer-id="3" class="record-row" title="Haz clic para ver sus pedidos relacionados">
+                <td class="cell-pk"><span class="pk-badge-number">3</span></td>
+                <td>Elena Vega</td>
+                <td class="cell-email">elena@ejemplo.com</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TABLA 2: Pedidos (Tabla Enlazada) -->
+    <section class="table-card table-right" id="card-pedidos" aria-label="Tabla Pedidos">
+      <!-- Encabezado de la Tabla -->
+      <div class="table-header header-pedidos">
+        <div class="header-main-info">
+          <div class="db-3d-icon icon-purple">
+            <svg viewBox="0 0 32 32" width="28" height="28" fill="none">
+              <path d="M6 10 C6 6, 26 6, 26 10 C26 14, 6 14, 6 10 Z" fill="#c084fc"/>
+              <path d="M6 10 V16 C6 20, 26 20, 26 16 V10" fill="#9333ea"/>
+              <path d="M6 16 V22 C6 26, 26 26, 26 22 V16" fill="#7e22ce"/>
+              <ellipse cx="16" cy="10" rx="9" ry="3" fill="#f3e8ff"/>
+            </svg>
+          </div>
+          <div class="header-titles">
+            <h2 class="table-title" id="title-table-right">Tabla Pedidos</h2>
+            <p class="table-subtitle" id="subtitle-table-right">Compras hechas por los clientes.</p>
+          </div>
+        </div>
+        <span class="table-role-badge badge-linked-table">Tabla Enlazada</span>
+      </div>
+
+      <!-- Barra de Instrucción de Campos -->
+      <div class="fields-bar">
+        <span class="fields-section-title">CAMPOS DE LA TABLA</span>
+        <span class="fields-section-hint">TOCA O ARRASTRA PARA CONECTAR</span>
+      </div>
+
+      <!-- Lista de Campos Conectables -->
+      <div class="fields-list" id="fields-list-right">
+        <!-- Campo 1: Clave Primaria Propia de Pedidos (id_pedido) -->
+        <div class="field-row row-orders-pk" data-table="pedidos" data-field="id_pedido" data-field-type="own_pk" id="row-pedidos-pk" tabindex="0" role="button" aria-label="Campo id_pedido">
+          <!-- Nodo Conector Izquierdo -->
+          <div class="node-wrapper node-left">
+            <div class="connection-node node-gold" id="node-pedidos-id_pedido" data-node-id="pedidos-id_pedido" title="Clave propia del pedido">
+              <div class="node-ring"></div>
+              <div class="node-dot"></div>
+            </div>
+          </div>
+          <div class="field-right-meta">
+            <span class="field-name-label">
+              <span class="field-type-tag">(Número)</span> <strong class="field-code">id_pedido</strong>
+            </span>
+            <span class="pill-order-pk">🔑 ID</span>
+          </div>
+        </div>
+
+        <!-- Campo 2: Clave Foránea (id_cliente) [OBJETIVO CORRECTO] -->
+        <div class="field-row row-fk" data-table="pedidos" data-field="id_cliente" data-field-type="fk" id="row-pedidos-fk" tabindex="0" role="button" aria-label="Campo Clave Foránea id_cliente">
+          <!-- Nodo Conector Izquierdo -->
+          <div class="node-wrapper node-left">
+            <div class="connection-node node-purple" id="node-pedidos-id_cliente" data-node-id="pedidos-id_cliente" title="Arrastra o suelta aquí para enlazar">
+              <div class="node-ring"></div>
+              <div class="node-dot"></div>
+            </div>
+          </div>
+          <div class="field-right-meta">
+            <span class="field-name-label">
+              <span class="field-type-tag">(Número)</span> <strong class="field-code">id_cliente</strong>
+            </span>
+            <span class="pill-info-fk">
+              <span class="link-chain-icon">🔗</span>
+              <strong>ID Enlace</strong>
+            </span>
+          </div>
+        </div>
+
+        <!-- Campo 3: fecha (Fecha) -->
+        <div class="field-row row-regular" data-table="pedidos" data-field="fecha" data-field-type="data" id="row-pedidos-fecha" tabindex="0" role="button" aria-label="Campo fecha">
+          <div class="node-wrapper node-left">
+            <div class="connection-node node-neutral" id="node-pedidos-fecha" data-node-id="pedidos-fecha" title="Campo de fecha">
+              <div class="node-ring"></div>
+              <div class="node-dot"></div>
+            </div>
+          </div>
+          <div class="field-right-meta">
+            <span class="field-name-label">
+              <span class="field-type-tag">(Fecha)</span> <strong class="field-code">fecha</strong>
+            </span>
+          </div>
+        </div>
+
+        <!-- Campo 4: total (Precio) -->
+        <div class="field-row row-regular" data-table="pedidos" data-field="total" data-field-type="data" id="row-pedidos-total" tabindex="0" role="button" aria-label="Campo total">
+          <div class="node-wrapper node-left">
+            <div class="connection-node node-neutral" id="node-pedidos-total" data-node-id="pedidos-total" title="Campo de precio">
+              <div class="node-ring"></div>
+              <div class="node-dot"></div>
+            </div>
+          </div>
+          <div class="field-right-meta">
+            <span class="field-name-label">
+              <span class="field-type-tag">(Precio)</span> <strong class="field-code">total</strong>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sección de Ejemplo de Datos / Vista Previa -->
+      <div class="data-preview-section">
+        <div class="data-preview-header">
+          <span class="data-preview-title">DATOS RELACIONADOS</span>
+          <span class="link-count-badge hidden" id="status-badge-right">
+            3 registros vinculados
+          </span>
+        </div>
+        <div class="table-responsive-wrapper">
+          <table class="records-table" id="records-table-right">
+            <thead>
+              <tr>
+                <th>id_pedido</th>
+                <th class="th-fk">id_cliente</th>
+                <th>fecha</th>
+                <th>total</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-pedidos">
+              <tr data-customer-ref="1" class="record-row">
+                <td>101</td>
+                <td class="cell-fk"><span class="fk-badge-number">1</span></td>
+                <td>2026-03-01</td>
+                <td class="cell-price">$140.00</td>
+              </tr>
+              <tr data-customer-ref="2" class="record-row">
+                <td>102</td>
+                <td class="cell-fk"><span class="fk-badge-number">2</span></td>
+                <td>2026-03-02</td>
+                <td class="cell-price">$85.50</td>
+              </tr>
+              <tr data-customer-ref="1" class="record-row">
+                <td>103</td>
+                <td class="cell-fk"><span class="fk-badge-number">1</span></td>
+                <td>2026-03-04</td>
+                <td class="cell-price">$210.00</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Barra Flotante de Éxito / Explicación Educativa (Estilo Captura 5) -->
+  <aside class="bottom-success-bar" id="bottom-success-bar" aria-hidden="true">
+    <div class="success-bar-inner">
+      <div class="success-badge-icon">
+        <svg viewBox="0 0 24 24" width="34" height="34" fill="none">
+          <path d="M12 2L3 7V12C3 17.5 6.8 22.7 12 24C17.2 22.7 21 17.5 21 12V7L12 2Z" fill="#10b981" fill-opacity="0.2" stroke="#10b981" stroke-width="2"/>
+          <polyline points="8 12 11 15 16 9" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="success-text-content">
+        <h3 class="success-headline" id="success-headline">¡Excelente conexión lograda!</h3>
+        <p class="success-description" id="success-description">
+          Conectaste el ID del Cliente con su Pedido: así el sistema sabe de quién es cada compra sin repetir nombres.
+        </p>
+        <p class="success-subtip" id="success-subtip">
+          💡 <span class="tip-highlight">Un cliente puede tener varios pedidos enlazados por su mismo ID.</span>
+        </p>
+      </div>
+      <div class="success-actions">
+        <button class="btn-retry" id="btn-replay">
+          <span class="btn-icon">🔄</span> Reintentar
+        </button>
+        <button class="btn-next-level" id="btn-next-level">
+          Siguiente Nivel <span class="btn-icon">✨</span>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MODAL 1: Pantalla de Bienvenida / Portada (Estilo Captura 1) -->
+  <div class="modal-overlay active" id="modal-welcome" role="dialog" aria-modal="true" aria-labelledby="welcome-title">
+    <div class="modal-card welcome-card">
+      <!-- Diamante / Cristal Brillante 3D Estilo DIT -->
+      <div class="crystal-container">
+        <svg class="crystal-svg" viewBox="0 0 120 120" width="110" height="110">
+          <defs>
+            <linearGradient id="gemGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#e879f9"/>
+              <stop offset="50%" stop-color="#a855f7"/>
+              <stop offset="100%" stop-color="#6366f1"/>
+            </linearGradient>
+            <linearGradient id="gemGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#fdf4ff"/>
+              <stop offset="100%" stop-color="#c084fc"/>
+            </linearGradient>
+            <filter id="gemGlow" x="-30%" y="-30%" width="160%" height="160%">
+              <feGaussianBlur stdDeviation="8" result="blur"/>
+              <feMerge>
+                <feMergeNode in="blur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          <g filter="url(#gemGlow)">
+            <!-- Caras del diamante -->
+            <polygon points="60,15 30,45 60,105" fill="#9333ea" opacity="0.9"/>
+            <polygon points="60,15 90,45 60,105" fill="#a855f7" opacity="0.95"/>
+            <polygon points="60,15 45,45 60,105" fill="url(#gemGrad2)" opacity="0.98"/>
+            <polygon points="60,15 75,45 60,105" fill="url(#gemGrad1)"/>
+            <polygon points="30,45 15,48 60,105" fill="#7e22ce" opacity="0.8"/>
+            <polygon points="90,45 105,48 60,105" fill="#c084fc" opacity="0.75"/>
+            <polygon points="60,15 15,48 30,45" fill="#e9d5ff" opacity="0.6"/>
+            <polygon points="60,15 105,48 90,45" fill="#f5d0fe" opacity="0.85"/>
+          </g>
+        </svg>
+        <div class="crystal-shine"></div>
+      </div>
+
+      <!-- Letras D I T con glow -->
+      <div class="dit-brand-letters">
+        <span class="dit-letter l-d">D</span>
+        <span class="dit-letter l-i">I</span>
+        <span class="dit-letter l-t">T</span>
+        <div class="dit-brand-line"></div>
+      </div>
+
+      <h1 class="welcome-title" id="welcome-title">Conecta Tablas</h1>
+
+      <!-- Píldoras de claves -->
+      <div class="welcome-badges-row">
+        <span class="capsule-badge capsule-gold">
+          <span class="badge-icon">🔑</span> ID Principal
+        </span>
+        <span class="capsule-arrows">⟷</span>
+        <span class="capsule-badge capsule-purple">
+          <span class="badge-icon">🔗</span> ID Enlace
+        </span>
+      </div>
+
+      <p class="welcome-desc">
+        Aprende de forma intuitiva cómo se relacionan los datos entre tablas. Arrastra o toca para conectar claves y supera el desafío contrarreloj.
+      </p>
+
+      <!-- Botones de Acción -->
+      <div class="welcome-buttons">
+        <button class="btn-primary-gradient" id="btn-start">
+          <span class="play-icon">▶</span> EMPEZAR AHORA
+        </button>
+        <button class="btn-secondary-dark" id="btn-open-instructions">
+          <span class="help-circle-icon">❓</span> Instrucciones y Consejos
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 2: ¿Cómo se Juega? (Estilo Captura 2) -->
+  <div class="modal-overlay" id="modal-instructions" role="dialog" aria-modal="true" aria-labelledby="instructions-title">
+    <div class="modal-card instructions-card">
+      <div class="instructions-header">
+        <div class="modal-header-title">
+          <span class="instructions-question-icon">❓</span>
+          <h2 id="instructions-title">¿Cómo se Juega?</h2>
+        </div>
+        <button class="modal-close-btn" id="btn-close-instructions" aria-label="Cerrar modal">✕</button>
+      </div>
+
+      <div class="instructions-body">
+        <!-- Tarjeta 1: ID Principal -->
+        <div class="guide-card guide-gold">
+          <div class="guide-badge-row">
+            <span class="guide-num num-gold">1</span>
+            <span class="guide-name">🔑 ID Principal</span>
+          </div>
+          <p class="guide-desc">
+            Es el identificador único de cada registro en la tabla principal (ejemplo: <code>id_cliente</code>, <code>id_curso</code>).
+          </p>
+        </div>
+
+        <!-- Tarjeta 2: ID de Enlace -->
+        <div class="guide-card guide-purple">
+          <div class="guide-badge-row">
+            <span class="guide-num num-purple">2</span>
+            <span class="guide-name">🔗 ID de Enlace</span>
+          </div>
+          <p class="guide-desc">
+            Es el campo correspondiente en la otra tabla que hace referencia al ID Principal para vincular ambos registros.
+          </p>
+        </div>
+
+        <!-- Tarjeta 3: Formas de Conectar -->
+        <div class="guide-card guide-methods">
+          <div class="methods-title">
+            <span class="gamepad-icon">🎮</span>
+            <strong>2 Formas Sencillas de Conectar:</strong>
+          </div>
+          <ul class="methods-list">
+            <li><strong>Arrastra</strong> desde la fila o círculo dorado hacia la fila o círculo violeta.</li>
+            <li><strong>O Toca</strong> una fila para seleccionarla y luego toca la fila destino en la otra tabla.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="instructions-footer">
+        <button class="btn-primary-purple" id="btn-instructions-gotit">
+          ¡Entendido, a jugar!
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confeti / Partículas de Celebración en Canvas -->
+  <canvas id="confetti-canvas" class="confetti-canvas" aria-hidden="true"></canvas>
+
+  <script src="game.js"></script>
+</body>
+</html>

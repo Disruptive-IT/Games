@@ -1,0 +1,9 @@
+services:
+  app:
+    build: .
+    container_name: dit_conecta_tablas
+    ports:
+      - "3000:80"
+    env_file:
+      - .env.local
+    restart: unless-stopped
