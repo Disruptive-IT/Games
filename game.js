@@ -425,6 +425,7 @@
 
       this.toastTimeout = null;
       this.particleAnimInterval = null;
+      this.welcomeAccepted = false;
 
       this.init();
     }
@@ -471,6 +472,10 @@
     }
 
     showGameView() {
+      this.welcomeAccepted = true;
+      if (this.dom.modalWelcome) {
+        this.dom.modalWelcome.classList.remove('active');
+      }
       this.dom.arcadeHub.classList.add('hidden');
       this.dom.stage.classList.remove('hidden');
       this.dom.missionBanner.classList.remove('hidden');
@@ -490,7 +495,14 @@
       this.dom.levelNavContainer.classList.add('hidden');
       this.dom.centerHub.classList.add('hidden');
       this.dom.bottomSuccessBar.classList.remove('active');
-      this.dom.modalWelcome.classList.remove('active');
+
+      // Mostrar tarjeta de bienvenida con diamante púrpura si aún no se ha aceptado
+      if (!this.welcomeAccepted && this.dom.modalWelcome) {
+        this.dom.modalWelcome.classList.add('active');
+      } else if (this.dom.modalWelcome) {
+        this.dom.modalWelcome.classList.remove('active');
+      }
+
       this.dom.modalInstructions.classList.remove('active');
       if (this.dom.modalFinalVictory) {
         this.dom.modalFinalVictory.classList.remove('active');
@@ -503,13 +515,16 @@
     }
 
     showChefPrompterView() {
+      this.welcomeAccepted = true;
+      if (this.dom.modalWelcome) {
+        this.dom.modalWelcome.classList.remove('active');
+      }
       this.dom.arcadeHub.classList.add('hidden');
       this.dom.stage.classList.add('hidden');
       this.dom.missionBanner.classList.add('hidden');
       this.dom.levelNavContainer.classList.add('hidden');
       this.dom.centerHub.classList.add('hidden');
       this.dom.bottomSuccessBar.classList.remove('active');
-      this.dom.modalWelcome.classList.remove('active');
       this.dom.modalInstructions.classList.remove('active');
       if (this.dom.modalFinalVictory) {
         this.dom.modalFinalVictory.classList.remove('active');
@@ -586,31 +601,64 @@
       });
 
       // Modales y HUD
-      this.dom.btnStart.addEventListener('click', () => {
-        this.sound.playClick();
-        this.dom.modalWelcome.classList.remove('active');
+      if (this.dom.btnStart) {
+        this.dom.btnStart.addEventListener('click', () => {
+          this.sound.playClick();
+          this.welcomeAccepted = true;
+          if (this.dom.modalWelcome) {
+            this.dom.modalWelcome.classList.remove('active');
+          }
+        });
+      }
+
+      // Cerrar modal de bienvenida al hacer clic en el backdrop o con tecla Escape
+      if (this.dom.modalWelcome) {
+        this.dom.modalWelcome.addEventListener('click', (e) => {
+          if (e.target === this.dom.modalWelcome) {
+            this.sound.playClick();
+            this.welcomeAccepted = true;
+            this.dom.modalWelcome.classList.remove('active');
+          }
+        });
+      }
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && this.dom.modalWelcome && this.dom.modalWelcome.classList.contains('active')) {
+          this.welcomeAccepted = true;
+          this.dom.modalWelcome.classList.remove('active');
+        }
       });
 
-      this.dom.btnOpenInstructions.addEventListener('click', () => {
-        this.sound.playClick();
-        this.dom.modalInstructions.classList.add('active');
-      });
+      if (this.dom.btnOpenInstructions) {
+        this.dom.btnOpenInstructions.addEventListener('click', () => {
+          this.sound.playClick();
+          this.dom.modalInstructions.classList.add('active');
+        });
+      }
 
-      this.dom.btnHelpHeader.addEventListener('click', () => {
-        this.sound.playClick();
-        this.dom.modalInstructions.classList.add('active');
-      });
+      if (this.dom.btnHelpHeader) {
+        this.dom.btnHelpHeader.addEventListener('click', () => {
+          this.sound.playClick();
+          this.dom.modalInstructions.classList.add('active');
+        });
+      }
 
-      this.dom.btnCloseInstructions.addEventListener('click', () => {
-        this.sound.playClick();
-        this.dom.modalInstructions.classList.remove('active');
-      });
+      if (this.dom.btnCloseInstructions) {
+        this.dom.btnCloseInstructions.addEventListener('click', () => {
+          this.sound.playClick();
+          this.dom.modalInstructions.classList.remove('active');
+        });
+      }
 
-      this.dom.btnInstructionsGotit.addEventListener('click', () => {
-        this.sound.playClick();
-        this.dom.modalInstructions.classList.remove('active');
-        this.dom.modalWelcome.classList.remove('active');
-      });
+      if (this.dom.btnInstructionsGotit) {
+        this.dom.btnInstructionsGotit.addEventListener('click', () => {
+          this.sound.playClick();
+          this.dom.modalInstructions.classList.remove('active');
+          if (this.dom.modalWelcome) {
+            this.dom.modalWelcome.classList.remove('active');
+          }
+        });
+      }
 
       // Modal de Victoria Final (Nivel 3)
       if (this.dom.btnRestartFromLvl1) {

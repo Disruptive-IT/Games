@@ -1084,21 +1084,24 @@ body {
   animation: modalScaleIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* Modal de Bienvenida (Captura 1) */
+/* Modal de Bienvenida DIT (Mensaje Motivacional y Diamante Púrpura) */
 .welcome-card {
-  width: 440px;
+  width: 480px;
   max-width: 95vw;
-  padding: 36px 32px 32px;
+  padding: 38px 32px 32px;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
+  background: radial-gradient(circle at 50% 0%, rgba(125, 60, 158, 0.28) 0%, rgba(19, 15, 38, 0.98) 75%);
+  border: 1.5px solid rgba(168, 85, 247, 0.45);
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.85), 0 0 50px rgba(125, 60, 158, 0.3);
 }
 
 .crystal-container {
   position: relative;
   margin-bottom: 12px;
-  filter: drop-shadow(0 0 16px rgba(168, 85, 247, 0.6));
+  filter: drop-shadow(0 0 20px rgba(168, 85, 247, 0.7));
   animation: floatCrystal 3s ease-in-out infinite;
 }
 
@@ -1134,11 +1137,14 @@ body {
 }
 
 .welcome-title {
-  font-size: 1.85rem;
+  font-size: 1.75rem;
   font-weight: 800;
   letter-spacing: -0.02em;
   margin-bottom: 14px;
   color: #ffffff;
+  background: linear-gradient(135deg, #ffffff 40%, #e9d5ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .welcome-badges-row {
@@ -1177,9 +1183,9 @@ body {
 }
 
 .welcome-desc {
-  font-size: 0.92rem;
-  color: #cbd5e1;
-  line-height: 1.5;
+  font-size: 0.96rem;
+  color: #e2e8f0;
+  line-height: 1.6;
   margin-bottom: 26px;
 }
 
@@ -1188,6 +1194,17 @@ body {
   display: flex;
   flex-direction: column;
   gap: 12px;
+}
+
+.welcome-card .btn-primary-gradient {
+  background: linear-gradient(135deg, #7d3c9e 0%, #4f7fff 100%);
+  box-shadow: 0 8px 24px -4px rgba(125, 60, 158, 0.5);
+}
+
+.welcome-card .btn-primary-gradient:hover {
+  background: linear-gradient(135deg, #9333ea 0%, #60a5fa 100%);
+  box-shadow: 0 12px 30px -4px rgba(79, 127, 255, 0.6);
+  transform: translateY(-2px);
 }
 
 .btn-primary-gradient {
