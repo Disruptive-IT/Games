@@ -1,19 +1,21 @@
 /**
  * DIT - Conecta Tablas | Fundamentos de Base de Datos Relacional
- * Lógica del minijuego 2D: arrastrar y soltar, conexión por toque, validación pedagógica,
- * síntesis de audio Web Audio API, efectos visuales SVG y partículas de confeti.
+ * Lógica del minijuego 2D: 3 niveles progresivos, enrutamiento en URL (/conecta-tablas?nivel=X),
+ * portal de catálogo de juegos DIT Arcade, validación pedagógica inteligente,
+ * síntesis de audio Web Audio API, efectos visuales SVG y graduación con confeti.
  */
 
 (() => {
   'use strict';
 
   // =========================================================================
-  // Datos y Niveles Educativos
+  // Datos y Niveles Educativos (3 Niveles Progresivos)
   // =========================================================================
   const LEVELS = [
     {
       levelId: 1,
-      name: 'Nivel 1: Clientes y Pedidos',
+      name: 'Nivel 1/3: Clientes y Pedidos',
+      badgeName: '1. Clientes',
       missionText: '<strong>Misión:</strong> Une el <span class="badge-mini-gold">🔑 ID Cliente</span> con su <span class="badge-mini-purple">🔗 ID Cliente</span> en la tabla Pedidos.',
       tableLeft: {
         id: 'clientes',
@@ -61,7 +63,57 @@
     },
     {
       levelId: 2,
-      name: 'Nivel 2: Productos y Detalles',
+      name: 'Nivel 2/3: Cursos e Inscripciones',
+      badgeName: '2. Cursos',
+      missionText: '<strong>Misión:</strong> Une el <span class="badge-mini-gold">🔑 ID Curso</span> con su <span class="badge-mini-purple">🔗 ID Curso</span> en la tabla Inscripciones.',
+      tableLeft: {
+        id: 'cursos',
+        title: 'Tabla Cursos',
+        subtitle: 'Catálogo de programas formativos DIT.',
+        roleBadge: 'Tabla Principal',
+        headerClass: 'header-clientes',
+        fields: [
+          { name: 'id_curso', typeTag: '(Número)', isPk: true, role: 'pk', badge: 'ID Principal' },
+          { name: 'titulo', typeTag: '(Texto)', isPk: false, role: 'data' },
+          { name: 'nivel', typeTag: '(Texto)', isPk: false, role: 'data' }
+        ],
+        recordsHeader: ['id_curso', 'titulo', 'nivel'],
+        records: [
+          { pk: 10, col1: '10', col2: 'Bases de Datos SQL', col3: 'Intermedio' },
+          { pk: 20, col1: '20', col2: 'Arquitectura Cloud', col3: 'Avanzado' },
+          { pk: 30, col1: '30', col2: 'Docker & DevOps', col3: 'Práctico' }
+        ]
+      },
+      tableRight: {
+        id: 'inscripciones',
+        title: 'Tabla Inscripciones',
+        subtitle: 'Matrículas de estudiantes por curso.',
+        roleBadge: 'Tabla Enlazada',
+        headerClass: 'header-pedidos',
+        fields: [
+          { name: 'id_inscripcion', typeTag: '(Número)', isOwnPk: true, role: 'own_pk', badge: 'ID' },
+          { name: 'id_curso', typeTag: '(Número)', isFk: true, role: 'fk', badge: 'ID Enlace' },
+          { name: 'estudiante', typeTag: '(Texto)', isFk: false, role: 'data' },
+          { name: 'fecha_inicio', typeTag: '(Fecha)', isFk: false, role: 'data' }
+        ],
+        recordsHeader: ['id_inscripcion', 'id_curso', 'estudiante', 'fecha_inicio'],
+        records: [
+          { fk: 10, col1: '701', col2: '10', col3: 'Sofia Mendez', col4: '2026-04-01' },
+          { fk: 20, col1: '702', col2: '20', col3: 'David Morales', col4: '2026-04-02' },
+          { fk: 10, col1: '703', col2: '10', col3: 'Camilo Torres', col4: '2026-04-05' }
+        ]
+      },
+      correctPair: { left: 'id_curso', right: 'id_curso' },
+      explanation: {
+        headline: '¡Gran relación académica lograda!',
+        desc: 'Conectaste el ID del Curso con sus Inscripciones: el curso existe una sola vez y múltiples estudiantes pueden inscribirse a él.',
+        subtip: '💡 Gracias a la clave foránea, si se actualiza el título del curso se refleja para todos los matriculados sin duplicar datos.'
+      }
+    },
+    {
+      levelId: 3,
+      name: 'Nivel 3/3: Productos y Detalles',
+      badgeName: '3. Productos',
       missionText: '<strong>Misión:</strong> Une el <span class="badge-mini-gold">🔑 ID Producto</span> con su <span class="badge-mini-purple">🔗 ID Producto</span> en Detalle Pedidos.',
       tableLeft: {
         id: 'productos',
@@ -76,9 +128,9 @@
         ],
         recordsHeader: ['id_producto', 'nombre_prod', 'precio_unit'],
         records: [
-          { pk: 10, col1: '10', col2: 'Laptop Gamer DIT', col3: '$1,200.00' },
-          { pk: 20, col1: '20', col2: 'Mouse Inalámbrico', col3: '$25.00' },
-          { pk: 30, col1: '30', col2: 'Monitor UltraWide', col3: '$350.00' }
+          { pk: 501, col1: '501', col2: 'Servidor VPS DIT', col3: '$120.00' },
+          { pk: 502, col1: '502', col2: 'Dominio .com Pro', col3: '$15.00' },
+          { pk: 503, col1: '503', col2: 'Certificado SSL Wildcard', col3: '$35.00' }
         ]
       },
       tableRight: {
@@ -90,21 +142,21 @@
         fields: [
           { name: 'id_detalle', typeTag: '(Número)', isOwnPk: true, role: 'own_pk', badge: 'ID' },
           { name: 'id_producto', typeTag: '(Número)', isFk: true, role: 'fk', badge: 'ID Enlace' },
-          { name: 'cantidad', typeTag: '(Número)', isFk: false, role: 'data' },
-          { name: 'subtotal', typeTag: '(Precio)', isFk: false, role: 'data' }
+          { name: 'id_orden', typeTag: '(Número)', isFk: false, role: 'data' },
+          { name: 'cantidad', typeTag: '(Número)', isFk: false, role: 'data' }
         ],
-        recordsHeader: ['id_detalle', 'id_producto', 'cantidad', 'subtotal'],
+        recordsHeader: ['id_detalle', 'id_producto', 'id_orden', 'cantidad'],
         records: [
-          { fk: 10, col1: '501', col2: '10', col3: '1', col4: '$1,200.00' },
-          { fk: 20, col1: '502', col2: '20', col3: '2', col4: '$50.00' },
-          { fk: 10, col1: '503', col2: '10', col3: '1', col4: '$1,200.00' }
+          { fk: 501, col1: '901', col2: '501', col3: '#101', col4: '1' },
+          { fk: 502, col1: '902', col2: '502', col3: '#101', col4: '3' },
+          { fk: 501, col1: '903', col2: '501', col3: '#102', col4: '2' }
         ]
       },
       correctPair: { left: 'id_producto', right: 'id_producto' },
       explanation: {
-        headline: '¡Magnífica relación establecida!',
-        desc: 'Relacionaste los detalles de venta con el producto original: los precios y descripciones provienen de una única fuente central.',
-        subtip: '💡 Si cambia el precio del catálogo, se actualiza automáticamente para futuras compras sin inconsistencias.'
+        headline: '¡Maestría en Integridad Referencial!',
+        desc: 'Uniste cada línea de pedido con su producto original: los precios y descripciones provienen de una única fuente verídica.',
+        subtip: '💡 ¡Completaste los 3 niveles de Conecta Tablas! Has dominado el diseño y relación de bases de datos relacionales.'
       }
     }
   ];
@@ -173,15 +225,14 @@
       if (!this.ctx) return;
 
       const now = this.ctx.currentTime;
-      // Tono disonante suave
       const osc1 = this.ctx.createOscillator();
       const osc2 = this.ctx.createOscillator();
       const gain = this.ctx.createGain();
 
       osc1.type = 'sawtooth';
       osc2.type = 'sawtooth';
-      osc1.frequency.setValueAtTime(196, now); // G3
-      osc2.frequency.setValueAtTime(185, now); // F#3 (disonancia)
+      osc1.frequency.setValueAtTime(196, now);
+      osc2.frequency.setValueAtTime(185, now);
 
       gain.gain.setValueAtTime(0.15, now);
       gain.gain.exponentialRampToValueAtTime(0.01, now + 0.28);
@@ -202,7 +253,6 @@
       if (!this.ctx) return;
 
       const now = this.ctx.currentTime;
-      // Arpegio brillante mayor: C5 (523Hz), E5 (659Hz), G5 (784Hz), C6 (1046Hz)
       const notes = [523.25, 659.25, 783.99, 1046.50];
 
       notes.forEach((freq, idx) => {
@@ -308,16 +358,16 @@
   }
 
   // =========================================================================
-  // Controlador Principal del Juego
+  // Controlador Principal del Juego y Enrutador SPA
   // =========================================================================
   class GameController {
     constructor() {
       this.currentLevelIdx = 0;
       this.isSolved = false;
       this.isDragging = false;
-      this.selectedRow = null; // Para modo click-to-connect
+      this.selectedRow = null;
 
-      this.dragOrigin = null; // { table, field, role, element, nodeElem, x, y }
+      this.dragOrigin = null;
       this.dragCurrent = { x: 0, y: 0 };
 
       // Componentes auxiliares
@@ -326,6 +376,7 @@
 
       // Elementos DOM
       this.dom = {
+        arcadeHub: document.getElementById('arcade-hub'),
         stage: document.getElementById('game-stage'),
         svg: document.getElementById('connection-svg'),
         activeDragCable: document.getElementById('active-drag-cable'),
@@ -349,11 +400,23 @@
         btnOpenInstructions: document.getElementById('btn-open-instructions'),
         btnCloseInstructions: document.getElementById('btn-close-instructions'),
         btnInstructionsGotit: document.getElementById('btn-instructions-gotit'),
+        modalFinalVictory: document.getElementById('modal-final-victory'),
+        btnRestartFromLvl1: document.getElementById('btn-restart-from-lvl1'),
+        btnVictoryToCatalog: document.getElementById('btn-victory-to-catalog'),
         btnSound: document.getElementById('btn-sound'),
         soundIcon: document.getElementById('sound-icon'),
         btnHelpHeader: document.getElementById('btn-help-header'),
         btnRestartHeader: document.getElementById('btn-restart-header'),
+        btnBrandHome: document.getElementById('btn-brand-home'),
+        btnToggleCatalog: document.getElementById('btn-toggle-catalog'),
+        btnStartConectaTablas: document.getElementById('btn-start-conecta-tablas'),
+        levelNavContainer: document.getElementById('level-nav-container'),
         levelIndicator: document.getElementById('level-indicator'),
+        levelPills: [
+          document.getElementById('pill-level-1'),
+          document.getElementById('pill-level-2'),
+          document.getElementById('pill-level-3')
+        ],
         missionBanner: document.getElementById('mission-banner'),
         cardLeft: document.getElementById('card-clientes'),
         cardRight: document.getElementById('card-pedidos')
@@ -367,7 +430,7 @@
 
     init() {
       this.setupEventListeners();
-      this.renderLevel(this.currentLevelIdx);
+      this.setupRouting();
       window.addEventListener('resize', () => {
         if (this.isSolved) {
           this.drawPermanentConnection();
@@ -376,9 +439,105 @@
     }
 
     // =======================================================================
+    // Enrutamiento en URL (play.neurodit.com/conecta-tablas?nivel=X y /)
+    // =======================================================================
+    setupRouting() {
+      this.handleRoute();
+      window.addEventListener('popstate', () => this.handleRoute());
+    }
+
+    handleRoute() {
+      const path = window.location.pathname.toLowerCase();
+      const params = new URLSearchParams(window.location.search);
+      const gameParam = params.get('game');
+      const nivelParam = parseInt(params.get('nivel'), 10);
+
+      // Si está en la raíz y no especificó el juego, mostrar el catálogo
+      const isConectaTablas = path.includes('conecta-tablas') || gameParam === 'conecta-tablas';
+
+      if (isConectaTablas) {
+        this.showGameView();
+        let targetLevel = 0;
+        if (!isNaN(nivelParam) && nivelParam >= 1 && nivelParam <= 3) {
+          targetLevel = nivelParam - 1;
+        }
+        this.renderLevel(targetLevel, false);
+      } else {
+        this.showHubView();
+      }
+    }
+
+    showGameView() {
+      this.dom.arcadeHub.classList.add('hidden');
+      this.dom.stage.classList.remove('hidden');
+      this.dom.missionBanner.classList.remove('hidden');
+      this.dom.levelNavContainer.classList.remove('hidden');
+      this.dom.centerHub.classList.remove('hidden');
+    }
+
+    showHubView() {
+      this.dom.arcadeHub.classList.remove('hidden');
+      this.dom.stage.classList.add('hidden');
+      this.dom.missionBanner.classList.add('hidden');
+      this.dom.levelNavContainer.classList.add('hidden');
+      this.dom.centerHub.classList.add('hidden');
+      this.dom.bottomSuccessBar.classList.remove('active');
+      this.dom.modalWelcome.classList.remove('active');
+      this.dom.modalInstructions.classList.remove('active');
+      if (this.dom.modalFinalVictory) {
+        this.dom.modalFinalVictory.classList.remove('active');
+      }
+    }
+
+    navigateToGame(levelIdx) {
+      const lvlNum = (levelIdx || 0) + 1;
+      const targetUrl = `/conecta-tablas?nivel=${lvlNum}`;
+      window.history.pushState({ game: 'conecta-tablas', level: lvlNum }, '', targetUrl);
+      this.showGameView();
+      this.renderLevel(levelIdx, false);
+    }
+
+    navigateToHub() {
+      window.history.pushState({}, '', '/');
+      this.showHubView();
+    }
+
+    // =======================================================================
     // Gestión de Eventos (Arrastre, Clicks, Teclado)
     // =======================================================================
     setupEventListeners() {
+      // Navegación de Catálogo y Rutas
+      if (this.dom.btnBrandHome) {
+        this.dom.btnBrandHome.addEventListener('click', (e) => {
+          e.preventDefault();
+          this.navigateToHub();
+        });
+      }
+
+      if (this.dom.btnToggleCatalog) {
+        this.dom.btnToggleCatalog.addEventListener('click', (e) => {
+          e.preventDefault();
+          this.navigateToHub();
+        });
+      }
+
+      if (this.dom.btnStartConectaTablas) {
+        this.dom.btnStartConectaTablas.addEventListener('click', (e) => {
+          e.preventDefault();
+          this.navigateToGame(0);
+        });
+      }
+
+      // Pastillas selectoras de nivel
+      this.dom.levelPills.forEach((pill, idx) => {
+        if (pill) {
+          pill.addEventListener('click', () => {
+            this.sound.playClick();
+            this.navigateToGame(idx);
+          });
+        }
+      });
+
       // Modales y HUD
       this.dom.btnStart.addEventListener('click', () => {
         this.sound.playClick();
@@ -405,6 +564,23 @@
         this.dom.modalInstructions.classList.remove('active');
         this.dom.modalWelcome.classList.remove('active');
       });
+
+      // Modal de Victoria Final (Nivel 3)
+      if (this.dom.btnRestartFromLvl1) {
+        this.dom.btnRestartFromLvl1.addEventListener('click', () => {
+          this.sound.playClick();
+          this.dom.modalFinalVictory.classList.remove('active');
+          this.navigateToGame(0);
+        });
+      }
+
+      if (this.dom.btnVictoryToCatalog) {
+        this.dom.btnVictoryToCatalog.addEventListener('click', () => {
+          this.sound.playClick();
+          this.dom.modalFinalVictory.classList.remove('active');
+          this.navigateToHub();
+        });
+      }
 
       this.dom.btnSound.addEventListener('click', () => {
         const enabled = this.sound.toggle();
@@ -455,13 +631,34 @@
     // =======================================================================
     // Renderizado y Preparación del Nivel
     // =======================================================================
-    renderLevel(levelIdx) {
+    renderLevel(levelIdx, updateUrl = true) {
       this.isSolved = false;
       this.currentLevelIdx = levelIdx;
       const data = LEVELS[levelIdx];
 
+      if (updateUrl) {
+        window.history.pushState(
+          { game: 'conecta-tablas', level: levelIdx + 1 },
+          '',
+          `/conecta-tablas?nivel=${levelIdx + 1}`
+        );
+      }
+
+      // Actualizar indicadores de nivel en la cabecera
       this.dom.levelIndicator.textContent = data.name;
       this.dom.missionBanner.innerHTML = `<span class="mission-sparkle">✨</span><span class="mission-text">${data.missionText}</span>`;
+
+      this.dom.levelPills.forEach((pill, idx) => {
+        if (pill) {
+          if (idx === levelIdx) {
+            pill.classList.add('active');
+            pill.setAttribute('aria-selected', 'true');
+          } else {
+            pill.classList.remove('active');
+            pill.setAttribute('aria-selected', 'false');
+          }
+        }
+      });
 
       // Render Tabla Izquierda
       document.getElementById('title-table-left').textContent = data.tableLeft.title;
@@ -474,6 +671,13 @@
       document.getElementById('subtitle-table-right').textContent = data.tableRight.subtitle;
       this.renderTableFields('fields-list-right', data.tableRight, 'right');
       this.renderTableData('tbody-pedidos', data.tableRight.records, 'right');
+
+      // Texto dinámico del botón de siguiente nivel
+      if (levelIdx === LEVELS.length - 1) {
+        this.dom.btnNextLevel.innerHTML = `Completar Desafío <span class="btn-icon">🏆</span>`;
+      } else {
+        this.dom.btnNextLevel.innerHTML = `Siguiente Nivel <span class="btn-icon">✨</span>`;
+      }
 
       this.resetConnectionVisuals();
     }
@@ -547,7 +751,6 @@
           `;
         }
 
-        // Eventos en cada fila y su nodo
         this.bindRowEvents(row, tableData.id, f.name, f.role, side);
         container.appendChild(row);
       });
@@ -579,7 +782,6 @@
           `;
         }
 
-        // Interactividad relacional al hacer click o hover
         tr.addEventListener('mouseenter', () => this.highlightRelatedRows(tr));
         tr.addEventListener('mouseleave', () => this.clearRowHighlights());
         tr.addEventListener('click', () => this.highlightRelatedRows(tr, true));
@@ -625,7 +827,6 @@
         this.updateDragLine();
       };
 
-      // Mousedown / Touchstart en nodo
       nodeElem.addEventListener('mousedown', (e) => {
         e.stopPropagation();
         startInteraction(e.clientX, e.clientY);
@@ -637,14 +838,12 @@
         if (touch) startInteraction(touch.clientX, touch.clientY);
       }, { passive: true });
 
-      // Click / Tap en fila completa (Modo 2 de conexión)
       rowElem.addEventListener('click', (e) => {
         if (this.isSolved || this.isDragging) return;
         this.sound.playClick();
         this.handleRowSelection(rowElem, tableId, fieldName, fieldRole, side);
       });
 
-      // Accesibilidad mediante teclado (Enter / Space)
       rowElem.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
@@ -672,7 +871,6 @@
       document.body.classList.remove('is-dragging');
       this.dom.activeDragCable.setAttribute('d', '');
 
-      // Detectar elemento bajo el punto soltado
       const targetElement = document.elementFromPoint(clientX, clientY);
       const targetRow = targetElement ? targetElement.closest('.field-row') : null;
 
@@ -693,13 +891,10 @@
 
     handleRowSelection(rowElem, tableId, fieldName, fieldRole, side) {
       if (!this.selectedRow) {
-        // Primera selección
         this.selectedRow = { table: tableId, field: fieldName, role: fieldRole, side: side, element: rowElem };
         rowElem.classList.add('selected');
       } else {
-        // Segunda selección
         if (this.selectedRow.element === rowElem) {
-          // Deseleccionar si hace click en la misma fila
           rowElem.classList.remove('selected');
           this.selectedRow = null;
           return;
@@ -738,7 +933,6 @@
       const dx = Math.abs(x2 - x1);
       const controlDist = Math.max(dx * 0.45, 60);
 
-      // Si arrastra de izquierda a derecha
       const cx1 = x1 + (x2 >= x1 ? controlDist : -controlDist);
       const cx2 = x2 - (x2 >= x1 ? controlDist : -controlDist);
 
@@ -751,7 +945,6 @@
     validateConnection(origin, target) {
       const level = LEVELS[this.currentLevelIdx];
 
-      // Ambos deben pertenecer a tablas opuestas
       if (origin.side === target.side) {
         this.showErrorFeedback(
           'MISMA TABLA',
@@ -761,11 +954,9 @@
         return;
       }
 
-      // Normalizar: identificar cuál es el lado izquierdo y cuál es el derecho
       const leftEnd = origin.side === 'left' ? origin : target;
       const rightEnd = origin.side === 'right' ? origin : target;
 
-      // Caso 1: ¿Es la relación correcta?
       const isCorrect = (
         leftEnd.field === level.correctPair.left &&
         rightEnd.field === level.correctPair.right &&
@@ -788,9 +979,9 @@
       const rightField = rightEnd.field;
 
       if (leftEnd.role === 'data') {
-        message = `Estás conectando un campo de datos ("${leftField}") con un ID. Debes conectar el identificador único 🔑 "${LEVELS[this.currentLevelIdx].correctPair.left}" con su enlace 🔗 correspondiente.`;
+        message = `Estás conectando un campo descriptivo ("${leftField}") con un ID. Debes conectar el identificador único 🔑 "${LEVELS[this.currentLevelIdx].correctPair.left}" con su enlace 🔗 correspondiente.`;
       } else if (rightEnd.role === 'own_pk') {
-        message = `¡Casi! "${rightField}" es la clave primaria de ${LEVELS[this.currentLevelIdx].tableRight.title}, no la del cliente. Busca el campo 🔗 "${LEVELS[this.currentLevelIdx].correctPair.right}" que hace referencia a la otra tabla.`;
+        message = `¡Casi! "${rightField}" es la clave primaria propia de ${LEVELS[this.currentLevelIdx].tableRight.title}. Busca el campo 🔗 "${LEVELS[this.currentLevelIdx].correctPair.right}" que hace referencia a la tabla principal.`;
       } else if (rightEnd.role === 'data') {
         message = `Estás conectando el ID principal con un atributo ("${rightField}"). Las relaciones entre tablas se forman con una clave foránea que guarda el mismo identificador numérico.`;
       } else {
@@ -803,7 +994,6 @@
     showErrorFeedback(title, message, elementsToShake) {
       this.sound.playError();
 
-      // Animación shake en filas
       elementsToShake.forEach(el => {
         if (el) {
           el.classList.add('shake-error');
@@ -811,7 +1001,6 @@
         }
       });
 
-      // Mostrar toast
       this.dom.toastTitle.textContent = title;
       this.dom.toastMessage.textContent = message;
       this.dom.errorToast.classList.add('active', 'shake');
@@ -839,11 +1028,9 @@
       this.sound.playSuccess();
       this.confetti.burst();
 
-      // Resaltar filas con pulso verde
       leftEnd.element.classList.add('connected-pulse');
       rightEnd.element.classList.add('connected-pulse');
 
-      // Actualizar Indicador de Estado en la Cabecera
       if (this.dom.centerHub) {
         this.dom.centerHub.classList.add('connected');
       }
@@ -852,21 +1039,17 @@
         hubLabel.textContent = '✓ Conectado';
       }
 
-      // Mostrar badges de datos enlazados
       document.getElementById('status-badge-left').classList.remove('hidden');
       document.getElementById('status-badge-right').classList.remove('hidden');
 
-      // Dibujar cable permanente
       this.drawPermanentConnection();
 
-      // Configurar y mostrar barra inferior de éxito
       const level = LEVELS[this.currentLevelIdx];
       this.dom.successHeadline.textContent = level.explanation.headline;
       this.dom.successDescription.textContent = level.explanation.desc;
       this.dom.successSubtip.innerHTML = level.explanation.subtip;
       this.dom.bottomSuccessBar.classList.add('active');
 
-      // Activar animación de partículas energéticas viajando por el cable
       this.startCableParticles();
     }
 
@@ -949,7 +1132,7 @@
     }
 
     // =======================================================================
-    // Reinicio y Transición de Nivel
+    // Reinicio y Transición de Nivel / Victoria Final
     // =======================================================================
     resetConnection() {
       this.resetConnectionVisuals();
@@ -989,12 +1172,22 @@
     }
 
     nextLevel() {
-      const nextIdx = (this.currentLevelIdx + 1) % LEVELS.length;
-      this.renderLevel(nextIdx);
+      if (this.currentLevelIdx < LEVELS.length - 1) {
+        const nextIdx = this.currentLevelIdx + 1;
+        this.navigateToGame(nextIdx);
+      } else {
+        // Victoria final de los 3 niveles
+        this.resetConnectionVisuals();
+        if (this.dom.modalFinalVictory) {
+          this.dom.modalFinalVictory.classList.add('active');
+        }
+        this.sound.playSuccess();
+        this.confetti.burst();
+      }
     }
   }
 
-  // Inicializar al cargar la página
+  // Inicializar al cargar el DOM
   window.addEventListener('DOMContentLoaded', () => {
     window.game = new GameController();
   });

@@ -27,13 +27,22 @@
   <!-- HUD Superior -->
   <header class="game-header">
     <div class="header-left">
-      <div class="dit-pill-badge">
+      <a href="/" class="dit-pill-badge" id="btn-brand-home" title="Ir al Catálogo de Juegos">
         <span class="dit-logo-gem">✦</span>
         <span class="dit-logo-text"><span class="dit-c1">D</span><span class="dit-c2">I</span><span class="dit-c3">T</span></span>
         <span class="header-divider">|</span>
-        <span class="header-subtitle">Bases de Datos</span>
+        <span class="header-subtitle">Games</span>
+      </a>
+      
+      <!-- Navegación de los 3 Niveles -->
+      <div class="level-nav-container" id="level-nav-container">
+        <div class="level-indicator" id="level-indicator">Nivel 1/3: Clientes y Pedidos</div>
+        <div class="level-pills-bar" id="level-pills-bar" role="tablist" aria-label="Selector de Niveles">
+          <button class="level-pill-btn active" data-level="0" id="pill-level-1" role="tab" aria-selected="true">1. Clientes</button>
+          <button class="level-pill-btn" data-level="1" id="pill-level-2" role="tab" aria-selected="false">2. Cursos</button>
+          <button class="level-pill-btn" data-level="2" id="pill-level-3" role="tab" aria-selected="false">3. Productos</button>
+        </div>
       </div>
-      <div class="level-indicator" id="level-indicator">Nivel 1: Clientes y Pedidos</div>
     </div>
 
     <!-- Misión Banner Central -->
@@ -43,6 +52,11 @@
     </div>
 
     <div class="header-controls">
+      <!-- Botón para ir al Catálogo de Juegos -->
+      <button class="btn-catalog-nav" id="btn-toggle-catalog" title="Ver catálogo de juegos">
+        <span class="catalog-icon">🎮</span> <span class="catalog-label">Catálogo</span>
+      </button>
+
       <!-- Indicador de Estado Reubicado a un Lado -->
       <div class="status-connection-badge" id="center-hub" title="Estado de la relación">
         <span class="status-indicator-dot"></span>
@@ -79,6 +93,96 @@
       <button class="toast-close" id="btn-close-toast" aria-label="Cerrar notificación">✕</button>
     </div>
   </div>
+
+  <!-- Catálogo / Portal de Juegos DIT Arcade (Vista de Selección) -->
+  <section class="arcade-hub hidden" id="arcade-hub" aria-label="Catálogo de Juegos DIT">
+    <div class="hub-hero">
+      <div class="hub-badge-sparkle">
+        <span class="sparkle-icon">⚡</span> DIT GAMES ARCADE
+      </div>
+      <h1 class="hub-main-title">Aprende Ingeniería y Bases de Datos Jugando</h1>
+      <p class="hub-main-desc">
+        Minijuegos interactivos 2D diseñados por <strong>Disruptive Information Technologies</strong> para dominar conceptos de software mediante la práctica intuitiva.
+      </p>
+    </div>
+
+    <div class="games-grid">
+      <!-- Juego 1: Conecta Tablas (ACTIVO / EN VIVO) -->
+      <article class="game-card card-featured" id="card-game-conecta-tablas">
+        <div class="card-status-strip">
+          <span class="status-live-dot"></span> EN VIVO • BASES DE DATOS
+        </div>
+        <div class="card-icon-banner">
+          <span class="game-emoji-big">💎</span>
+          <div class="card-nodes-preview">
+            <span class="preview-pk">PK</span>
+            <span class="preview-link">⟷</span>
+            <span class="preview-fk">FK</span>
+          </div>
+        </div>
+        <div class="card-info">
+          <h2 class="card-title">Conecta Tablas</h2>
+          <p class="card-desc">
+            Descubre de forma práctica cómo se relacionan los datos entre tablas mediante Claves Primarias (PK) y Claves Foráneas (FK) a lo largo de 3 niveles.
+          </p>
+          <div class="card-tags">
+            <span class="tag-pill">🎯 3 Niveles</span>
+            <span class="tag-pill">⏱️ 1-2 min</span>
+            <span class="tag-pill">🎮 2D Canvas</span>
+          </div>
+        </div>
+        <div class="card-footer-action">
+          <a href="/conecta-tablas" class="btn-play-game" id="btn-start-conecta-tablas">
+            <span>▶ Jugar Ahora</span>
+          </a>
+        </div>
+      </article>
+
+      <!-- Juego 2: Query Runner (Próximamente) -->
+      <article class="game-card card-coming-soon">
+        <div class="card-status-strip strip-soon">
+          PRÓXIMAMENTE • SQL
+        </div>
+        <div class="card-icon-banner banner-dim">
+          <span class="game-emoji-big">⚡</span>
+        </div>
+        <div class="card-info">
+          <h2 class="card-title">Query Runner</h2>
+          <p class="card-desc">
+            Construye visualmente sentencias SELECT, JOIN y WHERE para resolver misiones de análisis de datos a contrarreloj.
+          </p>
+          <div class="card-tags">
+            <span class="tag-pill tag-muted">En Desarrollo</span>
+          </div>
+        </div>
+        <div class="card-footer-action">
+          <button class="btn-play-disabled" disabled>Próximamente</button>
+        </div>
+      </article>
+
+      <!-- Juego 3: Docker Swarm Defender (Próximamente) -->
+      <article class="game-card card-coming-soon">
+        <div class="card-status-strip strip-soon">
+          PRÓXIMAMENTE • DEVOPS
+        </div>
+        <div class="card-icon-banner banner-dim">
+          <span class="game-emoji-big">🐳</span>
+        </div>
+        <div class="card-info">
+          <h2 class="card-title">Docker Defender</h2>
+          <p class="card-desc">
+            Aprende puertos, contenedores y microservicios levantando arquitecturas resilientes ante caídas de red.
+          </p>
+          <div class="card-tags">
+            <span class="tag-pill tag-muted">En Desarrollo</span>
+          </div>
+        </div>
+        <div class="card-footer-action">
+          <button class="btn-play-disabled" disabled>Próximamente</button>
+        </div>
+      </article>
+    </div>
+  </section>
 
   <!-- Contenedor Principal de Tablas y Conexión -->
   <main class="game-stage" id="game-stage">
@@ -539,6 +643,46 @@
       <div class="instructions-footer">
         <button class="btn-primary-purple" id="btn-instructions-gotit">
           ¡Entendido, a jugar!
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 3: Graduación / Victoria Final tras completar los 3 Niveles -->
+  <div class="modal-overlay" id="modal-final-victory" role="dialog" aria-modal="true" aria-labelledby="final-victory-title">
+    <div class="modal-card final-victory-card">
+      <div class="victory-trophy-badge">🏆</div>
+      <h2 class="final-title" id="final-victory-title">¡Misión Cumplida!</h2>
+      <p class="final-subtitle">Has dominado los 3 niveles de <strong>Conecta Tablas</strong></p>
+
+      <div class="learning-summary-box">
+        <h4 class="summary-box-title">🧠 Lo que aprendiste hoy:</h4>
+        <div class="summary-item">
+          <span class="item-icon">🔑</span>
+          <div>
+            <strong>Clave Primaria (PK):</strong> Identificador irrepetible de cada fila.
+          </div>
+        </div>
+        <div class="summary-item">
+          <span class="item-icon">🔗</span>
+          <div>
+            <strong>Clave Foránea (FK):</strong> Enlace en la tabla secundaria hacia la primaria.
+          </div>
+        </div>
+        <div class="summary-item">
+          <span class="item-icon">🌐</span>
+          <div>
+            <strong>Integridad Relacional:</strong> Permite relaciones 1 a Muchos limpias sin duplicar datos.
+          </div>
+        </div>
+      </div>
+
+      <div class="final-actions-row">
+        <button class="btn-primary-gradient" id="btn-restart-from-lvl1">
+          <span>🔄 Jugar desde el Nivel 1</span>
+        </button>
+        <button class="btn-secondary-dark" id="btn-victory-to-catalog">
+          <span>🎮 Explorar Catálogo de Juegos</span>
         </button>
       </div>
     </div>

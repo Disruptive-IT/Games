@@ -18,6 +18,17 @@ const server = http.createServer((req, res) => {
 
   fs.readFile(filePath, (err, content) => {
     if (err) {
+      // Si la ruta no tiene extensión (ej. /conecta-tablas), fallback a index.html (SPA)
+      if (!path.extname(filePath)) {
+        return fs.readFile(path.join(__dirname, 'index.html'), (errHtml, htmlContent) => {
+          if (errHtml) {
+            res.writeHead(404, { 'Content-Type': 'text/plain' });
+            return res.end('404 Not Found');
+          }
+          res.writeHead(200, { 'Content-Type': 'text/html', 'Access-Control-Allow-Origin': '*' });
+          res.end(htmlContent);
+        });
+      }
       res.writeHead(404, { 'Content-Type': 'text/plain' });
       res.end('404 Not Found');
       return;

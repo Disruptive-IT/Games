@@ -1488,3 +1488,384 @@ body {
     justify-content: center;
   }
 }
+
+/* ==========================================================================
+   Selector de Niveles y Navegación de Catálogo
+   ========================================================================== */
+.level-nav-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.level-pills-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.level-pill-btn {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  color: #475569;
+  border-radius: var(--radius-pill);
+  padding: 3px 10px;
+  font-family: var(--font-main);
+  font-size: 0.74rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.level-pill-btn:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+  transform: translateY(-1px);
+}
+
+.level-pill-btn.active {
+  background: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%);
+  color: #ffffff;
+  border-color: #6d28d9;
+  box-shadow: 0 2px 8px rgba(124, 58, 237, 0.35);
+  transform: scale(1.04);
+}
+
+.btn-catalog-nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #0f172a;
+  color: #f8fafc;
+  border: 1px solid #334155;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-main);
+  font-weight: 700;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  text-decoration: none;
+}
+
+.btn-catalog-nav:hover {
+  background: #1e293b;
+  border-color: #64748b;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.2);
+}
+
+/* ==========================================================================
+   Catálogo de Juegos DIT Arcade (Vista de Portal)
+   ========================================================================== */
+.arcade-hub {
+  position: relative;
+  z-index: 6;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 44px 24px 100px;
+  width: 100%;
+}
+
+.hub-hero {
+  text-align: center;
+  max-width: 780px;
+  margin: 0 auto 40px;
+}
+
+.hub-badge-sparkle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #0f172a;
+  color: #38bdf8;
+  padding: 5px 14px;
+  border-radius: var(--radius-pill);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  margin-bottom: 14px;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.hub-main-title {
+  font-size: 2.3rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: #0f172a;
+  margin-bottom: 12px;
+  line-height: 1.2;
+}
+
+.hub-main-desc {
+  font-size: 1.05rem;
+  color: #475569;
+  line-height: 1.55;
+}
+
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 28px;
+}
+
+.game-card {
+  background: #ffffff;
+  border-radius: 22px;
+  border: 1.5px solid #e2e8f0;
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.game-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-floating);
+}
+
+.card-featured {
+  border-color: #c084fc;
+  box-shadow: 0 16px 36px -8px rgba(139, 92, 246, 0.2);
+}
+
+.card-status-strip {
+  padding: 8px 16px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #f5f3ff;
+  color: #7c3aed;
+  border-bottom: 1px solid rgba(192, 132, 252, 0.3);
+}
+
+.status-live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 8px #10b981;
+  animation: pulseSuccessDot 1.5s infinite;
+}
+
+.strip-soon {
+  background: #f8fafc;
+  color: #94a3b8;
+  border-bottom-color: #e2e8f0;
+}
+
+.card-icon-banner {
+  background: linear-gradient(135deg, #4338ca 0%, #7c3aed 100%);
+  padding: 32px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.banner-dim {
+  background: linear-gradient(135deg, #334155 0%, #1e293b 100%);
+}
+
+.game-emoji-big {
+  font-size: 3rem;
+  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.4));
+}
+
+.card-nodes-preview {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.preview-pk {
+  background: #fef08a;
+  color: #854d0e;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+}
+
+.preview-link {
+  color: #ffffff;
+  font-size: 1.1rem;
+}
+
+.preview-fk {
+  background: #f3e8ff;
+  color: #7e22ce;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+}
+
+.card-info {
+  padding: 20px 22px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 8px;
+}
+
+.card-desc {
+  font-size: 0.9rem;
+  color: #64748b;
+  line-height: 1.5;
+  margin-bottom: 16px;
+  flex: 1;
+}
+
+.card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.tag-pill {
+  background: #f1f5f9;
+  color: #334155;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.tag-muted {
+  color: #94a3b8;
+  background: #f8fafc;
+  border: 1px dashed #cbd5e1;
+}
+
+.card-footer-action {
+  padding: 14px 22px 20px;
+}
+
+.btn-play-game {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+  color: #ffffff;
+  padding: 12px;
+  border-radius: 12px;
+  font-family: var(--font-main);
+  font-size: 0.95rem;
+  font-weight: 800;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.btn-play-game:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(124, 58, 237, 0.45);
+  background: linear-gradient(135deg, #1d4ed8 0%, #6d28d9 100%);
+}
+
+.btn-play-disabled {
+  width: 100%;
+  padding: 12px;
+  background: #f1f5f9;
+  color: #94a3b8;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  font-family: var(--font-main);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: not-allowed;
+}
+
+/* ==========================================================================
+   Modal de Graduación / Victoria Final (Nivel 3)
+   ========================================================================== */
+.final-victory-card {
+  width: 490px;
+  max-width: 95vw;
+  padding: 34px 28px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.victory-trophy-badge {
+  font-size: 3.5rem;
+  margin-bottom: 10px;
+  filter: drop-shadow(0 0 16px rgba(245, 158, 11, 0.6));
+  animation: floatCrystal 2.5s ease-in-out infinite;
+}
+
+.final-title {
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin-bottom: 6px;
+  color: #ffffff;
+}
+
+.final-subtitle {
+  font-size: 0.95rem;
+  color: #cbd5e1;
+  margin-bottom: 18px;
+}
+
+.learning-summary-box {
+  background: #17203d;
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-radius: 14px;
+  padding: 16px 18px;
+  width: 100%;
+  text-align: left;
+  margin-bottom: 22px;
+}
+
+.summary-box-title {
+  color: #38bdf8;
+  font-size: 0.92rem;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.summary-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.85rem;
+  color: #e2e8f0;
+  line-height: 1.45;
+  margin-bottom: 8px;
+}
+
+.summary-item:last-child {
+  margin-bottom: 0;
+}
+
+.summary-item .item-icon {
+  font-size: 1.1rem;
+}
+
+.final-actions-row {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

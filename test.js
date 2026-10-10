@@ -49,6 +49,9 @@ function runTests() {
   assert(htmlContent.includes('id_pedido'), 'HTML contiene el campo clave "id_pedido"');
   assert(htmlContent.includes('modal-welcome'), 'HTML contiene el modal de bienvenida');
   assert(htmlContent.includes('modal-instructions'), 'HTML contiene el modal de instrucciones');
+  assert(htmlContent.includes('modal-final-victory'), 'HTML contiene el modal de graduación final');
+  assert(htmlContent.includes('arcade-hub'), 'HTML contiene la sección de catálogo arcade-hub');
+  assert(htmlContent.includes('level-pills-bar'), 'HTML contiene el selector de 3 niveles');
   assert(htmlContent.includes('bottom-success-bar'), 'HTML contiene la barra inferior de éxito');
 
   // 3. Verificar que .gitignore ignora .env.local
@@ -58,6 +61,10 @@ function runTests() {
   // 4. Verificar sintaxis JavaScript de game.js
   const jsContent = fs.readFileSync(path.join(__dirname, 'game.js'), 'utf8');
   assert(jsContent.includes('LEVELS'), 'game.js contiene definición de niveles');
+  assert(jsContent.includes('Nivel 1/3'), 'game.js contiene Nivel 1');
+  assert(jsContent.includes('Nivel 2/3'), 'game.js contiene Nivel 2');
+  assert(jsContent.includes('Nivel 3/3'), 'game.js contiene Nivel 3');
+  assert(jsContent.includes('conecta-tablas'), 'game.js maneja ruta /conecta-tablas');
   assert(jsContent.includes('SoundController'), 'game.js implementa Web Audio API synth');
   assert(jsContent.includes('validateConnection'), 'game.js implementa validación pedagógica');
 
