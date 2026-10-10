@@ -8,22 +8,24 @@
   --font-main: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 
-  /* Colores DIT & UI */
-  --dit-purple: #8b5cf6;
-  --dit-blue: #3b82f6;
+  /* Colores DIT & UI Oficiales (Basados en Disruptive---LOGO + Alpha.png) */
+  --dit-purple: #7d3c9e;
+  --dit-purple-dark: #632d80;
+  --dit-purple-light: #a24ced;
+  --dit-blue: #4f7fff;
   --dit-cyan: #06b6d4;
   --dit-gold: #f59e0b;
   --dit-emerald: #10b981;
   --dit-rose: #ef4444;
 
   /* Fondos y Superficies */
-  --bg-canvas: #f5f8fd;
+  --bg-canvas: #f8faff;
   --bg-card: #ffffff;
-  --bg-modal: #0d1326;
-  --bg-modal-card: #151d38;
+  --bg-modal: #130f26;
+  --bg-modal-card: #1f183d;
 
   /* Texto */
-  --text-dark: #0f172a;
+  --text-dark: #1e1b4b;
   --text-muted: #64748b;
   --text-light: #f8fafc;
 
@@ -137,34 +139,49 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: #0f172a;
-  color: #ffffff;
-  padding: 6px 14px;
+  background: #ffffff;
+  color: #1e1b4b;
+  padding: 6px 16px;
   border-radius: var(--radius-pill);
-  font-weight: 700;
-  font-size: 0.85rem;
-  letter-spacing: 0.05em;
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+  font-weight: 800;
+  font-size: 0.88rem;
+  letter-spacing: 0.04em;
+  border: 1.5px solid rgba(125, 60, 158, 0.25);
+  box-shadow: 0 4px 14px rgba(125, 60, 158, 0.1);
+  text-decoration: none;
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.dit-pill-badge:hover {
+  border-color: #7d3c9e;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(125, 60, 158, 0.2);
+}
+
+.dit-brand-acronym {
+  font-weight: 900;
+  font-size: 1.05rem;
+  letter-spacing: 0.06em;
+  background: linear-gradient(135deg, #7d3c9e 0%, #4f7fff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
 }
 
 .dit-logo-gem {
-  color: var(--dit-purple);
-  font-size: 0.9rem;
+  color: #7d3c9e;
+  font-size: 0.95rem;
   animation: pulseGem 2.5s infinite;
 }
 
-.dit-c1 { color: #c084fc; }
-.dit-c2 { color: #60a5fa; }
-.dit-c3 { color: #38bdf8; }
-
 .header-divider {
-  color: #475569;
+  color: #cbd5e1;
   font-weight: 300;
 }
 
 .header-subtitle {
-  color: #94a3b8;
-  font-weight: 500;
+  color: #7d3c9e;
+  font-weight: 700;
   font-size: 0.78rem;
 }
 
@@ -1534,31 +1551,30 @@ body {
 .btn-catalog-nav {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  background: #0f172a;
-  color: #f8fafc;
-  border: 1px solid #334155;
-  padding: 6px 14px;
+  gap: 7px;
+  background: linear-gradient(135deg, #7d3c9e 0%, #4f7fff 100%);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  padding: 6px 16px;
   border-radius: var(--radius-pill);
   font-family: var(--font-main);
   font-weight: 700;
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 4px 14px rgba(125, 60, 158, 0.3);
   text-decoration: none;
 }
 
 .btn-catalog-nav:hover {
-  background: #1e293b;
-  border-color: #64748b;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(125, 60, 158, 0.45);
+  filter: brightness(1.08);
 }
 
 /* ==========================================================================
    Catálogo de Juegos DIT Arcade (Vista de Portal)
-   ========================================================================== */
+   ========================================================================= */
 .arcade-hub {
   position: relative;
   z-index: 6;
@@ -1577,24 +1593,24 @@ body {
 .hub-badge-sparkle {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  background: #0f172a;
-  color: #38bdf8;
-  padding: 5px 14px;
+  gap: 7px;
+  background: linear-gradient(135deg, rgba(125, 60, 158, 0.1) 0%, rgba(79, 127, 255, 0.1) 100%);
+  color: #7d3c9e;
+  padding: 6px 18px;
   border-radius: var(--radius-pill);
   font-size: 0.82rem;
   font-weight: 800;
   letter-spacing: 0.08em;
-  margin-bottom: 14px;
-  border: 1px solid rgba(56, 189, 248, 0.3);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  margin-bottom: 16px;
+  border: 1.5px solid rgba(125, 60, 158, 0.35);
+  box-shadow: 0 4px 16px rgba(125, 60, 158, 0.12);
 }
 
 .hub-main-title {
   font-size: 2.3rem;
   font-weight: 900;
   letter-spacing: -0.02em;
-  color: #0f172a;
+  color: #1e1b4b;
   margin-bottom: 12px;
   line-height: 1.2;
 }
@@ -1869,3 +1885,819 @@ body {
   flex-direction: column;
   gap: 10px;
 }
+
+/* ==========================================================================
+   DIT Branding: Logo & Favicon Elements
+   ========================================================================== */
+.dit-brand-logo-img {
+  height: 26px;
+  width: auto;
+  object-fit: contain;
+  vertical-align: middle;
+  filter: drop-shadow(0 2px 6px rgba(99, 102, 241, 0.2));
+  transition: transform 0.2s ease;
+}
+
+.dit-pill-badge:hover .dit-brand-logo-img {
+  transform: scale(1.05);
+}
+
+.hub-brand-badge-wrap {
+  margin-bottom: 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hub-hero-logo {
+  height: 72px;
+  width: auto;
+  max-width: 88vw;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 22px rgba(125, 60, 158, 0.25));
+  animation: floatChef 4s ease-in-out infinite;
+}
+
+/* ==========================================================================
+   Arcade Hub: Tarjeta Chef Prompter
+   ========================================================================== */
+.card-prompter {
+  border-color: rgba(245, 158, 11, 0.35);
+}
+
+.card-prompter:hover {
+  border-color: #f59e0b;
+  box-shadow: 0 20px 40px -10px rgba(245, 158, 11, 0.25);
+}
+
+.strip-prompter {
+  background: rgba(245, 158, 11, 0.12);
+  color: #b45309;
+  font-weight: 700;
+}
+
+.dot-orange {
+  background-color: #f59e0b !important;
+  box-shadow: 0 0 8px #f59e0b !important;
+}
+
+.banner-chef {
+  background: radial-gradient(circle at center, rgba(254, 243, 199, 0.8) 0%, rgba(253, 230, 138, 0.4) 100%);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px 0;
+}
+
+.card-navibot-avatar-wrap {
+  position: relative;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: #ffffff;
+  padding: 6px;
+  box-shadow: 0 8px 24px rgba(245, 158, 11, 0.25);
+  border: 2px solid #f59e0b;
+}
+
+.card-navibot-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 50%;
+}
+
+.chef-hat-badge {
+  position: absolute;
+  top: -8px;
+  right: -6px;
+  font-size: 1.6rem;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.25));
+  animation: floatChef 3s ease-in-out infinite;
+}
+
+.btn-play-orange {
+  background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%) !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35) !important;
+}
+
+.btn-play-orange:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(245, 158, 11, 0.45) !important;
+}
+
+/* ==========================================================================
+   Chef Prompter: Stage Principal
+   ========================================================================== */
+.chef-prompter-stage {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 24px 20px 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Banner de Avatar NaviBot & Diálogo */
+.chef-hero-banner {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(226, 232, 240, 0.95);
+  border-radius: 24px;
+  padding: 20px 24px;
+  box-shadow: 0 12px 32px -8px rgba(15, 23, 42, 0.08);
+}
+
+.chef-avatar-wrapper {
+  position: relative;
+  flex-shrink: 0;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ffffff 0%, #fef3c7 100%);
+  border: 3px solid #f59e0b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(245, 158, 11, 0.3);
+}
+
+.chef-avatar-glow {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(245, 158, 11, 0.4) 0%, transparent 70%);
+  z-index: -1;
+  animation: pulseGlow 2.8s ease-in-out infinite;
+}
+
+.chef-navibot-img {
+  width: 82px;
+  height: 82px;
+  object-fit: contain;
+  border-radius: 50%;
+}
+
+.chef-hat-badge-float {
+  position: absolute;
+  top: -12px;
+  right: -8px;
+  font-size: 2rem;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.2));
+  animation: floatChef 2.6s ease-in-out infinite;
+}
+
+.chef-status-pill {
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  background: #0f172a;
+  color: #f8fafc;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.chef-dialogue-box {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.chef-speaker-label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #b45309;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.chef-speaker-label strong {
+  color: #0f172a;
+}
+
+.chef-sparkle {
+  color: #f59e0b;
+}
+
+.chef-speech-bubble {
+  background: #ffffff;
+  border: 1px solid rgba(226, 232, 240, 0.95);
+  border-radius: 16px;
+  padding: 16px 20px;
+  font-size: 0.98rem;
+  line-height: 1.55;
+  color: #1e293b;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+  position: relative;
+}
+
+.chef-speech-bubble strong {
+  color: #0f172a;
+}
+
+.chef-speech-bubble em {
+  color: #d97706;
+  font-style: normal;
+  font-weight: 600;
+}
+
+/* Barra de Pasos de la Cocina */
+.kitchen-steps-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 10px 16px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(8px);
+  border-radius: 9999px;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.kitchen-step-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #64748b;
+  background: rgba(241, 245, 249, 0.8);
+  transition: all 0.25s ease;
+}
+
+.kitchen-step-badge .step-num {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(148, 163, 184, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+}
+
+.kitchen-step-badge.active {
+  background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.35);
+}
+
+.kitchen-step-badge.active .step-num {
+  background: rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+}
+
+.kitchen-step-badge.completed {
+  background: #ecfdf5;
+  color: #059669;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.kitchen-step-badge.completed .step-num {
+  background: #10b981;
+  color: #ffffff;
+}
+
+.kitchen-step-arrow {
+  color: #cbd5e1;
+  font-size: 0.85rem;
+}
+
+/* Fases y Contenedores */
+.chef-phase-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  animation: fadeInPhase 0.35s ease;
+}
+
+@keyframes fadeInPhase {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.phase-header-center {
+  text-align: center;
+  margin-bottom: 6px;
+}
+
+.phase-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 6px;
+}
+
+.phase-desc {
+  font-size: 0.95rem;
+  color: #64748b;
+  max-width: 620px;
+  margin: 0 auto;
+}
+
+/* Grid de Platos (Fase 0) */
+.chef-dishes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 18px;
+}
+
+.chef-dish-card {
+  background: #ffffff;
+  border: 2px solid rgba(226, 232, 240, 0.9);
+  border-radius: 20px;
+  padding: 22px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 8px 24px -6px rgba(15, 23, 42, 0.05);
+}
+
+.chef-dish-card:hover {
+  transform: translateY(-4px);
+  border-color: #f59e0b;
+  box-shadow: 0 16px 36px -8px rgba(245, 158, 11, 0.2);
+}
+
+.dish-card-icon {
+  font-size: 2.4rem;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.1));
+}
+
+.dish-card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.dish-card-title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.dish-card-tag {
+  align-self: flex-start;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #b45309;
+  background: #fef3c7;
+  padding: 3px 8px;
+  border-radius: 9999px;
+}
+
+.dish-card-desc {
+  font-size: 0.88rem;
+  color: #64748b;
+  line-height: 1.45;
+  margin-top: 4px;
+}
+
+.btn-select-dish {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);
+}
+
+.chef-dish-card:hover .btn-select-dish {
+  filter: brightness(1.08);
+  box-shadow: 0 6px 16px rgba(245, 158, 11, 0.4);
+}
+
+/* Tarjeta de Formulario de Pasos (Fases 1, 2, 3) */
+.phase-card-box {
+  background: #ffffff;
+  border: 1px solid rgba(226, 232, 240, 0.95);
+  border-radius: 24px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  box-shadow: 0 16px 40px -10px rgba(15, 23, 42, 0.06);
+}
+
+.phase-card-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.phase-icon-badge {
+  align-self: flex-start;
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 5px 12px;
+  border-radius: 9999px;
+}
+
+.badge-gold {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.badge-purple {
+  background: #f3e8ff;
+  color: #7e22ce;
+}
+
+.badge-blue {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+.chef-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.chef-label {
+  font-size: 0.92rem;
+  color: #334155;
+}
+
+.chef-input, .chef-textarea {
+  width: 100%;
+  font-family: var(--font-main);
+  font-size: 0.95rem;
+  padding: 12px 16px;
+  border-radius: 14px;
+  border: 1.5px solid #cbd5e1;
+  background: #f8fafc;
+  color: #0f172a;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.chef-input:focus, .chef-textarea:focus {
+  border-color: #f59e0b;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2);
+}
+
+.shake-input {
+  animation: shakeInput 0.35s ease;
+  border-color: #ef4444 !important;
+}
+
+@keyframes shakeInput {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  50% { transform: translateX(6px); }
+  75% { transform: translateX(-4px); }
+}
+
+/* Zona de Sugerencias e Ingredientes */
+.suggestions-zone {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: #f8fafc;
+  border-radius: 16px;
+  padding: 16px;
+  border: 1px dashed #cbd5e1;
+}
+
+.suggestions-label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+}
+
+.chips-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ingredient-chip {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 9999px;
+  padding: 6px 14px;
+  font-family: var(--font-main);
+  font-size: 0.84rem;
+  color: #334155;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+.ingredient-chip:hover {
+  background: #fef3c7;
+  border-color: #f59e0b;
+  color: #b45309;
+  transform: translateY(-1px);
+}
+
+/* Tip del Chef Callout */
+.chef-tip-box {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #fffbeb;
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  border-radius: 16px;
+  padding: 14px 18px;
+}
+
+.tip-action {
+  background: #faf5ff;
+  border-color: rgba(168, 85, 247, 0.4);
+}
+
+.tip-chef-icon {
+  font-size: 1.8rem;
+  flex-shrink: 0;
+}
+
+.tip-chef-text {
+  font-size: 0.9rem;
+  color: #92400e;
+  line-height: 1.45;
+}
+
+.tip-action .tip-chef-text {
+  color: #6b21a8;
+}
+
+.chef-actions-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 6px;
+}
+
+/* Opciones de Emplatado (Fase 3) */
+.format-options-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px;
+}
+
+.format-option-card {
+  background: #ffffff;
+  border: 2px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.format-option-card:hover {
+  border-color: #3b82f6;
+  background: #f8fafc;
+}
+
+.format-option-card.selected {
+  border-color: #3b82f6;
+  background: #eff6ff;
+  box-shadow: 0 6px 18px rgba(59, 130, 246, 0.2);
+}
+
+.format-card-icon {
+  font-size: 1.5rem;
+}
+
+.format-card-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.format-card-desc {
+  font-size: 0.8rem;
+  color: #64748b;
+  line-height: 1.35;
+}
+
+.btn-bake-glow {
+  background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%) !important;
+  font-size: 1.05rem !important;
+  padding: 14px 28px !important;
+  box-shadow: 0 8px 24px rgba(245, 158, 11, 0.4) !important;
+}
+
+.btn-bake-glow:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(245, 158, 11, 0.5) !important;
+}
+
+/* Plato Servido (Fase Final) */
+.plated-box {
+  background: #0d1326;
+  border-color: rgba(245, 158, 11, 0.4);
+  color: #f8fafc;
+  box-shadow: 0 24px 60px -12px rgba(15, 23, 42, 0.5);
+}
+
+.plated-box .phase-title {
+  color: #ffffff;
+}
+
+.plated-box .phase-desc {
+  color: #94a3b8;
+}
+
+.plated-header {
+  text-align: center;
+}
+
+.plated-trophy-badge {
+  font-size: 3.2rem;
+  margin-bottom: 8px;
+  animation: floatChef 3s ease-in-out infinite;
+}
+
+.prompt-platter-container {
+  background: #17203d;
+  border: 1.5px solid rgba(245, 158, 11, 0.5);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.4);
+}
+
+.platter-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(13, 19, 38, 0.8);
+  padding: 12px 18px;
+  border-bottom: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.platter-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #fbbf24;
+}
+
+.btn-copy-prompt {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  padding: 8px 16px;
+  font-family: var(--font-main);
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.btn-copy-prompt:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.1);
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+}
+
+.btn-copy-prompt.btn-copied {
+  background: #3b82f6;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}
+
+.prompt-pre-block {
+  margin: 0;
+  padding: 20px;
+  overflow-x: auto;
+  background: #0f172a;
+}
+
+.prompt-code-output {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #e2e8f0;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.chef-success-congrats {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  border-radius: 16px;
+  padding: 14px 18px;
+}
+
+.congrats-icon {
+  font-size: 1.8rem;
+  flex-shrink: 0;
+}
+
+.congrats-text {
+  font-size: 0.9rem;
+  color: #6ee7b7;
+  line-height: 1.45;
+}
+
+.congrats-text strong {
+  color: #ffffff;
+}
+
+.plated-actions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+/* Animaciones Culinarias */
+@keyframes floatChef {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.08); }
+}
+
+/* Responsividad para Móviles en Chef Prompter */
+@media (max-width: 768px) {
+  .chef-hero-banner {
+    flex-direction: column;
+    text-align: center;
+    gap: 16px;
+  }
+
+  .chef-dialogue-box {
+    align-items: center;
+  }
+
+  .kitchen-steps-bar {
+    border-radius: 16px;
+    gap: 6px;
+  }
+
+  .kitchen-step-badge {
+    padding: 4px 10px;
+    font-size: 0.75rem;
+  }
+
+  .kitchen-step-arrow {
+    display: none;
+  }
+
+  .phase-card-box {
+    padding: 20px 16px;
+  }
+
+  .format-options-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .plated-actions-grid {
+    grid-template-columns: 1fr;
+  }
+}
+

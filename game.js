@@ -410,6 +410,7 @@
         btnBrandHome: document.getElementById('btn-brand-home'),
         btnToggleCatalog: document.getElementById('btn-toggle-catalog'),
         btnStartConectaTablas: document.getElementById('btn-start-conecta-tablas'),
+        btnStartChefPrompter: document.getElementById('btn-start-chef-prompter'),
         levelNavContainer: document.getElementById('level-nav-container'),
         levelIndicator: document.getElementById('level-indicator'),
         levelPills: [
@@ -452,10 +453,12 @@
       const gameParam = params.get('game');
       const nivelParam = parseInt(params.get('nivel'), 10);
 
-      // Si está en la raíz y no especificó el juego, mostrar el catálogo
+      const isChefPrompter = path.includes('chef-prompter') || gameParam === 'chef-prompter' || gameParam === 'prompts';
       const isConectaTablas = path.includes('conecta-tablas') || gameParam === 'conecta-tablas';
 
-      if (isConectaTablas) {
+      if (isChefPrompter) {
+        this.showChefPrompterView();
+      } else if (isConectaTablas) {
         this.showGameView();
         let targetLevel = 0;
         if (!isNaN(nivelParam) && nivelParam >= 1 && nivelParam <= 3) {
@@ -473,6 +476,11 @@
       this.dom.missionBanner.classList.remove('hidden');
       this.dom.levelNavContainer.classList.remove('hidden');
       this.dom.centerHub.classList.remove('hidden');
+
+      const chefStage = document.getElementById('chef-prompter-stage');
+      if (chefStage) {
+        chefStage.classList.add('hidden');
+      }
     }
 
     showHubView() {
@@ -487,6 +495,30 @@
       if (this.dom.modalFinalVictory) {
         this.dom.modalFinalVictory.classList.remove('active');
       }
+
+      const chefStage = document.getElementById('chef-prompter-stage');
+      if (chefStage) {
+        chefStage.classList.add('hidden');
+      }
+    }
+
+    showChefPrompterView() {
+      this.dom.arcadeHub.classList.add('hidden');
+      this.dom.stage.classList.add('hidden');
+      this.dom.missionBanner.classList.add('hidden');
+      this.dom.levelNavContainer.classList.add('hidden');
+      this.dom.centerHub.classList.add('hidden');
+      this.dom.bottomSuccessBar.classList.remove('active');
+      this.dom.modalWelcome.classList.remove('active');
+      this.dom.modalInstructions.classList.remove('active');
+      if (this.dom.modalFinalVictory) {
+        this.dom.modalFinalVictory.classList.remove('active');
+      }
+
+      const chefStage = document.getElementById('chef-prompter-stage');
+      if (chefStage) {
+        chefStage.classList.remove('hidden');
+      }
     }
 
     navigateToGame(levelIdx) {
@@ -495,6 +527,14 @@
       window.history.pushState({ game: 'conecta-tablas', level: lvlNum }, '', targetUrl);
       this.showGameView();
       this.renderLevel(levelIdx, false);
+    }
+
+    navigateToChefPrompter() {
+      window.history.pushState({ game: 'chef-prompter' }, '', '/chef-prompter');
+      this.showChefPrompterView();
+      if (window.chefPrompter) {
+        window.chefPrompter.setPhase(0);
+      }
     }
 
     navigateToHub() {
@@ -525,6 +565,13 @@
         this.dom.btnStartConectaTablas.addEventListener('click', (e) => {
           e.preventDefault();
           this.navigateToGame(0);
+        });
+      }
+
+      if (this.dom.btnStartChefPrompter) {
+        this.dom.btnStartChefPrompter.addEventListener('click', (e) => {
+          e.preventDefault();
+          this.navigateToChefPrompter();
         });
       }
 

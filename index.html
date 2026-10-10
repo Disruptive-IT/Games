@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DIT - Conecta Tablas | Minijuego de Base de Datos Relacional</title>
-  <meta name="description" content="Minijuego interactivo 2D para aprender las relaciones de bases de datos, claves primarias (PK) y claves foráneas (FK) conectando tablas.">
+  <title>DIT Games | Conecta Tablas & Chef Prompter - Minijuegos Educativos</title>
+  <meta name="description" content="Minijuegos educativos interactivos de Disruptive IT: Conecta Tablas de bases de datos relacionales y Chef Prompter para dominar la ingeniería de prompts.">
+  <link rel="icon" type="image/png" href="NaviBot-512x512.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -27,9 +28,9 @@
   <!-- HUD Superior -->
   <header class="game-header">
     <div class="header-left">
-      <a href="/" class="dit-pill-badge" id="btn-brand-home" title="Ir al Catálogo de Juegos">
+      <a href="/" class="dit-pill-badge" id="btn-brand-home" title="Ir al Catálogo de Juegos DIT">
         <span class="dit-logo-gem">✦</span>
-        <span class="dit-logo-text"><span class="dit-c1">D</span><span class="dit-c2">I</span><span class="dit-c3">T</span></span>
+        <span class="dit-brand-acronym">DIT</span>
         <span class="header-divider">|</span>
         <span class="header-subtitle">Games</span>
       </a>
@@ -97,12 +98,15 @@
   <!-- Catálogo / Portal de Juegos DIT Arcade (Vista de Selección) -->
   <section class="arcade-hub hidden" id="arcade-hub" aria-label="Catálogo de Juegos DIT">
     <div class="hub-hero">
+      <div class="hub-brand-badge-wrap">
+        <img src="Disruptive---LOGO + Alpha.png" alt="Disruptive Information Technologies" class="hub-hero-logo">
+      </div>
       <div class="hub-badge-sparkle">
         <span class="sparkle-icon">⚡</span> DIT GAMES ARCADE
       </div>
-      <h1 class="hub-main-title">Aprende Ingeniería y Bases de Datos Jugando</h1>
+      <h1 class="hub-main-title">Aprende Ingeniería y Prompts Jugando</h1>
       <p class="hub-main-desc">
-        Minijuegos interactivos 2D diseñados por <strong>Disruptive Information Technologies</strong> para dominar conceptos de software mediante la práctica intuitiva.
+        Minijuegos interactivos 2D diseñados por <strong>Disruptive Information Technologies</strong> para dominar conceptos de software y de Inteligencia Artificial mediante la práctica intuitiva.
       </p>
     </div>
 
@@ -138,25 +142,32 @@
         </div>
       </article>
 
-      <!-- Juego 2: Query Runner (Próximamente) -->
-      <article class="game-card card-coming-soon">
-        <div class="card-status-strip strip-soon">
-          PRÓXIMAMENTE • SQL
+      <!-- Juego 2: Chef Prompter (ACTIVO / EN VIVO) -->
+      <article class="game-card card-featured card-prompter" id="card-game-chef-prompter">
+        <div class="card-status-strip strip-prompter">
+          <span class="status-live-dot dot-orange"></span> EN VIVO • INGENIERÍA DE PROMPTS
         </div>
-        <div class="card-icon-banner banner-dim">
-          <span class="game-emoji-big">⚡</span>
+        <div class="card-icon-banner banner-chef">
+          <div class="card-navibot-avatar-wrap">
+            <img src="NaviBot-512x512.png" alt="NaviBot Chef" class="card-navibot-img">
+            <span class="chef-hat-badge">👨‍🍳</span>
+          </div>
         </div>
         <div class="card-info">
-          <h2 class="card-title">Query Runner</h2>
+          <h2 class="card-title">Chef Prompter</h2>
           <p class="card-desc">
-            Construye visualmente sentencias SELECT, JOIN y WHERE para resolver misiones de análisis de datos a contrarreloj.
+            Cocina el Gran Prompt de IA perfecto guiado por NaviBot. Domina la receta de Disruptive: Contexto (Base), Instrucción (Proteína) y Formato (Emplatado).
           </p>
           <div class="card-tags">
-            <span class="tag-pill tag-muted">En Desarrollo</span>
+            <span class="tag-pill">👨‍🍳 NaviBot Chef</span>
+            <span class="tag-pill">🍲 5 Recetas</span>
+            <span class="tag-pill">⚡ Prompt Listo</span>
           </div>
         </div>
         <div class="card-footer-action">
-          <button class="btn-play-disabled" disabled>Próximamente</button>
+          <a href="/chef-prompter" class="btn-play-game btn-play-orange" id="btn-start-chef-prompter">
+            <span>▶ Cocinar Prompt</span>
+          </a>
         </div>
       </article>
 
@@ -485,8 +496,269 @@
           </table>
         </div>
       </div>
-    </section>
   </main>
+
+  <!-- =========================================================================
+       JUEGO 2: CHEF PROMPTER - LA COCINA DE LOS PROMPTS DE DISRUPTIVE IT
+       Guiado por NaviBot para aprender Contexto, Instrucción y Formato
+       ========================================================================= -->
+  <section class="chef-prompter-stage hidden" id="chef-prompter-stage" aria-label="Chef Prompter: La Cocina de los Prompts">
+    <!-- Banner Superior de la Cocina con Avatar NaviBot -->
+    <div class="chef-hero-banner">
+      <div class="chef-avatar-wrapper">
+        <div class="chef-avatar-glow"></div>
+        <img src="NaviBot-512x512.png" alt="NaviBot Chef Estrella" class="chef-navibot-img">
+        <span class="chef-hat-badge-float">👨‍🍳</span>
+        <div class="chef-status-pill">
+          <span class="status-live-dot dot-orange"></span>
+          <span id="chef-avatar-status">Esperando orden del menú...</span>
+        </div>
+      </div>
+
+      <div class="chef-dialogue-box">
+        <div class="chef-speaker-label">
+          <span class="chef-sparkle">✦</span>
+          <strong>Chef Estrella</strong> • Disruptive IT
+        </div>
+        <div class="chef-speech-bubble" id="chef-speech-bubble">
+          ¡Hola! 👨‍🍳🔥 Soy el chef estrella de <strong>Disruptive IT</strong>. Hoy cocinaremos tu primer Gran Prompt con la receta secreta: <em>Contexto, Instrucción y Formato</em>. ¿Qué plato te gustaría preparar hoy?
+        </div>
+      </div>
+    </div>
+
+    <!-- Barra de Pasos / Ingredientes de la Receta -->
+    <nav class="kitchen-steps-bar" aria-label="Progreso de la Receta">
+      <div class="kitchen-step-badge active" data-step="0">
+        <span class="step-num">0</span>
+        <span class="step-name">Menú</span>
+      </div>
+      <div class="kitchen-step-arrow">➔</div>
+      <div class="kitchen-step-badge" data-step="1">
+        <span class="step-num">1</span>
+        <span class="step-name">Contexto (Base)</span>
+      </div>
+      <div class="kitchen-step-arrow">➔</div>
+      <div class="kitchen-step-badge" data-step="2">
+        <span class="step-num">2</span>
+        <span class="step-name">Instrucción (Proteína)</span>
+      </div>
+      <div class="kitchen-step-arrow">➔</div>
+      <div class="kitchen-step-badge" data-step="3">
+        <span class="step-num">3</span>
+        <span class="step-name">Formato (Emplatado)</span>
+      </div>
+      <div class="kitchen-step-arrow">➔</div>
+      <div class="kitchen-step-badge" data-step="4">
+        <span class="step-num">4</span>
+        <span class="step-name">Plato Servido</span>
+      </div>
+    </nav>
+
+    <!-- FASE 0: BIENVENIDA Y MENÚ -->
+    <div class="chef-phase-container" id="phase-menu">
+      <div class="phase-header-center">
+        <h2 class="phase-title">Elige el plato que deseas cocinar</h2>
+        <p class="phase-desc">Selecciona la categoría o propósito de tu prompt para comenzar a armar los ingredientes:</p>
+      </div>
+      <div class="chef-dishes-grid" id="chef-dishes-grid">
+        <!-- Renderizado dinámicamente por chef-prompter.js -->
+      </div>
+    </div>
+
+    <!-- FASE 1: EL CONTEXTO (Ingrediente Base) -->
+    <div class="chef-phase-container hidden" id="phase-context">
+      <div class="phase-card-box">
+        <div class="phase-card-header">
+          <div class="phase-icon-badge badge-gold">🧂 Paso 1: Ingrediente Base</div>
+          <h2 class="phase-title">El Contexto de la Receta</h2>
+          <p class="phase-desc">
+            Define quién es la IA (su rol o personalidad) y cuál es tu situación o escenario específico.
+          </p>
+        </div>
+
+        <div class="chef-form-group">
+          <label for="input-context-role" class="chef-label">
+            <strong>Rol o Experto que asumirá la IA:</strong>
+          </label>
+          <input type="text" id="input-context-role" class="chef-input" placeholder="Ej: Arquitecto de Software Senior y Desarrollador Fullstack">
+        </div>
+
+        <div class="chef-form-group">
+          <label for="input-context-scenario" class="chef-label">
+            <strong>Tu escenario o situación (El sazón del contexto):</strong>
+          </label>
+          <textarea id="input-context-scenario" class="chef-textarea" rows="3" placeholder="Ej: Soy un estudiante de secundaria intentando entender bases de datos relacionales con ejemplos cotidianos..."></textarea>
+        </div>
+
+        <div class="suggestions-zone">
+          <span class="suggestions-label">💡 Ingredientes sugeridos por el Chef (Haz clic para usar):</span>
+          <div class="chips-container" id="chips-context-suggestions">
+            <!-- Chips de sugerencias renderizados dinámicamente -->
+          </div>
+        </div>
+
+        <div class="chef-tip-box">
+          <span class="tip-chef-icon">👨‍🍳</span>
+          <div class="tip-chef-text">
+            <strong>Tip del Chef:</strong> Mientras más específico sea tu contexto, más rico y sazonado será el sabor de tu prompt.
+          </div>
+        </div>
+
+        <div class="chef-actions-footer">
+          <button class="btn-primary-gradient" id="btn-next-context">
+            <span>Siguiente: Agregar Proteína 🥩</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- FASE 2: LA INSTRUCCIÓN (La Proteína / Acción) -->
+    <div class="chef-phase-container hidden" id="phase-instruction">
+      <div class="phase-card-box">
+        <div class="phase-card-header">
+          <div class="phase-icon-badge badge-purple">🥩 Paso 2: La Proteína</div>
+          <h2 class="phase-title">La Instrucción Principal</h2>
+          <p class="phase-desc">
+            ¿Qué tarea exacta debe realizar la IA? Sé claro, específico y directo con el resultado esperado.
+          </p>
+        </div>
+
+        <div class="chef-form-group">
+          <label for="input-instruction-text" class="chef-label">
+            <strong>Acción que debe ejecutar la IA:</strong>
+          </label>
+          <textarea id="input-instruction-text" class="chef-textarea" rows="3" placeholder="Ej: Explícame el concepto de Clave Primaria y Clave Foránea paso a paso usando una analogía cotidiana y 2 ejemplos prácticos..."></textarea>
+        </div>
+
+        <div class="suggestions-zone">
+          <span class="suggestions-label">⚡ Proteínas sugeridas por el Chef:</span>
+          <div class="chips-container" id="chips-instruction-suggestions">
+            <!-- Chips de sugerencias de instrucción -->
+          </div>
+        </div>
+
+        <div class="chef-tip-box tip-action">
+          <span class="tip-chef-icon">🍳</span>
+          <div class="tip-chef-text">
+            <strong>Tip del Chef:</strong> Evita órdenes ambiguas como "ayúdame con esto". Usa verbos de acción precisos: <em>Escribe, Genera, Analiza, Resume, Compara</em>.
+          </div>
+        </div>
+
+        <div class="chef-actions-footer">
+          <button class="btn-primary-gradient" id="btn-next-instruction">
+            <span>Siguiente: Elegir Emplatado 🍽️</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- FASE 3: EL FORMATO (El Emplatado) -->
+    <div class="chef-phase-container hidden" id="phase-format">
+      <div class="phase-card-box">
+        <div class="phase-card-header">
+          <div class="phase-icon-badge badge-blue">🍽️ Paso 3: El Emplatado</div>
+          <h2 class="phase-title">El Formato de Salida</h2>
+          <p class="phase-desc">
+            ¿Cómo quieres que se te presente el resultado final? Elige el estilo de presentación:
+          </p>
+        </div>
+
+        <div class="format-options-grid">
+          <div class="format-option-card selected" data-format-val="Formato Markdown estructurado con títulos jerárquicos (H2, H3), viñetas limpias y términos clave en negritas.">
+            <span class="format-card-icon">🎨</span>
+            <strong class="format-card-title">Markdown Estructurado</strong>
+            <span class="format-card-desc">Títulos claros, subtítulos, negritas y listas.</span>
+          </div>
+
+          <div class="format-option-card" data-format-val="Listas ordenadas y con viñetas claras, concisas y fáciles de leer.">
+            <span class="format-card-icon">📋</span>
+            <strong class="format-card-title">Listas con Viñetas</strong>
+            <span class="format-card-desc">Puntos clave directos y organizados.</span>
+          </div>
+
+          <div class="format-option-card" data-format-val="Tabla comparativa organizada con columnas bien definidas (ej. Concepto, Definición, Ejemplo).">
+            <span class="format-card-icon">📊</span>
+            <strong class="format-card-title">Tablas Organizadas</strong>
+            <span class="format-card-desc">Columnas claras para comparar y analizar datos.</span>
+          </div>
+
+          <div class="format-option-card" data-format-val="Bloques de código comentados paso a paso con buenas prácticas y arquitectura limpia.">
+            <span class="format-card-icon">💻</span>
+            <strong class="format-card-title">Bloques de Código</strong>
+            <span class="format-card-desc">Código limpio con sintaxis y comentarios.</span>
+          </div>
+
+          <div class="format-option-card" data-format-val="Resumen ejecutivo directo y claro en un único párrafo de alto impacto.">
+            <span class="format-card-icon">📝</span>
+            <strong class="format-card-title">Resumen en 1 Párrafo</strong>
+            <span class="format-card-desc">Síntesis rápida para lectura ejecutiva inmediata.</span>
+          </div>
+
+          <div class="format-option-card" data-format-val="Estilo interactivo y conversacional con preguntas de reflexión y retos prácticos.">
+            <span class="format-card-icon">✏️</span>
+            <strong class="format-card-title">Estilo Libre / Creativo</strong>
+            <span class="format-card-desc">Tono ameno, reflexivo y altamente pedagógico.</span>
+          </div>
+        </div>
+
+        <div class="chef-form-group custom-format-row">
+          <label for="input-custom-format" class="chef-label">
+            <strong>O escribe un formato personalizado:</strong>
+          </label>
+          <input type="text" id="input-custom-format" class="chef-input" placeholder="Ej: JSON estructurado con claves id, name, description...">
+        </div>
+
+        <div class="chef-actions-footer">
+          <button class="btn-primary-gradient btn-bake-glow" id="btn-bake-prompt">
+            <span>🔥 ¡Hornear mi Súper Prompt!</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- FASE FINAL: EL PLATO SERVIDO -->
+    <div class="chef-phase-container hidden" id="phase-plated">
+      <div class="phase-card-box plated-box">
+        <div class="plated-header">
+          <div class="plated-trophy-badge">👨‍🍳🔥</div>
+          <h2 class="phase-title">¡Tu Receta está Lista y Horneada!</h2>
+          <p class="phase-desc">
+            Has completado la metodología de <strong>Disruptive IT</strong>: Contexto, Instrucción y Formato.
+          </p>
+        </div>
+
+        <div class="prompt-platter-container">
+          <div class="platter-bar">
+            <span class="platter-title">📜 Súper Prompt Estructurado</span>
+            <button class="btn-copy-prompt" id="btn-copy-prompt" title="Copiar al portapapeles">
+              <span>📋</span> Copiar Súper Prompt
+            </button>
+          </div>
+          <pre class="prompt-pre-block"><code id="final-prompt-code" class="prompt-code-output"></code></pre>
+        </div>
+
+        <div class="chef-success-congrats">
+          <span class="congrats-icon">🌟</span>
+          <div class="congrats-text">
+            <strong>¡Felicidades, te has convertido en un Chef de Prompts de alto nivel!</strong><br>
+            Pega este prompt en ChatGPT, Claude, Gemini o tu modelo favorito y observa la calidad del resultado.
+          </div>
+        </div>
+
+        <div class="plated-actions-grid">
+          <button class="btn-primary-gradient" id="btn-cook-again">
+            <span>🍳 Cocinar Otro Prompt</span>
+          </button>
+          <button class="btn-secondary-dark" id="btn-switch-to-tables">
+            <span>💎 Jugar Conecta Tablas</span>
+          </button>
+          <button class="btn-secondary-dark" id="btn-exit-to-hub">
+            <span>🎮 Volver al Catálogo</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- Barra Flotante de Éxito / Explicación Educativa (Estilo Captura 5) -->
   <aside class="bottom-success-bar" id="bottom-success-bar" aria-hidden="true">
@@ -692,5 +964,6 @@
   <canvas id="confetti-canvas" class="confetti-canvas" aria-hidden="true"></canvas>
 
   <script src="game.js"></script>
+  <script src="chef-prompter.js"></script>
 </body>
 </html>
