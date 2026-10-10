@@ -27,6 +27,7 @@ function runTests() {
     'style.css',
     'game.js',
     'chef-prompter.js',
+    'sdlc-game.js',
     'NaviBot-512x512.png',
     'Disruptive---LOGO + Alpha.png',
     '.env.local',
@@ -69,6 +70,13 @@ function runTests() {
   assert(htmlContent.includes('El Poder de Crear con Código'), 'HTML contiene el título motivacional del modal de bienvenida');
   assert(htmlContent.includes('superpoder para resolver problemas'), 'HTML contiene el mensaje motivacional para los estudiantes sobre codificar');
   assert(htmlContent.includes('¡ACEPTAR Y COMENZAR!'), 'HTML contiene el botón de aceptación del modal de bienvenida');
+  assert(htmlContent.includes('sdlc-game-stage'), 'HTML contiene el contenedor #sdlc-game-stage');
+  assert(htmlContent.includes('sdlc-wheel-svg'), 'HTML contiene el SVG interactivo de la rueda SDLC');
+  assert(htmlContent.includes('sdlc-cards-rack'), 'HTML contiene el rack de tarjetas de fases SDLC');
+  assert(htmlContent.includes('modal-sdlc-guide'), 'HTML contiene el modal de guía teórica del SDLC');
+  assert(htmlContent.includes('modal-sdlc-victory'), 'HTML contiene el modal de graduación y victoria del SDLC');
+  assert(htmlContent.includes('sdlc-game.js'), 'HTML importa el script sdlc-game.js');
+  assert(htmlContent.includes('btn-start-sdlc'), 'HTML contiene el botón de acceso al juego SDLC');
 
   // 3. Verificar que .gitignore ignora .env.local
   const gitignore = fs.readFileSync(path.join(__dirname, '.gitignore'), 'utf8');
@@ -84,6 +92,8 @@ function runTests() {
   assert(jsContent.includes('chef-prompter'), 'game.js maneja ruta /chef-prompter');
   assert(jsContent.includes('showChefPrompterView'), 'game.js implementa showChefPrompterView');
   assert(jsContent.includes('navigateToChefPrompter'), 'game.js implementa navigateToChefPrompter');
+  assert(jsContent.includes('showSdlcView'), 'game.js implementa showSdlcView');
+  assert(jsContent.includes('navigateToSdlc'), 'game.js implementa navigateToSdlc');
   assert(jsContent.includes('SoundController'), 'game.js implementa Web Audio API synth');
   assert(jsContent.includes('validateConnection'), 'game.js implementa validación pedagógica');
 
@@ -100,6 +110,13 @@ function runTests() {
   assert(chefJsContent.includes('Actúa como un experto en'), 'chef-prompter.js incluye plantilla requerida');
   assert(chefJsContent.includes('Tip del Chef'), 'chef-prompter.js incluye tips pedagógicos del Chef');
   assert(htmlContent.includes('Chef de Prompts de alto nivel'), 'index.html felicita como Chef de Prompts de alto nivel');
+
+  // 6. Verificar lógica de sdlc-game.js
+  const sdlcJsContent = fs.readFileSync(path.join(__dirname, 'sdlc-game.js'), 'utf8');
+  assert(sdlcJsContent.includes('SDLC_PHASES'), 'sdlc-game.js define las fases canónicas del SDLC');
+  assert(sdlcJsContent.includes('Planificación') && sdlcJsContent.includes('Despliegue'), 'sdlc-game.js cubre desde Planificación hasta Despliegue');
+  assert(sdlcJsContent.includes('handleIncorrectSelection'), 'sdlc-game.js implementa validación con retroalimentación de error');
+  assert(sdlcJsContent.includes('getPhaseHint'), 'sdlc-game.js implementa sistema de pistas pedagógicas');
 
   console.log(`\n========================================`);
   console.log(`Resultados: ${passed} pruebas exitosas, ${failed} fallos.`);

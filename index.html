@@ -172,7 +172,37 @@
         </div>
       </article>
 
-      <!-- Juego 3: Docker Swarm Defender (Próximamente) -->
+      <!-- Juego 3: Ciclo de Software (SDLC) (ACTIVO / EN VIVO) -->
+      <article class="game-card card-featured card-sdlc" id="card-game-sdlc">
+        <div class="card-status-strip strip-sdlc">
+          <span class="status-live-dot dot-emerald"></span> EN VIVO • INGENIERÍA DE SOFTWARE
+        </div>
+        <div class="card-icon-banner banner-sdlc">
+          <div class="card-sdlc-icon-wrap">
+            <span class="game-emoji-big">🔄</span>
+            <div class="card-orbit-ring"></div>
+          </div>
+        </div>
+        <div class="card-info">
+          <h2 class="card-title">Ciclo de Software (SDLC)</h2>
+          <p class="card-desc">
+            Arma la Rueda del Ciclo de Vida del Software paso a paso. Aprende el orden correcto desde la Planificación hasta el Despliegue con pistas interactivas y retroalimentación en vivo.
+          </p>
+          <div class="card-tags">
+            <span class="tag-pill">🔄 6 Fases SDLC</span>
+            <span class="tag-pill">💡 Pistas en Vivo</span>
+            <span class="tag-pill">🎯 Rueda Circular</span>
+            <span class="tag-pill">🏆 Desafío DIT</span>
+          </div>
+        </div>
+        <div class="card-footer-action">
+          <a href="/sdlc" class="btn-play-game btn-play-emerald" id="btn-start-sdlc">
+            <span>▶ Armar Rueda SDLC</span>
+          </a>
+        </div>
+      </article>
+
+      <!-- Juego 4: Docker Swarm Defender (Próximamente) -->
       <article class="game-card card-coming-soon">
         <div class="card-status-strip strip-soon">
           PRÓXIMAMENTE • DEVOPS
@@ -767,6 +797,107 @@
     </div>
   </section>
 
+  <!-- =========================================================================
+       JUEGO 3: CICLO DE VIDA DEL SOFTWARE (SDLC) - LA RUEDA INTERACTIVA
+       Aprende el orden de Planificación a Despliegue con retroalimentación y pistas
+       ========================================================================= -->
+  <section class="sdlc-game-stage hidden" id="sdlc-game-stage" aria-label="Ciclo de Vida del Software SDLC">
+    <!-- Barra Superior de Control del Juego SDLC -->
+    <div class="sdlc-header-bar">
+      <div class="sdlc-header-info">
+        <div class="sdlc-badge-tag">
+          <span class="pulse-emerald-dot"></span> INGENIERÍA DE SOFTWARE
+        </div>
+        <h2 class="sdlc-main-title">La Rueda del Ciclo de Vida del Software (SDLC)</h2>
+        <p class="sdlc-subtitle-text">
+          Selecciona abajo la fase que corresponde a cada etapa del ciclo para completar la rueda circular.
+        </p>
+      </div>
+
+      <div class="sdlc-actions-toolbar">
+        <button class="btn-sdlc-action btn-hint-amber" id="btn-sdlc-hint" title="Obtener una pista orientadora">
+          <span>💡</span> Pedir Pista
+        </button>
+        <button class="btn-sdlc-action btn-guide-purple" id="btn-sdlc-guide" title="Ver guía sobre las 6 fases del SDLC">
+          <span>📖</span> ¿Qué es SDLC?
+        </button>
+        <button class="btn-sdlc-action btn-reset-slate" id="btn-sdlc-reset" title="Reiniciar la rueda">
+          <span>🔄</span> Reiniciar
+        </button>
+        <button class="btn-sdlc-action btn-back-hub" id="btn-sdlc-back-catalog" title="Volver al Catálogo de Juegos">
+          <span>🎮</span> Catálogo
+        </button>
+      </div>
+    </div>
+
+    <!-- Área de Trabajo Principal: Rueda Circular + Panel Tutor de NaviBot -->
+    <div class="sdlc-workspace-grid">
+      <!-- Columna 1: La Rueda Circular Interactiva -->
+      <div class="sdlc-wheel-zone">
+        <div class="sdlc-wheel-container" id="sdlc-wheel-container">
+          <!-- SVG Interactivo de 6 Sectores -->
+          <svg class="sdlc-wheel-svg" id="sdlc-wheel-svg" viewBox="0 0 400 400" aria-label="Rueda interactiva del SDLC">
+            <!-- Renderizado dinámicamente por sdlc-game.js -->
+          </svg>
+
+          <!-- Pod Central con Progreso y Título de la Rueda -->
+          <div class="sdlc-hub-center-pod" id="sdlc-hub-center-pod">
+            <svg class="sdlc-hub-ring-svg" viewBox="0 0 100 100">
+              <circle class="ring-bg" cx="50" cy="50" r="45" />
+              <circle class="ring-progress" id="sdlc-progress-ring" cx="50" cy="50" r="45" />
+            </svg>
+            <div class="sdlc-hub-inner-content">
+              <span class="hub-mini-tag">CICLO</span>
+              <h3 class="hub-center-title" id="sdlc-hub-title">SDLC</h3>
+              <span class="hub-progress-number" id="sdlc-hub-progress">0/6</span>
+              <p class="hub-center-subtitle" id="sdlc-hub-subtitle">Buscando: Planificación</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="sdlc-wheel-helper-legend">
+          <span>👆 Toca o arrastra una tarjeta para insertarla en la posición que pulsa</span>
+        </div>
+      </div>
+
+      <!-- Columna 2: Panel Tutor Interactivo de NaviBot (Feedback en tiempo real) -->
+      <div class="sdlc-mentor-zone">
+        <div class="sdlc-mentor-card">
+          <div class="mentor-card-header">
+            <div class="mentor-avatar-wrap">
+              <img src="NaviBot-512x512.png" alt="NaviBot Tutor" class="mentor-navibot-avatar" id="sdlc-mentor-avatar">
+              <span class="mentor-sparkle-dot"></span>
+            </div>
+            <div class="mentor-titles">
+              <div class="sdlc-mentor-badge badge-info" id="sdlc-mentor-badge">
+                <span>💡</span> TUTOR SDLC
+              </div>
+              <h3 class="mentor-name">NaviBot • Asistente de Ingeniería</h3>
+            </div>
+          </div>
+
+          <div class="sdlc-mentor-speech" id="sdlc-mentor-speech" role="region" aria-live="polite">
+            <!-- Mensaje y retroalimentación pedagógica dinámica -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Zona Inferior: Bandeja de Selección de las 6 Fases (Rack de Tarjetas) -->
+    <div class="sdlc-selection-section">
+      <div class="rack-header-row">
+        <h3 class="rack-title">
+          <span>📦</span> Piezas del Ciclo de Software (Elige la que sigue en el orden correcto)
+        </h3>
+        <span class="rack-hint-pill">Orden secuencial 1 ➔ 6</span>
+      </div>
+
+      <div class="sdlc-cards-rack" id="sdlc-cards-rack">
+        <!-- Tarjetas generadas dinámicamente en orden aleatorio por sdlc-game.js -->
+      </div>
+    </div>
+  </section>
+
   <!-- Barra Flotante de Éxito / Explicación Educativa (Estilo Captura 5) -->
   <aside class="bottom-success-bar" id="bottom-success-bar" aria-hidden="true">
     <div class="success-bar-inner">
@@ -963,10 +1094,99 @@
     </div>
   </div>
 
+  <!-- MODAL 4: Guía Educativa del Ciclo de Vida del Software (SDLC) -->
+  <div class="modal-overlay" id="modal-sdlc-guide" role="dialog" aria-modal="true" aria-labelledby="sdlc-guide-title">
+    <div class="modal-card sdlc-guide-card">
+      <div class="instructions-header">
+        <div class="modal-header-title">
+          <span class="instructions-question-icon">📖</span>
+          <h2 id="sdlc-guide-title">¿Qué es el Ciclo de Vida del Software (SDLC)?</h2>
+        </div>
+        <button class="modal-close-btn" id="btn-close-sdlc-guide" aria-label="Cerrar modal">✕</button>
+      </div>
+
+      <div class="instructions-body">
+        <p class="sdlc-guide-intro">
+          El <strong>SDLC</strong> (<em>Software Development Life Cycle</em>) es el marco metodológico utilizado por ingenieros y empresas tecnológicas de todo el mundo para planificar, diseñar, programar, probar y desplegar software de alta calidad sin desperdiciar recursos ni cometer errores costosos.
+        </p>
+
+        <div class="sdlc-guide-grid">
+          <div class="guide-mini-card" style="border-left-color: #f59e0b">
+            <span class="mini-step-badge" style="background: #f59e0b">1</span>
+            <h4>📋 Planificación</h4>
+            <p>Se define el objetivo del negocio, la viabilidad técnica, el presupuesto y los plazos generales.</p>
+          </div>
+
+          <div class="guide-mini-card" style="border-left-color: #06b6d4">
+            <span class="mini-step-badge" style="background: #06b6d4">2</span>
+            <h4>🔍 Análisis de Requisitos</h4>
+            <p>Se recopilan historias de usuario y especificaciones funcionales exactas de los clientes.</p>
+          </div>
+
+          <div class="guide-mini-card" style="border-left-color: #a855f7">
+            <span class="mini-step-badge" style="background: #a855f7">3</span>
+            <h4>📐 Diseño del Sistema</h4>
+            <p>Se crean los planos: arquitectura técnica, modelo de datos relacional y prototipos UI/UX.</p>
+          </div>
+
+          <div class="guide-mini-card" style="border-left-color: #3b82f6">
+            <span class="mini-step-badge" style="background: #3b82f6">4</span>
+            <h4>💻 Implementación</h4>
+            <p>Los desarrolladores programan el código real, frontend, backend y lógica de negocio.</p>
+          </div>
+
+          <div class="guide-mini-card" style="border-left-color: #ec4899">
+            <span class="mini-step-badge" style="background: #ec4899">5</span>
+            <h4>🧪 Pruebas y QA</h4>
+            <p>Se cazan bugs, se ejecutan pruebas unitarias y de estrés para garantizar la estabilidad.</p>
+          </div>
+
+          <div class="guide-mini-card" style="border-left-color: #10b981">
+            <span class="mini-step-badge" style="background: #10b981">6</span>
+            <h4>🚀 Despliegue y Soporte</h4>
+            <p>El software sale a servidores de producción (CI/CD) y se monitorea y actualiza continuamente.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="instructions-footer">
+        <button class="btn-primary-purple" id="btn-gotit-sdlc-guide">
+          ¡Entendido, a completar la rueda!
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 5: Victoria Final - Rueda del SDLC Completada -->
+  <div class="modal-overlay" id="modal-sdlc-victory" role="dialog" aria-modal="true" aria-labelledby="sdlc-victory-title">
+    <div class="modal-card sdlc-victory-card">
+      <div class="victory-trophy-badge">🏆</div>
+      <h2 class="final-title" id="sdlc-victory-title">¡Rueda del SDLC Completada!</h2>
+      <p class="final-subtitle">Has dominado el orden canónico del desarrollo de software profesional</p>
+
+      <div class="sdlc-summary-container">
+        <h4 class="summary-box-title">🔄 Tu Ciclo de Vida Completo:</h4>
+        <div class="sdlc-victory-summary-list" id="sdlc-victory-summary-list">
+          <!-- Renderizado dinámicamente por sdlc-game.js -->
+        </div>
+      </div>
+
+      <div class="final-actions-row">
+        <button class="btn-primary-gradient" id="btn-victory-sdlc-replay">
+          <span>🔄 Jugar de Nuevo</span>
+        </button>
+        <button class="btn-secondary-dark" id="btn-victory-sdlc-catalog">
+          <span>🎮 Explorar Catálogo</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Confeti / Partículas de Celebración en Canvas -->
   <canvas id="confetti-canvas" class="confetti-canvas" aria-hidden="true"></canvas>
 
   <script src="game.js?v=2.1"></script>
   <script src="chef-prompter.js?v=2.1"></script>
+  <script src="sdlc-game.js?v=2.1"></script>
 </body>
 </html>

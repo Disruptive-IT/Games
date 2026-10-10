@@ -411,6 +411,8 @@
         btnToggleCatalog: document.getElementById('btn-toggle-catalog'),
         btnStartConectaTablas: document.getElementById('btn-start-conecta-tablas'),
         btnStartChefPrompter: document.getElementById('btn-start-chef-prompter'),
+        btnStartSdlc: document.getElementById('btn-start-sdlc'),
+        sdlcStage: document.getElementById('sdlc-game-stage'),
         levelNavContainer: document.getElementById('level-nav-container'),
         levelIndicator: document.getElementById('level-indicator'),
         levelPills: [
@@ -455,10 +457,13 @@
       const nivelParam = parseInt(params.get('nivel'), 10);
 
       const isChefPrompter = path.includes('chef-prompter') || gameParam === 'chef-prompter' || gameParam === 'prompts';
+      const isSdlc = path.includes('sdlc') || path.includes('ciclo') || gameParam === 'sdlc';
       const isConectaTablas = path.includes('conecta-tablas') || gameParam === 'conecta-tablas';
 
       if (isChefPrompter) {
         this.showChefPrompterView();
+      } else if (isSdlc) {
+        this.showSdlcView();
       } else if (isConectaTablas) {
         this.showGameView();
         let targetLevel = 0;
@@ -486,6 +491,10 @@
       if (chefStage) {
         chefStage.classList.add('hidden');
       }
+      const sdlcStage = document.getElementById('sdlc-game-stage');
+      if (sdlcStage) {
+        sdlcStage.classList.add('hidden');
+      }
     }
 
     showHubView() {
@@ -512,6 +521,10 @@
       if (chefStage) {
         chefStage.classList.add('hidden');
       }
+      const sdlcStage = document.getElementById('sdlc-game-stage');
+      if (sdlcStage) {
+        sdlcStage.classList.add('hidden');
+      }
     }
 
     showChefPrompterView() {
@@ -534,6 +547,41 @@
       if (chefStage) {
         chefStage.classList.remove('hidden');
       }
+      const sdlcStage = document.getElementById('sdlc-game-stage');
+      if (sdlcStage) {
+        sdlcStage.classList.add('hidden');
+      }
+    }
+
+    showSdlcView() {
+      this.welcomeAccepted = true;
+      if (this.dom.modalWelcome) {
+        this.dom.modalWelcome.classList.remove('active');
+      }
+      this.dom.arcadeHub.classList.add('hidden');
+      this.dom.stage.classList.add('hidden');
+      this.dom.missionBanner.classList.add('hidden');
+      this.dom.levelNavContainer.classList.add('hidden');
+      this.dom.centerHub.classList.add('hidden');
+      this.dom.bottomSuccessBar.classList.remove('active');
+      this.dom.modalInstructions.classList.remove('active');
+      if (this.dom.modalFinalVictory) {
+        this.dom.modalFinalVictory.classList.remove('active');
+      }
+
+      const chefStage = document.getElementById('chef-prompter-stage');
+      if (chefStage) {
+        chefStage.classList.add('hidden');
+      }
+      const sdlcStage = document.getElementById('sdlc-game-stage');
+      if (sdlcStage) {
+        sdlcStage.classList.remove('hidden');
+      }
+    }
+
+    navigateToSdlc() {
+      window.history.pushState({ game: 'sdlc' }, '', '/sdlc');
+      this.showSdlcView();
     }
 
     navigateToGame(levelIdx) {
@@ -587,6 +635,13 @@
         this.dom.btnStartChefPrompter.addEventListener('click', (e) => {
           e.preventDefault();
           this.navigateToChefPrompter();
+        });
+      }
+
+      if (this.dom.btnStartSdlc) {
+        this.dom.btnStartSdlc.addEventListener('click', (e) => {
+          e.preventDefault();
+          this.navigateToSdlc();
         });
       }
 
