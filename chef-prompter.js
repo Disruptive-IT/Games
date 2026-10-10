@@ -54,18 +54,18 @@
       emoji: '🎨',
       name: 'Banquete Visual',
       category: 'Generación de Imágenes / Arte IA',
-      desc: 'Para crear imágenes impactantes con Midjourney, DALL-E o Flux detallando estilo, iluminación y composición.',
-      defaultContextRole: 'Director de Arte Conceptual y Experto en Generación de Imágenes con IA',
+      desc: 'Para generar directamente imágenes impactantes con DALL-E, Imagen o Midjourney con iluminación y estilo.',
+      defaultContextRole: 'Generador de Imágenes Artísticas y Fotográficas de Alta Calidad',
       contextSuggestions: [
-        'Quiero generar una ilustración cyberpunk futurista para la portada de un videojuego.',
-        'Necesito una fotografía hiperrealista en plano medio de un producto tecnológico en estudio.',
-        'Busco crear personajes animados 3D con estilo Pixar para una aplicación educativa.'
+        'Una ilustración cyberpunk futurista para la portada de un videojuego indie con luces de neón en una metrópolis lluviosa.',
+        'Una fotografía hiperrealista en plano medio de un dispositivo tecnológico moderno en un estudio minimalista con iluminación suave.',
+        'Un personaje animado en 3D estilo Pixar con sonrisa amigable, ropa detallada y fondo pastel desenfocado.'
       ],
-      defaultAction: 'Escribe un prompt descriptivo en inglés y español detallando sujeto, iluminación, ángulo de cámara, estilo visual y parámetros de aspecto.',
+      defaultAction: 'Genera y muestra directamente la imagen final en alta calidad. No respondas solo con texto: ejecuta la creación de la imagen ahora mismo con iluminación cinematográfica y detalles nítidos.',
       actionSuggestions: [
-        'Escribe un prompt en inglés con detalles de lente 85mm, iluminación volumétrica, estilo y parámetros --ar 16:9.',
-        'Describe una escena fotorrealista 8K con render Octane, iluminación cálida de atardecer y composición simétrica.',
-        'Crea un prompt para arte conceptual de fantasía medieval detallando vestimenta, atmósfera y paleta de colores.'
+        'Genera directamente la imagen fotorrealista en alta resolución, cuidando la iluminación de estudio, profundidad de campo y texturas naturales.',
+        'Genera inmediatamente la ilustración artística con iluminación cinematográfica dramática, colores vivos y composición en formato 16:9.',
+        'Crea y renderiza visualmente el personaje animado en 3D cuidando las expresiones, colores cálidos y texturas suaves.'
       ]
     },
     {
@@ -263,6 +263,20 @@
       // Prellenar inputs de la fase 1
       this.dom.contextRoleInput.value = dish.defaultContextRole;
       this.dom.instructionInput.value = dish.defaultAction;
+      this.dom.contextScenarioInput.value = '';
+
+      // Si es Banquete Visual, preseleccionar formato de imagen directa
+      if (dish.id === 'imagenes') {
+        this.recipe.format = 'Genera y muestra directamente la imagen final en alta definición (16:9), con iluminación profesional y texturas nítidas.';
+        if (this.dom.formatOptions) {
+          this.dom.formatOptions.forEach(opt => {
+            if (opt.dataset.formatVal && opt.dataset.formatVal.toLowerCase().includes('imagen')) {
+              this.dom.formatOptions.forEach(o => o.classList.remove('selected'));
+              opt.classList.add('selected');
+            }
+          });
+        }
+      }
 
       // Renderizar sugerencias para contexto
       this.renderContextChips(dish.contextSuggestions);
@@ -517,7 +531,24 @@
     // Generación del Prompt Final Estructurado
     // =======================================================================
     renderFinalPrompt() {
-      const template = `[Copia y pega este prompt en tu IA favorita]
+      let template = '';
+      if (this.selectedDish && this.selectedDish.id === 'imagenes') {
+        template = `[Copia y pega este prompt en tu IA favorita (ChatGPT, Gemini, etc.)]
+=========================================
+Actúa como un ${this.recipe.contextRole}.
+
+Mi objetivo es generar y obtener la siguiente imagen directamente:
+${this.recipe.contextScenario}
+
+INSTRUCCIÓN DE GENERACIÓN DIRECTA DE IMAGEN:
+Por favor, genera y crea la imagen inmediatamente utilizando tu herramienta de generación visual (como DALL-E, Imagen o herramienta nativa). NO te limites a redactar un texto explicativo ni un nuevo prompt: ejecuta la creación de la imagen ahora mismo aplicando esta instrucción:
+- ${this.recipe.instruction}
+
+Formato y Estilo de la Imagen:
+${this.recipe.format || 'Genera y muestra directamente la imagen final en alta definición (16:9), con iluminación profesional y texturas nítidas.'}
+=========================================`;
+      } else {
+        template = `[Copia y pega este prompt en tu IA favorita]
 =========================================
 Actúa como un experto en ${this.recipe.contextRole}.
 
@@ -530,6 +561,7 @@ Por favor, realiza la siguiente tarea:
 Presenta el resultado final utilizando el siguiente formato:
 ${this.recipe.format}
 =========================================`;
+      }
 
       if (this.dom.promptOutputBlock) {
         this.dom.promptOutputBlock.textContent = template;
