@@ -104,5 +104,5 @@ systemctl enable --now certbot.timer 2>/dev/null || true
 echo "=========================================================="
 echo "🎉 ¡Configuración completada exitosamente!"
 echo "Dominio: https://${DOMAIN}"
-echo "Proxy:   http://127.0.0.1:3000 -> https://${DOMAIN}"
+echo "Proxy:   http://127.0.0.1:3080 -> https://${DOMAIN}"
 echo "=========================================================="

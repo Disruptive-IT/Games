@@ -31,7 +31,7 @@ jobs:
         run: |
           cd /home/Disruptive/Projects/Games
           if [ ! -f .env.local ]; then
-            echo "PORT=3000" > .env.local
+            echo "PORT=3080" > .env.local
             echo "NODE_ENV=production" >> .env.local
             echo "APP_NAME=DIT-Conecta-Tablas" >> .env.local
             echo "Archivo .env.local inicializado con éxito."
@@ -52,6 +52,6 @@ jobs:
 
       - name: 🌐 Verificar servicio en puerto local
         run: |
-          sleep 2
-          curl -I http://127.0.0.1:3000 || exit 1
-          echo "✅ Despliegue local completado exitosamente en http://127.0.0.1:3000"
+          sleep 3
+          curl -I http://127.0.0.1:3080 || exit 1
+          echo "✅ Despliegue local completado exitosamente en http://127.0.0.1:3080"
