@@ -65,6 +65,7 @@ function runTests() {
   assert(htmlContent.includes('final-prompt-code'), 'HTML contiene el bloque de código del prompt final');
   assert(htmlContent.includes('btn-copy-prompt'), 'HTML contiene el botón de copiado de prompt');
   assert(htmlContent.includes('chef-prompter.js'), 'HTML importa el script chef-prompter.js');
+  assert(htmlContent.includes('DIT INTERACTIVE'), 'HTML contiene el badge "DIT INTERACTIVE"');
 
   // 3. Verificar que .gitignore ignora .env.local
   const gitignore = fs.readFileSync(path.join(__dirname, '.gitignore'), 'utf8');

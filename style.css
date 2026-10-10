@@ -1903,19 +1903,19 @@ body {
 }
 
 .hub-brand-badge-wrap {
-  margin-bottom: 22px;
+  margin-bottom: 24px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .hub-hero-logo {
-  height: 72px;
+  height: 216px;
   width: auto;
   max-width: 88vw;
   object-fit: contain;
-  filter: drop-shadow(0 6px 22px rgba(125, 60, 158, 0.25));
-  animation: floatChef 4s ease-in-out infinite;
+  filter: drop-shadow(0 10px 32px rgba(125, 60, 158, 0.3));
+  animation: floatChef 4.5s ease-in-out infinite;
 }
 
 /* ==========================================================================
@@ -2698,6 +2698,10 @@ body {
 
   .plated-actions-grid {
     grid-template-columns: 1fr;
+  }
+
+  .hub-hero-logo {
+    height: 140px;
   }
 }
 
