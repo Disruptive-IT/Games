@@ -50,6 +50,25 @@
       ]
     },
     {
+      id: 'imagenes',
+      emoji: '🎨',
+      name: 'Banquete Visual',
+      category: 'Generación de Imágenes / Arte IA',
+      desc: 'Para crear imágenes impactantes con Midjourney, DALL-E o Flux detallando estilo, iluminación y composición.',
+      defaultContextRole: 'Director de Arte Conceptual y Experto en Generación de Imágenes con IA',
+      contextSuggestions: [
+        'Quiero generar una ilustración cyberpunk futurista para la portada de un videojuego.',
+        'Necesito una fotografía hiperrealista en plano medio de un producto tecnológico en estudio.',
+        'Busco crear personajes animados 3D con estilo Pixar para una aplicación educativa.'
+      ],
+      defaultAction: 'Escribe un prompt descriptivo en inglés y español detallando sujeto, iluminación, ángulo de cámara, estilo visual y parámetros de aspecto.',
+      actionSuggestions: [
+        'Escribe un prompt en inglés con detalles de lente 85mm, iluminación volumétrica, estilo y parámetros --ar 16:9.',
+        'Describe una escena fotorrealista 8K con render Octane, iluminación cálida de atardecer y composición simétrica.',
+        'Crea un prompt para arte conceptual de fantasía medieval detallando vestimenta, atmósfera y paleta de colores.'
+      ]
+    },
+    {
       id: 'resumen',
       emoji: '📝',
       name: 'Pastel de Resumen',

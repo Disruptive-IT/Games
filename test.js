@@ -88,6 +88,7 @@ function runTests() {
   assert(chefJsContent.includes('DISH_PRESETS'), 'chef-prompter.js define recetas de platos');
   assert(chefJsContent.includes('Sopa de Ideas'), 'chef-prompter.js incluye Sopa de Ideas');
   assert(chefJsContent.includes('Sancocho de Código'), 'chef-prompter.js incluye Sancocho de Código');
+  assert(chefJsContent.includes('Banquete Visual'), 'chef-prompter.js incluye Banquete Visual para imágenes');
   assert(chefJsContent.includes('Pastel de Resumen'), 'chef-prompter.js incluye Pastel de Resumen');
   assert(chefJsContent.includes('Ensalada de Aprendizaje'), 'chef-prompter.js incluye Ensalada de Aprendizaje');
   assert(chefJsContent.includes('Estofado de Autor'), 'chef-prompter.js incluye Estofado de Autor');
