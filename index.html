@@ -1010,8 +1010,8 @@
           </button>
         </div>
 
-        <button class="btn-claw-action btn-guide-blue" id="btn-claw-guide" title="Ver guía sobre Métodos HTTP">
-          <span>📖</span> ¿Qué es HTTP?
+        <button class="btn-claw-action btn-guide-blue" id="btn-claw-guide" title="Ver ayuda e instrucciones de la Garra HTTP">
+          <span>❓</span> ¿Cómo se Juega? / Ayuda
         </button>
         <button class="btn-claw-action btn-reset-slate" id="btn-claw-reset" title="Reiniciar peluches de la máquina">
           <span>🔄</span> Reiniciar
@@ -1504,21 +1504,59 @@
     </div>
   </div>
 
-  <!-- MODAL 6: Guía Educativa de Métodos HTTP (GET, POST, PUT, DELETE) -->
+  <!-- MODAL 6: Guía Educativa e Instrucciones de Métodos HTTP (GET, POST, PUT, DELETE) -->
   <div class="modal-overlay" id="modal-claw-guide" role="dialog" aria-modal="true" aria-labelledby="claw-guide-title">
     <div class="modal-card claw-guide-card">
       <div class="instructions-header">
         <div class="modal-header-title">
-          <span class="instructions-question-icon">🌐</span>
-          <h2 id="claw-guide-title">Guía de Métodos HTTP y APIs REST</h2>
+          <span class="instructions-question-icon">❓</span>
+          <h2 id="claw-guide-title">¿Cómo se Juega? - Garra HTTP</h2>
         </div>
         <button class="modal-close-btn" id="btn-close-claw-guide" aria-label="Cerrar modal">✕</button>
       </div>
 
       <div class="instructions-body">
         <p class="claw-guide-intro">
-          En internet, las aplicaciones se comunican enviando <strong>Peticiones HTTP</strong> a los servidores. Cada método tiene un propósito y una analogía clara:
+          En este juego controlas una <strong>Máquina Arcade de Peluches</strong> enviando <strong>Peticiones HTTP</strong> exactamente como lo hace una aplicación frontend con su servidor backend.
         </p>
+
+        <!-- Pasos Rápidos de Cómo se Juega (Estilo Conecta Tablas) -->
+        <div class="claw-steps-row">
+          <!-- Tarjeta 1: Método -->
+          <div class="guide-card guide-gold">
+            <div class="guide-badge-row">
+              <span class="guide-num num-gold">1</span>
+              <span class="guide-name">🕹️ Elige el Método HTTP</span>
+            </div>
+            <p class="guide-desc">
+              Selecciona entre <strong>GET 🔦</strong>, <strong>POST 📦</strong>, <strong>PUT ✨</strong> o <strong>DELETE 🦾</strong> según la acción que deseas que ejecute la máquina arcade.
+            </p>
+          </div>
+
+          <!-- Tarjeta 2: Casilla / ID -->
+          <div class="guide-card guide-purple">
+            <div class="guide-badge-row">
+              <span class="guide-num num-purple">2</span>
+              <span class="guide-name">🎯 Selecciona la Casilla (:id)</span>
+            </div>
+            <p class="guide-desc">
+              Cada hueco tiene su identificador (<strong>A1, A2, A3, B1, B2, B3</strong>), igual que los parámetros <code>:id</code> en las rutas REST (ej. <code>/api/peluches/A1</code>).
+            </p>
+          </div>
+
+          <!-- Tarjeta 3: Enviar y Observar -->
+          <div class="guide-card guide-methods">
+            <div class="guide-badge-row">
+              <span class="guide-num" style="background:#10b981; color:#ffffff">3</span>
+              <span class="guide-name" style="color: #6ee7b7">🚀 Envía la Petición</span>
+            </div>
+            <p class="guide-desc">
+              Presiona <strong>Enviar Petición</strong>: mira a la garra, linterna o compuerta actuar en vivo y comprueba el código de estado (<code>200 OK</code>, <code>201 Created</code>, <code>404 Not Found</code>) con NaviBot.
+            </p>
+          </div>
+        </div>
+
+        <h3 class="guide-methods-heading">📚 Analogías de los 4 Métodos HTTP:</h3>
 
         <div class="claw-methods-cheat-grid">
           <div class="cheat-method-card method-card-get">
@@ -1527,7 +1565,7 @@
               <span class="cheat-analogy">🔦 Apuntar Linterna</span>
             </div>
             <h4>Solo Lectura (Seguro e Idempotente)</h4>
-            <p>Pide información de un recurso existente. No altera la base de datos ni modifica el estado del servidor. Ejemplo: <code>GET /api/peluches/A1</code>.</p>
+            <p>Pide información de un peluche existente. No altera la base de datos ni modifica el estado de la máquina. Ejemplo: <code>GET /api/peluches/A1</code>.</p>
             <span class="cheat-status-tag">Status Típico: 200 OK / 404 Not Found</span>
           </div>
 
@@ -1537,7 +1575,7 @@
               <span class="cheat-analogy">📦 Rellenar Máquina</span>
             </div>
             <h4>Crear Nuevo Recurso</h4>
-            <p>Envía un cuerpo JSON para registrar una nueva entidad en el servidor. El servidor le asigna un identificador único (ID). Ejemplo: <code>POST /api/peluches</code>.</p>
+            <p>Abre la compuerta e inserta un nuevo peluche en una casilla libre con un payload JSON. El servidor le asigna su identificador. Ejemplo: <code>POST /api/peluches</code>.</p>
             <span class="cheat-status-tag">Status Típico: 201 Created</span>
           </div>
 
@@ -1547,7 +1585,7 @@
               <span class="cheat-analogy">✨ Premio Especial Dorado</span>
             </div>
             <h4>Reemplazo Completo (Actualizar)</h4>
-            <p>Reemplaza todos los datos de un recurso existente por la nueva versión enviada. Transforma o actualiza los atributos. Ejemplo: <code>PUT /api/peluches/A2</code>.</p>
+            <p>Transforma y reemplaza por completo el peluche de la casilla por su versión Dorada Legendaria 🌟 duplicando su valor. Ejemplo: <code>PUT /api/peluches/A2</code>.</p>
             <span class="cheat-status-tag">Status Típico: 200 OK / 204 No Content</span>
           </div>
 
@@ -1557,7 +1595,7 @@
               <span class="cheat-analogy">🦾 Bajar la Garra Mecánica</span>
             </div>
             <h4>Eliminar Recurso</h4>
-            <p>Destruye y retira el recurso de la base de datos dejando la casilla vacía. Ejemplo: <code>DELETE /api/peluches/A3</code>.</p>
+            <p>La garra mecánica baja desde el techo, atrapa el peluche, se lo lleva por el conducto de premios y deja la casilla vacía. Ejemplo: <code>DELETE /api/peluches/A3</code>.</p>
             <span class="cheat-status-tag">Status Típico: 200 OK / 204 No Content</span>
           </div>
         </div>
@@ -1565,7 +1603,7 @@
 
       <div class="instructions-footer">
         <button class="btn-primary-purple" id="btn-gotit-claw-guide">
-          ¡Entendido, a dominar las APIs!
+          ¡Entendido, a jugar!
         </button>
       </div>
     </div>

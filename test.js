@@ -156,7 +156,11 @@ function runTests() {
   assert(clawJsContent.includes('animateGoldTransform'), 'claw-machine.js implementa premio dorado PUT');
   assert(clawJsContent.includes('animateClawExtraction'), 'claw-machine.js implementa descenso y agarre DELETE');
   assert(clawJsContent.includes('playMotorSound') && clawJsContent.includes('playSuccessChime'), 'claw-machine.js implementa sintetizador de audio Web Audio');
-  assert(clawJsContent.includes('CLAW_MISSIONS'), 'claw-machine.js contiene misiones guiadas para estudiantes');
+  assert(htmlContent.includes('btn-claw-guide') && htmlContent.includes('¿Cómo se Juega? / Ayuda'), 'HTML contiene el botón "¿Cómo se Juega? / Ayuda" en la barra de la garra');
+  assert(htmlContent.includes('claw-steps-row'), 'HTML contiene los 3 pasos de ¿Cómo se Juega? en modal-claw-guide');
+  assert(htmlContent.includes('¿Cómo se Juega? - Garra HTTP'), 'modal-claw-guide tiene el título "¿Cómo se Juega? - Garra HTTP"');
+  assert(jsContent.includes('modal-claw-guide'), 'game.js vincula el botón de cabecera btnHelpHeader al modal de la garra');
+  assert(clawJsContent.includes('Escape'), 'claw-machine.js permite cerrar la guía con la tecla Escape');
 
   console.log(`\n========================================`);
   console.log(`Resultados: ${passed} pruebas exitosas, ${failed} fallos.`);

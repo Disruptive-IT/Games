@@ -606,8 +606,8 @@
       if (this.dom.btnLobbyNeurodit) this.dom.btnLobbyNeurodit.classList.add('hidden');
       if (this.dom.btnToggleCatalog) this.dom.btnToggleCatalog.classList.remove('hidden');
       if (this.dom.btnSound) this.dom.btnSound.classList.remove('hidden');
-      if (this.dom.btnHelpHeader) this.dom.btnHelpHeader.classList.add('hidden');
-      if (this.dom.btnRestartHeader) this.dom.btnRestartHeader.classList.add('hidden');
+      if (this.dom.btnHelpHeader) this.dom.btnHelpHeader.classList.remove('hidden');
+      if (this.dom.btnRestartHeader) this.dom.btnRestartHeader.classList.remove('hidden');
       if (this.dom.modalFinalVictory) {
         this.dom.modalFinalVictory.classList.remove('active');
       }
@@ -642,8 +642,8 @@
       if (this.dom.btnLobbyNeurodit) this.dom.btnLobbyNeurodit.classList.add('hidden');
       if (this.dom.btnToggleCatalog) this.dom.btnToggleCatalog.classList.remove('hidden');
       if (this.dom.btnSound) this.dom.btnSound.classList.remove('hidden');
-      if (this.dom.btnHelpHeader) this.dom.btnHelpHeader.classList.add('hidden');
-      if (this.dom.btnRestartHeader) this.dom.btnRestartHeader.classList.add('hidden');
+      if (this.dom.btnHelpHeader) this.dom.btnHelpHeader.classList.remove('hidden');
+      if (this.dom.btnRestartHeader) this.dom.btnRestartHeader.classList.remove('hidden');
       if (this.dom.modalFinalVictory) {
         this.dom.modalFinalVictory.classList.remove('active');
       }
@@ -783,7 +783,23 @@
       if (this.dom.btnHelpHeader) {
         this.dom.btnHelpHeader.addEventListener('click', () => {
           this.sound.playClick();
-          this.dom.modalInstructions.classList.add('active');
+          const path = window.location.pathname.toLowerCase();
+          const params = new URLSearchParams(window.location.search);
+          const gameParam = params.get('game');
+          const isClaw = path.includes('claw') || path.includes('garra') || gameParam === 'claw';
+          const isSdlc = path.includes('sdlc') || path.includes('ciclo') || gameParam === 'sdlc';
+
+          if (isClaw) {
+            const clawGuide = document.getElementById('modal-claw-guide');
+            if (clawGuide) clawGuide.classList.add('active');
+          } else if (isSdlc) {
+            const sdlcGuide = document.getElementById('modal-sdlc-guide');
+            if (sdlcGuide) sdlcGuide.classList.add('active');
+          } else {
+            if (this.dom.modalInstructions) {
+              this.dom.modalInstructions.classList.add('active');
+            }
+          }
         });
       }
 
@@ -828,7 +844,21 @@
 
       this.dom.btnRestartHeader.addEventListener('click', () => {
         this.sound.playClick();
-        this.resetConnection();
+        const path = window.location.pathname.toLowerCase();
+        const params = new URLSearchParams(window.location.search);
+        const gameParam = params.get('game');
+        const isClaw = path.includes('claw') || path.includes('garra') || gameParam === 'claw';
+        const isSdlc = path.includes('sdlc') || path.includes('ciclo') || gameParam === 'sdlc';
+
+        if (isClaw) {
+          const resetBtn = document.getElementById('btn-claw-reset');
+          if (resetBtn) resetBtn.click();
+        } else if (isSdlc) {
+          const resetBtn = document.getElementById('btn-sdlc-reset');
+          if (resetBtn) resetBtn.click();
+        } else {
+          this.resetConnection();
+        }
       });
 
       this.dom.btnReplay.addEventListener('click', () => {

@@ -969,6 +969,21 @@
         });
       }
 
+      if (this.dom.modalGuide) {
+        this.dom.modalGuide.addEventListener('click', (e) => {
+          if (e.target === this.dom.modalGuide) {
+            this.playClickSound();
+            this.dom.modalGuide.classList.remove('active');
+          }
+        });
+      }
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && this.dom.modalGuide && this.dom.modalGuide.classList.contains('active')) {
+          this.dom.modalGuide.classList.remove('active');
+        }
+      });
+
       // Modal de Victoria
       if (this.dom.btnVictoryReplay) {
         this.dom.btnVictoryReplay.addEventListener('click', () => {
