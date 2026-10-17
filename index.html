@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=2.3">
+  <link rel="stylesheet" href="style.css?v=2.4">
 </head>
 <body>
   <!-- Fondo futurista 2D limpio con cuadrícula y tonalidades suaves -->
@@ -209,7 +209,38 @@
         </div>
       </article>
 
-      <!-- Juego 4: Docker Swarm Defender (Próximamente) -->
+      <!-- Juego 4: Garra HTTP: Claw Machine (ACTIVO / EN VIVO) -->
+      <article class="game-card card-featured card-claw" id="card-game-claw">
+        <div class="card-status-strip strip-claw">
+          <span class="status-live-dot dot-rose"></span> EN VIVO • MÉTODOS HTTP & APIS REST
+        </div>
+        <div class="card-icon-banner banner-claw">
+          <div class="card-claw-icon-wrap">
+            <span class="game-emoji-big">🦾</span>
+            <span class="mini-plush-badge">🧸</span>
+          </div>
+        </div>
+        <div class="card-info">
+          <h2 class="card-title">Garra HTTP: Claw Machine</h2>
+          <p class="card-desc">
+            Domina los métodos HTTP (GET, POST, PUT, DELETE) y APIs REST interactuando con una máquina arcade de peluches. ¡Apunta la linterna, rellena casillas, mejora premios dorados y acciona la garra mecánica!
+          </p>
+          <div class="card-tags">
+            <span class="tag-pill">🦾 Garra Mecánica</span>
+            <span class="tag-pill">🔦 Linterna GET</span>
+            <span class="tag-pill">📦 Relleno POST</span>
+            <span class="tag-pill">✨ Dorado PUT</span>
+            <span class="tag-pill">⚡ Consola REST</span>
+          </div>
+        </div>
+        <div class="card-footer-action">
+          <a href="/claw-machine" class="btn-play-game btn-play-rose" id="btn-start-claw">
+            <span>▶ Jugar Claw Machine</span>
+          </a>
+        </div>
+      </article>
+
+      <!-- Juego 5: Docker Swarm Defender (Próximamente) -->
       <article class="game-card card-coming-soon">
         <div class="card-status-strip strip-soon">
           PRÓXIMAMENTE • DEVOPS
@@ -953,6 +984,242 @@
     </div>
   </section>
 
+  <!-- =======================================================================
+       JUEGO 4: GARRA HTTP - LA MÁQUINA ARCADE DE MÉTODOS HTTP (REST APIS)
+       ======================================================================= -->
+  <section class="claw-game-stage hidden" id="claw-game-stage" aria-label="Garra HTTP Claw Machine">
+    <!-- Barra Superior de Control del Juego Garra HTTP -->
+    <div class="claw-header-bar">
+      <div class="claw-header-info">
+        <div class="claw-badge-tag">
+          <span class="pulse-rose-dot"></span> MÉTODOS HTTP & APIS REST
+        </div>
+        <h2 class="claw-main-title">Garra HTTP: La Máquina Arcade</h2>
+        <p class="claw-subtitle-text">
+          Aprende <strong>GET</strong> (linterna 🔦), <strong>POST</strong> (rellenar 📦), <strong>PUT</strong> (premio especial ✨) y <strong>DELETE</strong> (bajar la garra 🦾) en una máquina arcade interactiva.
+        </p>
+      </div>
+
+      <div class="claw-actions-toolbar">
+        <div class="claw-mode-switch" role="group" aria-label="Modo de Juego">
+          <button class="btn-mode-toggle active" id="btn-mode-sandbox">
+            <span>🕹️</span> Modo Libre
+          </button>
+          <button class="btn-mode-toggle" id="btn-mode-missions">
+            <span>🎯</span> Misiones (5)
+          </button>
+        </div>
+
+        <button class="btn-claw-action btn-guide-blue" id="btn-claw-guide" title="Ver guía sobre Métodos HTTP">
+          <span>📖</span> ¿Qué es HTTP?
+        </button>
+        <button class="btn-claw-action btn-reset-slate" id="btn-claw-reset" title="Reiniciar peluches de la máquina">
+          <span>🔄</span> Reiniciar
+        </button>
+      </div>
+    </div>
+
+    <!-- Zona de Trabajo Principal: Consola HTTP (Izquierda) + Máquina de Garra (Derecha) -->
+    <div class="claw-workspace-grid">
+      <!-- Columna 1: Consola de Cliente HTTP (Postman Arcade) -->
+      <div class="claw-client-col">
+        <!-- Tarjeta de Misión Actual (solo activa en Modo Misiones) -->
+        <div class="claw-mission-card hidden" id="claw-mission-card">
+          <div class="mission-header-row">
+            <span class="mission-badge">OBJETIVO PEDAGÓGICO</span>
+            <button class="btn-mission-hint-sm" id="btn-claw-mission-hint" title="Pedir pista a NaviBot">
+              <span>💡</span> Pista
+            </button>
+          </div>
+          <h3 class="mission-title" id="claw-mission-title">Misión 1: Inspeccionar con GET</h3>
+          <p class="mission-instruction" id="claw-mission-instruction">
+            Apunta la linterna a la casilla <strong>A1</strong> usando el método <strong>GET</strong> para consultar sus atributos.
+          </p>
+          <div class="mission-progress-track">
+            <div class="mission-progress-bar" id="claw-mission-progress" style="width: 20%"></div>
+          </div>
+        </div>
+
+        <!-- Panel de Construcción de Request HTTP -->
+        <div class="http-request-panel">
+          <div class="panel-section-title">
+            <span class="panel-icon">🌐</span> Petición HTTP (Request)
+          </div>
+
+          <!-- Selector de Método HTTP -->
+          <div class="http-methods-bar" role="group" aria-label="Método HTTP">
+            <button class="btn-http-method method-get active" data-method="GET" title="Consultar / Inspeccionar (Solo lectura)">
+              <span class="method-dot"></span> GET 🔦
+            </button>
+            <button class="btn-http-method method-post" data-method="POST" title="Crear / Rellenar nuevo peluche">
+              <span class="method-dot"></span> POST 📦
+            </button>
+            <button class="btn-http-method method-put" data-method="PUT" title="Reemplazar / Mejorar a premio dorado">
+              <span class="method-dot"></span> PUT ✨
+            </button>
+            <button class="btn-http-method method-delete" data-method="DELETE" title="Eliminar / Bajar la garra mecánica">
+              <span class="method-dot"></span> DELETE 🦾
+            </button>
+          </div>
+
+          <!-- Barra de Endpoint / URL interactiva -->
+          <div class="http-url-bar">
+            <span class="url-base-prefix">API</span>
+            <input type="text" class="http-url-input" id="http-url-input" readonly value="https://play.neurodit.com/api/peluches/A1">
+            <div class="slot-select-wrap">
+              <label for="http-slot-select" class="sr-only">Casilla:</label>
+              <select class="http-slot-select" id="http-slot-select" title="Seleccionar casilla">
+                <option value="A1">Casilla A1</option>
+                <option value="A2">Casilla A2</option>
+                <option value="A3">Casilla A3</option>
+                <option value="B1">Casilla B1</option>
+                <option value="B2">Casilla B2</option>
+                <option value="B3">Casilla B3</option>
+              </select>
+            </div>
+            <button class="btn-send-http" id="btn-send-http" title="Enviar petición HTTP">
+              <span class="send-icon">🚀</span> <span class="send-label">Enviar</span>
+            </button>
+          </div>
+
+          <!-- Sección de Body JSON (Payload) para POST y PUT -->
+          <div class="http-request-body-section hidden" id="http-request-body-section">
+            <div class="body-header-row">
+              <span class="body-label">Payload JSON (Body):</span>
+              <span class="body-hint">Elige un peluche o personaliza el JSON:</span>
+            </div>
+            <div class="toy-quick-pickers" id="toy-quick-pickers">
+              <button class="toy-picker-btn" data-name="Osito Dev" data-emoji="🧸" data-price="15" data-rarity="Común">🧸 Oso</button>
+              <button class="toy-picker-btn" data-name="Zorro DevOps" data-emoji="🦊" data-price="25" data-rarity="Raro">🦊 Zorro</button>
+              <button class="toy-picker-btn" data-name="Unicornio Frontend" data-emoji="🦄" data-price="45" data-rarity="Legendario">🦄 Unicornio</button>
+              <button class="toy-picker-btn" data-name="Panda Arquitecto" data-emoji="🐼" data-price="35" data-rarity="Épico">🐼 Panda</button>
+              <button class="toy-picker-btn" data-name="Dino Backend" data-emoji="🦖" data-price="18" data-rarity="Común">🦖 Dino</button>
+              <button class="toy-picker-btn" data-name="Gatito Hacker" data-emoji="🐱" data-price="20" data-rarity="Común">🐱 Gatito</button>
+            </div>
+            <textarea class="http-json-editor" id="http-json-editor" rows="5" spellcheck="false"></textarea>
+          </div>
+        </div>
+
+        <!-- Inspector de Respuestas HTTP (DevTools / Postman Style) -->
+        <div class="http-response-panel">
+          <div class="response-header-bar">
+            <div class="response-meta-left">
+              <span class="panel-icon">⚡</span>
+              <span class="panel-subtitle">Respuesta del Servidor:</span>
+              <span class="http-status-badge status-200" id="http-status-pill">200 OK</span>
+            </div>
+            <div class="response-meta-right">
+              <span class="http-time-badge" id="http-res-time">12 ms</span>
+              <span class="http-mime-badge">application/json</span>
+            </div>
+          </div>
+
+          <!-- Visor de JSON con formato -->
+          <pre class="http-res-json" id="http-res-json">// Envía una petición para inspeccionar la respuesta...</pre>
+
+          <!-- Tarjeta de Explicación Pedagógica de NaviBot -->
+          <div class="http-navibot-card">
+            <div class="navibot-mini-avatar-wrap">
+              <img src="NaviBot-512x512.png" alt="NaviBot" class="navibot-mini-avatar">
+              <span class="navibot-dot-live"></span>
+            </div>
+            <div class="http-navibot-speech" id="http-navibot-speech">
+              Selecciona un método HTTP (como <strong>GET</strong> para alumbrar la casilla o <strong>POST</strong> para rellenar) y pulsa <strong>Enviar</strong>.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Columna 2: Máquina de Garra Arcade (Claw Machine 2D) -->
+      <div class="claw-arcade-col">
+        <div class="claw-cabinet" id="claw-cabinet">
+          <!-- Marquesina Superior Neón -->
+          <div class="cabinet-marquee">
+            <div class="marquee-lights-row lights-top">
+              <span class="neon-bulb bulb-rose"></span>
+              <span class="neon-bulb bulb-blue"></span>
+              <span class="neon-bulb bulb-gold"></span>
+              <span class="neon-bulb bulb-green"></span>
+              <span class="neon-bulb bulb-purple"></span>
+              <span class="neon-bulb bulb-rose"></span>
+              <span class="neon-bulb bulb-blue"></span>
+              <span class="neon-bulb bulb-gold"></span>
+            </div>
+            <div class="marquee-title-box">
+              <span class="arcade-controller-emoji">🕹️</span>
+              <h3 class="marquee-brand-text">DIT CLAW MACHINE • REST API</h3>
+              <span class="arcade-plush-emoji">🧸</span>
+            </div>
+          </div>
+
+          <!-- Vitrina de Cristal Arcade (Glass Showcase) -->
+          <div class="cabinet-showcase">
+            <div class="glass-reflection-overlay" aria-hidden="true"></div>
+
+            <!-- Riel Horizontal Superior y Garra Mecánica Articulada -->
+            <div class="gantry-rail" id="gantry-rail">
+              <!-- Trolley / Carro Motorizado de la Garra -->
+              <div class="claw-trolley" id="claw-trolley">
+                <div class="trolley-motor-box">
+                  <span class="motor-gear">⚙️</span>
+                </div>
+                <!-- Cable Retráctil -->
+                <div class="claw-rope" id="claw-rope"></div>
+                <!-- Cabezal con Pinzas Articuladas -->
+                <div class="claw-pincers" id="claw-pincers">
+                  <svg class="pincers-svg" viewBox="0 0 60 50" width="60" height="50">
+                    <circle cx="30" cy="10" r="6" fill="#475569" stroke="#94a3b8" stroke-width="2"/>
+                    <!-- Pinza Izquierda -->
+                    <path class="prong prong-left" d="M26,12 Q14,24 16,42 Q20,38 23,24" fill="#94a3b8" stroke="#334155" stroke-width="1.5"/>
+                    <!-- Pinza Derecha -->
+                    <path class="prong prong-right" d="M34,12 Q46,24 44,42 Q40,38 37,24" fill="#94a3b8" stroke="#334155" stroke-width="1.5"/>
+                    <!-- Pinza Central -->
+                    <path class="prong prong-center" d="M28,14 L30,40 L32,14 Z" fill="#64748b"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <!-- Cono de Linterna / Spotlight (para método GET) -->
+            <div class="spotlight-beam" id="spotlight-beam"></div>
+
+            <!-- Compuerta de Reabastecimiento (para método POST) -->
+            <div class="claw-restock-hatch" id="claw-restock-hatch" title="Compuerta de entrada POST">
+              <div class="hatch-door">
+                <span class="hatch-icon">📦</span>
+                <span class="hatch-label">RESTOCK</span>
+              </div>
+            </div>
+
+            <!-- Grilla de 6 Casillas (A1, A2, A3 / B1, B2, B3) -->
+            <div class="claw-slots-grid" id="claw-slots-grid">
+              <!-- Renderizado dinámicamente por claw-machine.js -->
+            </div>
+          </div>
+
+          <!-- Base del Gabinete Arcade: Conducto de Salida y Bandeja de Premios -->
+          <div class="cabinet-base">
+            <div class="chute-entry-zone" title="Conducto de salida de premios">
+              <div class="chute-flap">
+                <span class="chute-arrow">⬇️</span> PREMIOS GANADOS (DELETE)
+              </div>
+            </div>
+
+            <div class="prizes-won-container">
+              <div class="prizes-counter-badge">
+                <span>🎁 Recolectados:</span>
+                <strong id="claw-prizes-count">0</strong>
+              </div>
+              <div class="claw-prizes-tray" id="claw-prizes-tray">
+                <!-- Premios ganados / eliminados con DELETE -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Barra Flotante de Éxito / Explicación Educativa (Estilo Captura 5) -->
   <aside class="bottom-success-bar" id="bottom-success-bar" aria-hidden="true">
     <div class="success-bar-inner">
@@ -1237,11 +1504,112 @@
     </div>
   </div>
 
+  <!-- MODAL 6: Guía Educativa de Métodos HTTP (GET, POST, PUT, DELETE) -->
+  <div class="modal-overlay" id="modal-claw-guide" role="dialog" aria-modal="true" aria-labelledby="claw-guide-title">
+    <div class="modal-card claw-guide-card">
+      <div class="instructions-header">
+        <div class="modal-header-title">
+          <span class="instructions-question-icon">🌐</span>
+          <h2 id="claw-guide-title">Guía de Métodos HTTP y APIs REST</h2>
+        </div>
+        <button class="modal-close-btn" id="btn-close-claw-guide" aria-label="Cerrar modal">✕</button>
+      </div>
+
+      <div class="instructions-body">
+        <p class="claw-guide-intro">
+          En internet, las aplicaciones se comunican enviando <strong>Peticiones HTTP</strong> a los servidores. Cada método tiene un propósito y una analogía clara:
+        </p>
+
+        <div class="claw-methods-cheat-grid">
+          <div class="cheat-method-card method-card-get">
+            <div class="cheat-method-header">
+              <span class="cheat-pill pill-get">GET</span>
+              <span class="cheat-analogy">🔦 Apuntar Linterna</span>
+            </div>
+            <h4>Solo Lectura (Seguro e Idempotente)</h4>
+            <p>Pide información de un recurso existente. No altera la base de datos ni modifica el estado del servidor. Ejemplo: <code>GET /api/peluches/A1</code>.</p>
+            <span class="cheat-status-tag">Status Típico: 200 OK / 404 Not Found</span>
+          </div>
+
+          <div class="cheat-method-card method-card-post">
+            <div class="cheat-method-header">
+              <span class="cheat-pill pill-post">POST</span>
+              <span class="cheat-analogy">📦 Rellenar Máquina</span>
+            </div>
+            <h4>Crear Nuevo Recurso</h4>
+            <p>Envía un cuerpo JSON para registrar una nueva entidad en el servidor. El servidor le asigna un identificador único (ID). Ejemplo: <code>POST /api/peluches</code>.</p>
+            <span class="cheat-status-tag">Status Típico: 201 Created</span>
+          </div>
+
+          <div class="cheat-method-card method-card-put">
+            <div class="cheat-method-header">
+              <span class="cheat-pill pill-put">PUT</span>
+              <span class="cheat-analogy">✨ Premio Especial Dorado</span>
+            </div>
+            <h4>Reemplazo Completo (Actualizar)</h4>
+            <p>Reemplaza todos los datos de un recurso existente por la nueva versión enviada. Transforma o actualiza los atributos. Ejemplo: <code>PUT /api/peluches/A2</code>.</p>
+            <span class="cheat-status-tag">Status Típico: 200 OK / 204 No Content</span>
+          </div>
+
+          <div class="cheat-method-card method-card-delete">
+            <div class="cheat-method-header">
+              <span class="cheat-pill pill-delete">DELETE</span>
+              <span class="cheat-analogy">🦾 Bajar la Garra Mecánica</span>
+            </div>
+            <h4>Eliminar Recurso</h4>
+            <p>Destruye y retira el recurso de la base de datos dejando la casilla vacía. Ejemplo: <code>DELETE /api/peluches/A3</code>.</p>
+            <span class="cheat-status-tag">Status Típico: 200 OK / 204 No Content</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="instructions-footer">
+        <button class="btn-primary-purple" id="btn-gotit-claw-guide">
+          ¡Entendido, a dominar las APIs!
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 7: Victoria Final de Métodos HTTP (Claw Machine) -->
+  <div class="modal-overlay" id="modal-claw-victory" role="dialog" aria-modal="true" aria-labelledby="claw-victory-title">
+    <div class="modal-card claw-victory-card">
+      <div class="victory-trophy-badge">🏆</div>
+      <h2 class="final-title" id="claw-victory-title">¡Maestro de APIs REST y Métodos HTTP!</h2>
+      <p class="final-subtitle">Has completado con éxito todos los desafíos de la Garra Arcade de Peluches</p>
+
+      <div class="claw-victory-summary">
+        <div class="summary-stat-box">
+          <span class="stat-num">4</span>
+          <span class="stat-label">Métodos HTTP Dominados</span>
+        </div>
+        <div class="summary-stat-box">
+          <span class="stat-num">5/5</span>
+          <span class="stat-label">Misiones Cumplidas</span>
+        </div>
+        <div class="summary-stat-box">
+          <span class="stat-num">200 / 201</span>
+          <span class="stat-label">Códigos de Estado HTTP</span>
+        </div>
+      </div>
+
+      <div class="final-actions-row">
+        <button class="btn-primary-gradient" id="btn-claw-victory-replay">
+          <span>🔄 Jugar de Nuevo</span>
+        </button>
+        <button class="btn-secondary-dark" id="btn-claw-victory-catalog">
+          <span>🎮 Explorar Catálogo</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Confeti / Partículas de Celebración en Canvas -->
   <canvas id="confetti-canvas" class="confetti-canvas" aria-hidden="true"></canvas>
 
-  <script src="game.js?v=2.3"></script>
-  <script src="chef-prompter.js?v=2.3"></script>
-  <script src="sdlc-game.js?v=2.3"></script>
+  <script src="game.js?v=2.4"></script>
+  <script src="chef-prompter.js?v=2.4"></script>
+  <script src="sdlc-game.js?v=2.4"></script>
+  <script src="claw-machine.js?v=2.4"></script>
 </body>
 </html>

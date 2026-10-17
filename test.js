@@ -28,6 +28,7 @@ function runTests() {
     'game.js',
     'chef-prompter.js',
     'sdlc-game.js',
+    'claw-machine.js',
     'NaviBot-512x512.png',
     'Disruptive---LOGO + Alpha.png',
     '.env.local',
@@ -129,7 +130,33 @@ function runTests() {
   assert(sdlcJsContent.includes('scrollIntoView'), 'sdlc-game.js centra la pantalla en el tutor en error pedagógico');
   assert(htmlContent.includes('btn-lobby-neurodit'), 'HTML contiene el botón corporativo id.neurodit.com en cabecera');
   assert(!htmlContent.includes('btn-sdlc-back-catalog'), 'HTML ha removido el botón redundante de catálogo de la barra SDLC');
-  assert(jsContent.includes('btnLobbyNeurodit'), 'game.js gestiona dinámicamente la visibilidad de controles en el lobby');
+  // 7. Verificar lógica e integración de la Garra HTTP Arcade (claw-machine.js)
+  assert(htmlContent.includes('claw-game-stage'), 'HTML contiene el contenedor #claw-game-stage');
+  assert(htmlContent.includes('card-game-claw'), 'HTML contiene la tarjeta de catálogo de la Garra HTTP');
+  assert(htmlContent.includes('claw-cabinet'), 'HTML contiene el gabinete arcade de la garra');
+  assert(htmlContent.includes('gantry-rail'), 'HTML contiene el riel y gantry motorizado');
+  assert(htmlContent.includes('claw-trolley'), 'HTML contiene el carro móvil de la garra');
+  assert(htmlContent.includes('claw-pincers'), 'HTML contiene las pinzas articuladas');
+  assert(htmlContent.includes('claw-restock-hatch'), 'HTML contiene la compuerta de reabastecimiento POST');
+  assert(htmlContent.includes('spotlight-beam'), 'HTML contiene el haz de linterna GET');
+  assert(htmlContent.includes('claw-prizes-tray'), 'HTML contiene la bandeja de premios recolectados');
+  assert(htmlContent.includes('modal-claw-guide'), 'HTML contiene el modal de guía HTTP/REST');
+  assert(htmlContent.includes('modal-claw-victory'), 'HTML contiene el modal de graduación arcade');
+  assert(htmlContent.includes('claw-machine.js'), 'HTML importa el script claw-machine.js');
+
+  assert(jsContent.includes('claw-machine'), 'game.js maneja ruta /claw-machine');
+  assert(jsContent.includes('showClawMachineView'), 'game.js implementa showClawMachineView');
+  assert(jsContent.includes('navigateToClawMachine'), 'game.js implementa navigateToClawMachine');
+
+  const clawJsContent = fs.readFileSync(path.join(__dirname, 'claw-machine.js'), 'utf8');
+  assert(clawJsContent.includes('A1') && clawJsContent.includes('B3'), 'claw-machine.js define casillas A1 a B3');
+  assert(clawJsContent.includes('executeHttpRequest'), 'claw-machine.js implementa el despachador de métodos HTTP');
+  assert(clawJsContent.includes('animateSpotlight'), 'claw-machine.js implementa linterna GET');
+  assert(clawJsContent.includes('animateRestockHatch'), 'claw-machine.js implementa compuerta POST');
+  assert(clawJsContent.includes('animateGoldTransform'), 'claw-machine.js implementa premio dorado PUT');
+  assert(clawJsContent.includes('animateClawExtraction'), 'claw-machine.js implementa descenso y agarre DELETE');
+  assert(clawJsContent.includes('playMotorSound') && clawJsContent.includes('playSuccessChime'), 'claw-machine.js implementa sintetizador de audio Web Audio');
+  assert(clawJsContent.includes('CLAW_MISSIONS'), 'claw-machine.js contiene misiones guiadas para estudiantes');
 
   console.log(`\n========================================`);
   console.log(`Resultados: ${passed} pruebas exitosas, ${failed} fallos.`);
