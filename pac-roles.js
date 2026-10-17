@@ -133,7 +133,7 @@
         targetRow: 11,
         dir: 'LEFT',
         nextDir: null,
-        speed: 2.3,
+        speed: 2.45,
         isMoving: false,
         turboActive: false,
         turboTimer: 0,
@@ -239,7 +239,7 @@
       this.dom.gameoverSubtitle = document.getElementById('pac-gameover-subtitle');
       this.dom.gameoverReason = document.getElementById('pac-gameover-reason');
       this.dom.btnGameoverRetry = document.getElementById('btn-pac-gameover-retry');
-      this.dom.btnGameoverConfig = document.getElementById('btn-pac-gameover-config');
+      this.dom.btnGameoverConfig = document.getElementById('btn-pac-gameover-reconfig') || document.getElementById('btn-pac-gameover-config');
     }
 
     setupCanvas() {
@@ -548,12 +548,12 @@
       if (this.dom.badgeThiefClaims) {
         const tp = this.permissions.thief;
         this.dom.badgeThiefClaims.innerHTML = `
-          <span class="claim-pill ${tp.moveUp ? 'claim-granted' : 'claim-revoked'}">⬆️ Arriba</span>
-          <span class="claim-pill ${tp.moveDown ? 'claim-granted' : 'claim-revoked'}">⬇️ Abajo</span>
-          <span class="claim-pill ${tp.moveLeft ? 'claim-granted' : 'claim-revoked'}">⬅️ Izq</span>
-          <span class="claim-pill ${tp.moveRight ? 'claim-granted' : 'claim-revoked'}">➡️ Der</span>
-          <span class="claim-pill ${tp.collectCoins ? 'claim-granted' : 'claim-revoked'}">💰 Monedas</span>
-          <span class="claim-pill ${tp.useTunnel ? 'claim-granted' : 'claim-revoked'}">🌀 Túnel</span>
+          <span class="claim-pill ${tp.moveUp ? 'claim-granted claim-active' : 'claim-revoked claim-inactive'}">⬆️ Arriba</span>
+          <span class="claim-pill ${tp.moveDown ? 'claim-granted claim-active' : 'claim-revoked claim-inactive'}">⬇️ Abajo</span>
+          <span class="claim-pill ${tp.moveLeft ? 'claim-granted claim-active' : 'claim-revoked claim-inactive'}">⬅️ Izq</span>
+          <span class="claim-pill ${tp.moveRight ? 'claim-granted claim-active' : 'claim-revoked claim-inactive'}">➡️ Der</span>
+          <span class="claim-pill ${tp.collectCoins ? 'claim-granted claim-active' : 'claim-revoked claim-inactive'}">💰 Monedas</span>
+          <span class="claim-pill ${tp.useTunnel ? 'claim-granted claim-active' : 'claim-revoked claim-inactive'}">🌀 Túnel</span>
         `;
       }
 
@@ -561,12 +561,12 @@
       if (this.dom.badgePoliceClaims) {
         const pp = this.permissions.police;
         this.dom.badgePoliceClaims.innerHTML = `
-          <span class="claim-pill ${pp.moveUp ? 'claim-granted' : 'claim-revoked'}">⬆️ Arriba</span>
-          <span class="claim-pill ${pp.moveDown ? 'claim-granted' : 'claim-revoked'}">⬇️ Abajo</span>
-          <span class="claim-pill ${pp.moveLeft ? 'claim-granted' : 'claim-revoked'}">⬅️ Izq</span>
-          <span class="claim-pill ${pp.moveRight ? 'claim-granted' : 'claim-revoked'}">➡️ Der</span>
-          <span class="claim-pill ${pp.arrestThief ? 'claim-granted' : 'claim-revoked'}">🚨 Arrestar</span>
-          <span class="claim-pill ${pp.superTurbo ? 'claim-granted' : 'claim-revoked'}">⚡ Turbo</span>
+          <span class="claim-pill ${pp.moveUp ? 'claim-granted claim-active' : 'claim-revoked claim-inactive'}">⬆️ Arriba</span>
+          <span class="claim-pill ${pp.moveDown ? 'claim-granted claim-active' : 'claim-revoked claim-inactive'}">⬇️ Abajo</span>
+          <span class="claim-pill ${pp.moveLeft ? 'claim-granted claim-active' : 'claim-revoked claim-inactive'}">⬅️ Izq</span>
+          <span class="claim-pill ${pp.moveRight ? 'claim-granted claim-active' : 'claim-revoked claim-inactive'}">➡️ Der</span>
+          <span class="claim-pill ${pp.arrestThief ? 'claim-granted claim-active' : 'claim-revoked claim-inactive'}">🚨 Arrestar</span>
+          <span class="claim-pill ${pp.superTurbo ? 'claim-granted claim-active' : 'claim-revoked claim-inactive'}">⚡ Turbo</span>
         `;
       }
     }
@@ -591,6 +591,7 @@
       this.thief.targetRow = 1;
       this.thief.dir = 'RIGHT';
       this.thief.nextDir = null;
+      this.thief.speed = 2.6;
       this.thief.isMoving = false;
       this.thief.deniedEffect = null;
 
@@ -602,6 +603,7 @@
       this.police.targetRow = 11;
       this.police.dir = 'LEFT';
       this.police.nextDir = null;
+      this.police.speed = 2.45;
       this.police.isMoving = false;
       this.police.turboActive = false;
       this.police.turboTimer = 0;
@@ -623,6 +625,13 @@
     showConfigPanel() {
       if (this.dom.configPanel) this.dom.configPanel.classList.remove('hidden');
       this.isPaused = true;
+      this.isRunning = false;
+      const panel = document.getElementById('pac-config-panel') || document.querySelector('.config-panel-card');
+      if (panel) {
+        panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        panel.classList.add('pulse-focus-ring');
+        setTimeout(() => panel.classList.remove('pulse-focus-ring'), 1800);
+      }
     }
 
     hideConfigPanel() {
@@ -741,36 +750,35 @@
     }
 
     // -------------------------------------------------------------------------
-    // Inteligencia Artificial del Rival (Respeta Estrictamente sus Permisos)
+    // Inteligencia Artificial del Rival (Verdadero BFS que Respeta Permisos)
     // -------------------------------------------------------------------------
     updateAI(dt) {
-      this.aiTickTimer += dt;
-      if (this.aiTickTimer < 0.18) return; // Ejecutar cada 180ms
-      this.aiTickTimer = 0;
-
       const aiRole = this.playerRole === 'thief' ? 'police' : 'thief';
       const aiChar = aiRole === 'police' ? this.police : this.thief;
 
-      // Si está en movimiento hacia una celda, esperar a llegar
+      // Si está a mitad de camino entre celdas, continuar el paso actual
       if (aiChar.isMoving) return;
 
       // Objetivo de la IA
       let target = { col: 1, row: 1 };
       if (aiRole === 'police') {
-        // El policía persigue al ladrón
-        target = { col: this.thief.col, row: this.thief.row };
+        // El policía persigue activamente al ladrón (anticipa su destino si se está moviendo)
+        target = {
+          col: this.thief.isMoving ? this.thief.targetCol : this.thief.col,
+          row: this.thief.isMoving ? this.thief.targetRow : this.thief.row
+        };
 
-        // Activar turbo autónomo si está cerca y tiene permiso
+        // Activar turbo autónomo si está cerca (distancia Manhattan <= 5) y tiene permiso
         if (this.hasPermission('police', 'superTurbo') && !this.police.turboActive) {
           const dist = Math.abs(this.police.col - this.thief.col) + Math.abs(this.police.row - this.thief.row);
-          if (dist <= 4) {
+          if (dist <= 5) {
             this.police.turboActive = true;
-            this.police.turboTimer = 2.5;
+            this.police.turboTimer = 3.0;
             this.playSirenSound();
           }
         }
       } else {
-        // El ladrón de la IA busca la moneda más cercana o la salida
+        // Si la IA es el Ladrón: busca la puerta de escape si está abierta, o la moneda más cercana
         if (this.escapeDoorOpen) {
           target = { col: 6, row: 0 };
         } else {
@@ -789,7 +797,7 @@
         }
       }
 
-      // Buscar siguiente paso con BFS considerando ÚNICAMENTE direcciones con permiso
+      // Buscar siguiente paso óptimo con verdadero BFS considerando ÚNICAMENTE direcciones con permiso
       const bestDir = this.findBestDirectionBFS(aiChar.col, aiChar.row, target.col, target.row, aiRole);
       if (bestDir) {
         aiChar.nextDir = bestDir;
@@ -797,6 +805,10 @@
     }
 
     findBestDirectionBFS(startCol, startRow, targetCol, targetRow, role) {
+      if (startCol === targetCol && startRow === targetRow) {
+        return null;
+      }
+
       const directions = [
         { dir: 'UP', dc: 0, dr: -1, perm: 'moveUp' },
         { dir: 'DOWN', dc: 0, dr: 1, perm: 'moveDown' },
@@ -804,31 +816,84 @@
         { dir: 'RIGHT', dc: 1, dr: 0, perm: 'moveRight' }
       ];
 
-      // Filtrar direcciones que el rol tiene prohibidas
-      const allowedDirs = directions.filter(d => this.hasPermission(role, d.perm));
-      if (allowedDirs.length === 0) return null;
+      const queue = [];
+      const visited = new Set();
+      const startKey = `${startCol},${startRow}`;
+      visited.add(startKey);
 
-      let bestDir = null;
-      let minDistance = 9999;
+      // Encolar los movimientos válidos inmediatos desde la celda de inicio
+      for (const d of directions) {
+        // La IA SOLO puede salir en direcciones donde tenga permiso explícito
+        if (!this.hasPermission(role, d.perm)) continue;
 
-      allowedDirs.forEach(d => {
         let nCol = startCol + d.dc;
         let nRow = startRow + d.dr;
 
-        // Tratar túneles
-        if (nCol < 0 && startRow === 6 && this.hasPermission(role, 'useTunnel')) nCol = GRID_COLS - 1;
-        if (nCol >= GRID_COLS && startRow === 6 && this.hasPermission(role, 'useTunnel')) nCol = 0;
+        // Túnel en fila 6
+        if (startRow === 6 && this.hasPermission(role, 'useTunnel')) {
+          if (startCol === 0 && d.dir === 'LEFT') nCol = GRID_COLS - 1;
+          else if (startCol === GRID_COLS - 1 && d.dir === 'RIGHT') nCol = 0;
+        }
 
         if (this.isWalkableCell(nCol, nRow, role)) {
-          const dist = Math.abs(nCol - targetCol) + Math.abs(nRow - targetRow);
-          if (dist < minDistance) {
-            minDistance = dist;
-            bestDir = d.dir;
+          // Si el objetivo está al lado
+          if (nCol === targetCol && nRow === targetRow) {
+            return d.dir;
+          }
+          const key = `${nCol},${nRow}`;
+          if (!visited.has(key)) {
+            visited.add(key);
+            queue.push({ col: nCol, row: nRow, firstDir: d.dir });
           }
         }
-      });
+      }
 
-      return bestDir;
+      let closestNode = null;
+      let minManhattan = 9999;
+
+      // Exploración en anchura (BFS) de todo el laberinto
+      while (queue.length > 0) {
+        const curr = queue.shift();
+
+        const distH = Math.abs(curr.col - targetCol) + Math.abs(curr.row - targetRow);
+        if (distH < minManhattan) {
+          minManhattan = distH;
+          closestNode = curr;
+        }
+
+        if (curr.col === targetCol && curr.row === targetRow) {
+          return curr.firstDir;
+        }
+
+        for (const d of directions) {
+          // A lo largo de la ruta, el personaje también debe poseer el permiso de esa dirección
+          if (!this.hasPermission(role, d.perm)) continue;
+
+          let nCol = curr.col + d.dc;
+          let nRow = curr.row + d.dr;
+
+          if (curr.row === 6 && this.hasPermission(role, 'useTunnel')) {
+            if (curr.col === 0 && d.dir === 'LEFT') nCol = GRID_COLS - 1;
+            else if (curr.col === GRID_COLS - 1 && d.dir === 'RIGHT') nCol = 0;
+          }
+
+          if (this.isWalkableCell(nCol, nRow, role)) {
+            const key = `${nCol},${nRow}`;
+            if (!visited.has(key)) {
+              visited.add(key);
+              queue.push({ col: nCol, row: nRow, firstDir: curr.firstDir });
+            }
+          }
+        }
+      }
+
+      // Si no hay camino directo completo (por ejemplo, si faltan permisos que bloquean un tramo),
+      // avanzar hacia la celda alcanzable más cercana al objetivo
+      if (closestNode) {
+        return closestNode.firstDir;
+      }
+
+      return null;
     }
 
     isWalkableCell(col, row, role) {
@@ -882,6 +947,11 @@
 
       // Si no está moviéndose entre celdas, verificar si puede iniciar nuevo movimiento
       if (!char.isMoving) {
+        // Si es un personaje manejado por la IA, asegurar que calcule su siguiente paso de inmediato
+        if (role !== this.playerRole) {
+          this.updateAI(0);
+        }
+
         if (char.nextDir) {
           const delta = this.getDirectionDelta(char.nextDir);
           let targetC = char.col + delta.dc;
@@ -993,6 +1063,11 @@
           this.triggerThiefEscapeVictory();
         }
       }
+
+      // 3. Si es la IA quien llegó a la casilla, planificar de inmediato su siguiente paso sin pausas
+      if (role !== this.playerRole) {
+        this.updateAI(0);
+      }
     }
 
     checkCollisions() {
@@ -1001,7 +1076,7 @@
       const dy = this.police.y - this.thief.y;
       const distance = Math.sqrt(dx * dx + dy * dy);
 
-      if (distance < 0.75) {
+      if (distance < 0.85) {
         // Hay contacto físico
         if (this.hasPermission('police', 'arrestThief')) {
           this.triggerArrestVictory();
