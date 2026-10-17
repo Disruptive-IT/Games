@@ -1046,26 +1046,42 @@
             <span class="panel-icon">🌐</span> Petición HTTP (Request)
           </div>
 
-          <!-- Selector de Método HTTP -->
+          <!-- Selector de Método HTTP con verbos sencillos -->
           <div class="http-methods-bar" role="group" aria-label="Método HTTP">
-            <button class="btn-http-method method-get active" data-method="GET" title="Consultar / Inspeccionar (Solo lectura)">
-              <span class="method-dot"></span> GET 🔦
+            <button class="btn-http-method method-get active" data-method="GET" title="Ver / Consultar peluche con la linterna">
+              <span class="method-title-line">
+                <span class="method-dot"></span>
+                <span class="method-name">GET</span>
+              </span>
+              <span class="method-verb-badge">🔦 Ver</span>
             </button>
-            <button class="btn-http-method method-post" data-method="POST" title="Crear / Rellenar nuevo peluche">
-              <span class="method-dot"></span> POST 📦
+            <button class="btn-http-method method-post" data-method="POST" title="Meter nuevo peluche por la compuerta">
+              <span class="method-title-line">
+                <span class="method-dot"></span>
+                <span class="method-name">POST</span>
+              </span>
+              <span class="method-verb-badge">📦 Meter</span>
             </button>
-            <button class="btn-http-method method-put" data-method="PUT" title="Reemplazar / Mejorar a premio dorado">
-              <span class="method-dot"></span> PUT ✨
+            <button class="btn-http-method method-put" data-method="PUT" title="Cambiar por peluche dorado">
+              <span class="method-title-line">
+                <span class="method-dot"></span>
+                <span class="method-name">PUT</span>
+              </span>
+              <span class="method-verb-badge">✨ Cambiar</span>
             </button>
-            <button class="btn-http-method method-delete" data-method="DELETE" title="Eliminar / Bajar la garra mecánica">
-              <span class="method-dot"></span> DELETE 🦾
+            <button class="btn-http-method method-delete" data-method="DELETE" title="Sacar peluche con la garra mecánica">
+              <span class="method-title-line">
+                <span class="method-dot"></span>
+                <span class="method-name">DELETE</span>
+              </span>
+              <span class="method-verb-badge">🦾 Sacar</span>
             </button>
           </div>
 
           <!-- Barra de Endpoint / URL interactiva -->
           <div class="http-url-bar">
             <span class="url-base-prefix">API</span>
-            <input type="text" class="http-url-input" id="http-url-input" readonly value="https://play.neurodit.com/api/peluches/A1">
+            <input type="text" class="http-url-input" id="http-url-input" readonly value="/api/peluches/A1">
             <div class="slot-select-wrap">
               <label for="http-slot-select" class="sr-only">Casilla:</label>
               <select class="http-slot-select" id="http-slot-select" title="Seleccionar casilla">
@@ -1504,7 +1520,7 @@
     </div>
   </div>
 
-  <!-- MODAL 6: Guía Educativa e Instrucciones de Métodos HTTP (GET, POST, PUT, DELETE) -->
+  <!-- MODAL 6: Guía Educativa e Instrucciones de Métodos HTTP (Nivel Fundamental y Avanzado) -->
   <div class="modal-overlay" id="modal-claw-guide" role="dialog" aria-modal="true" aria-labelledby="claw-guide-title">
     <div class="modal-card claw-guide-card">
       <div class="instructions-header">
@@ -1515,87 +1531,152 @@
         <button class="modal-close-btn" id="btn-close-claw-guide" aria-label="Cerrar modal">✕</button>
       </div>
 
-      <div class="instructions-body">
+      <!-- Selector de Nivel: Fundamental (para nuevos) vs Avanzado (técnico) -->
+      <div class="guide-level-tabs" role="tablist" aria-label="Seleccionar nivel de explicación">
+        <button class="guide-tab-btn active" id="tab-guide-fundamental" role="tab" aria-selected="true" title="Explicación sencilla y corta para practicantes">
+          🌱 Nivel Fundamental (Fácil y Corto)
+        </button>
+        <button class="guide-tab-btn" id="tab-guide-advanced" role="tab" aria-selected="false" title="Explicación técnica de arquitectura REST e idempotencia">
+          ⚡ Nivel Avanzado (Técnico)
+        </button>
+      </div>
+
+      <!-- VISTA 1: NIVEL FUNDAMENTAL (SIMPLE, CORTO, SIN JARGON COMPLEJO) -->
+      <div class="instructions-body guide-view-content" id="view-guide-fundamental">
         <p class="claw-guide-intro">
-          En este juego controlas una <strong>Máquina Arcade de Peluches</strong> enviando <strong>Peticiones HTTP</strong> exactamente como lo hace una aplicación frontend con su servidor backend.
+          Una <strong>API</strong> es como esta máquina de peluches: tú pides una acción con un botón y la máquina te responde al instante.
         </p>
 
-        <!-- Pasos Rápidos de Cómo se Juega (Estilo Conecta Tablas) -->
+        <!-- 3 Pasos Sencillos -->
         <div class="claw-steps-row">
-          <!-- Tarjeta 1: Método -->
           <div class="guide-card guide-gold">
             <div class="guide-badge-row">
               <span class="guide-num num-gold">1</span>
-              <span class="guide-name">🕹️ Elige el Método HTTP</span>
+              <span class="guide-name">🕹️ ¿Qué quieres hacer?</span>
             </div>
             <p class="guide-desc">
-              Selecciona entre <strong>GET 🔦</strong>, <strong>POST 📦</strong>, <strong>PUT ✨</strong> o <strong>DELETE 🦾</strong> según la acción que deseas que ejecute la máquina arcade.
+              ¿Quieres <strong>Ver (GET)</strong>, <strong>Meter uno (POST)</strong>, <strong>Cambiarlo (PUT)</strong> o <strong>Sacarlo (DELETE)</strong>?
             </p>
           </div>
 
-          <!-- Tarjeta 2: Casilla / ID -->
           <div class="guide-card guide-purple">
             <div class="guide-badge-row">
               <span class="guide-num num-purple">2</span>
-              <span class="guide-name">🎯 Selecciona la Casilla (:id)</span>
+              <span class="guide-name">🎯 Elige la casilla</span>
             </div>
             <p class="guide-desc">
-              Cada hueco tiene su identificador (<strong>A1, A2, A3, B1, B2, B3</strong>), igual que los parámetros <code>:id</code> en las rutas REST (ej. <code>/api/peluches/A1</code>).
+              Cada peluche tiene su casilla (<strong>A1, A2, A3...</strong>), igual que el número de un locker o casillero.
             </p>
           </div>
 
-          <!-- Tarjeta 3: Enviar y Observar -->
           <div class="guide-card guide-methods">
             <div class="guide-badge-row">
               <span class="guide-num" style="background:#10b981; color:#ffffff">3</span>
-              <span class="guide-name" style="color: #6ee7b7">🚀 Envía la Petición</span>
+              <span class="guide-name" style="color: #6ee7b7">🚀 Dale a Enviar</span>
             </div>
             <p class="guide-desc">
-              Presiona <strong>Enviar Petición</strong>: mira a la garra, linterna o compuerta actuar en vivo y comprueba el código de estado (<code>200 OK</code>, <code>201 Created</code>, <code>404 Not Found</code>) con NaviBot.
+              Mira la máquina moverse. Si todo sale bien, verás un mensaje verde de éxito: <strong>200 OK</strong> o <strong>201 Creado</strong>.
             </p>
           </div>
         </div>
 
-        <h3 class="guide-methods-heading">📚 Analogías de los 4 Métodos HTTP:</h3>
+        <h3 class="guide-methods-heading">📚 Los 4 Botones Explicados en 1 Frase:</h3>
 
         <div class="claw-methods-cheat-grid">
+          <!-- GET -->
           <div class="cheat-method-card method-card-get">
             <div class="cheat-method-header">
               <span class="cheat-pill pill-get">GET</span>
-              <span class="cheat-analogy">🔦 Apuntar Linterna</span>
+              <span class="cheat-analogy">🔦 Ver con Linterna</span>
             </div>
-            <h4>Solo Lectura (Seguro e Idempotente)</h4>
-            <p>Pide información de un peluche existente. No altera la base de datos ni modifica el estado de la máquina. Ejemplo: <code>GET /api/peluches/A1</code>.</p>
-            <span class="cheat-status-tag">Status Típico: 200 OK / 404 Not Found</span>
+            <h4>Solo Mirar (No Cambia Nada)</h4>
+            <p>Alumbras el peluche para ver su nombre y precio. No tocas nada de la máquina ni gastas nada.</p>
+            <span class="cheat-status-tag">Respuesta: 200 OK (¡Lo encontré!) o 404 (¡Casilla vacía!)</span>
           </div>
 
+          <!-- POST -->
           <div class="cheat-method-card method-card-post">
             <div class="cheat-method-header">
               <span class="cheat-pill pill-post">POST</span>
-              <span class="cheat-analogy">📦 Rellenar Máquina</span>
+              <span class="cheat-analogy">📦 Meter Peluche Nuevo</span>
             </div>
-            <h4>Crear Nuevo Recurso</h4>
-            <p>Abre la compuerta e inserta un nuevo peluche en una casilla libre con un payload JSON. El servidor le asigna su identificador. Ejemplo: <code>POST /api/peluches</code>.</p>
-            <span class="cheat-status-tag">Status Típico: 201 Created</span>
+            <h4>Agregar un Peluche Nuevo</h4>
+            <p>Abres la compuerta y metes un peluche nuevo en un hueco vacío de la máquina.</p>
+            <span class="cheat-status-tag">Respuesta: 201 Created (¡Guardado con éxito!)</span>
           </div>
 
+          <!-- PUT -->
           <div class="cheat-method-card method-card-put">
             <div class="cheat-method-header">
               <span class="cheat-pill pill-put">PUT</span>
-              <span class="cheat-analogy">✨ Premio Especial Dorado</span>
+              <span class="cheat-analogy">✨ Cambiar por Dorado</span>
             </div>
-            <h4>Reemplazo Completo (Actualizar)</h4>
-            <p>Transforma y reemplaza por completo el peluche de la casilla por su versión Dorada Legendaria 🌟 duplicando su valor. Ejemplo: <code>PUT /api/peluches/A2</code>.</p>
-            <span class="cheat-status-tag">Status Típico: 200 OK / 204 No Content</span>
+            <h4>Cambiar el Peluche Existente</h4>
+            <p>Sacas el peluche normal de esa casilla y lo cambias por su versión dorada y brillante de colección.</p>
+            <span class="cheat-status-tag">Respuesta: 200 OK (¡Peluche actualizado!)</span>
           </div>
 
+          <!-- DELETE -->
           <div class="cheat-method-card method-card-delete">
             <div class="cheat-method-header">
               <span class="cheat-pill pill-delete">DELETE</span>
-              <span class="cheat-analogy">🦾 Bajar la Garra Mecánica</span>
+              <span class="cheat-analogy">🦾 Bajar la Garra</span>
             </div>
-            <h4>Eliminar Recurso</h4>
-            <p>La garra mecánica baja desde el techo, atrapa el peluche, se lo lleva por el conducto de premios y deja la casilla vacía. Ejemplo: <code>DELETE /api/peluches/A3</code>.</p>
+            <h4>Sacar y Llevarte el Peluche</h4>
+            <p>La garra baja desde el techo, agarra el peluche, te lo entrega por la bandeja y deja la casilla vacía.</p>
+            <span class="cheat-status-tag">Respuesta: 200 OK (¡Peluche retirado!)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- VISTA 2: NIVEL AVANZADO (TÉCNICO: IDEMPOTENCIA, CRUD, RFC 9110) -->
+      <div class="instructions-body guide-view-content hidden" id="view-guide-advanced">
+        <p class="claw-guide-intro">
+          <strong>Arquitectura REST sobre protocolo HTTP:</strong> operaciones CRUD, semántica de idempotencia y códigos de respuesta RFC 9110 para desarrolladores de software.
+        </p>
+
+        <div class="claw-methods-cheat-grid">
+          <!-- GET -->
+          <div class="cheat-method-card method-card-get">
+            <div class="cheat-method-header">
+              <span class="cheat-pill pill-get">GET /api/peluches/:id</span>
+              <span class="cheat-analogy">Lectura Segura</span>
+            </div>
+            <h4>Seguro e Idempotente (Safe & Idempotent)</h4>
+            <p>Recupera la representación del recurso. No produce mutaciones de estado en la base de datos ni en el servidor. Puede almacenarse en memoria caché (CDN / Browser).</p>
+            <span class="cheat-status-tag">Status Típico: 200 OK / 404 Not Found</span>
+          </div>
+
+          <!-- POST -->
+          <div class="cheat-method-card method-card-post">
+            <div class="cheat-method-header">
+              <span class="cheat-pill pill-post">POST /api/peluches</span>
+              <span class="cheat-analogy">Creación de Entidad</span>
+            </div>
+            <h4>No Idempotente (Crea Nuevo Recurso)</h4>
+            <p>Envía un payload JSON en el body para registrar una nueva entidad en la colección. Cada ejecución consecutiva crea un nuevo recurso o genera 409 Conflict si no hay espacio.</p>
+            <span class="cheat-status-tag">Status Típico: 201 Created (Header: Location: /api/peluches/:id)</span>
+          </div>
+
+          <!-- PUT -->
+          <div class="cheat-method-card method-card-put">
+            <div class="cheat-method-header">
+              <span class="cheat-pill pill-put">PUT /api/peluches/:id</span>
+              <span class="cheat-analogy">Reemplazo Total</span>
+            </div>
+            <h4>Idempotente (Actualización de Estado)</h4>
+            <p>Reemplaza por completo el estado del recurso existente por el nuevo payload enviado. Si se ejecuta 1 vez o 100 veces con el mismo body, el estado final del servidor es idéntico.</p>
+            <span class="cheat-status-tag">Status Típico: 200 OK / 204 No Content</span>
+          </div>
+
+          <!-- DELETE -->
+          <div class="cheat-method-card method-card-delete">
+            <div class="cheat-method-header">
+              <span class="cheat-pill pill-delete">DELETE /api/peluches/:id</span>
+              <span class="cheat-analogy">Destrucción de Recurso</span>
+            </div>
+            <h4>Idempotente (Eliminación de Registro)</h4>
+            <p>Elimina el recurso en el backend y libera la clave primaria o casilla. Ejecutar DELETE sobre el mismo ID posteriormente retorna 404 Not Found sin causar fallas.</p>
             <span class="cheat-status-tag">Status Típico: 200 OK / 204 No Content</span>
           </div>
         </div>

@@ -160,7 +160,10 @@ function runTests() {
   assert(htmlContent.includes('claw-steps-row'), 'HTML contiene los 3 pasos de ¿Cómo se Juega? en modal-claw-guide');
   assert(htmlContent.includes('¿Cómo se Juega? - Garra HTTP'), 'modal-claw-guide tiene el título "¿Cómo se Juega? - Garra HTTP"');
   assert(jsContent.includes('modal-claw-guide'), 'game.js vincula el botón de cabecera btnHelpHeader al modal de la garra');
-  assert(clawJsContent.includes('Escape'), 'claw-machine.js permite cerrar la guía con la tecla Escape');
+  assert(htmlContent.includes('tab-guide-fundamental') && htmlContent.includes('tab-guide-advanced'), 'HTML contiene selector de pestañas Nivel Fundamental vs Avanzado');
+  assert(htmlContent.includes('view-guide-fundamental') && htmlContent.includes('view-guide-advanced'), 'HTML contiene los dos contenedores de vista de la guía');
+  assert(htmlContent.includes('Solo Mirar (No Cambia Nada)'), 'HTML contiene terminología corta y sencilla para practicantes');
+  assert(clawJsContent.includes('tab-guide-fundamental'), 'claw-machine.js implementa interactividad de cambio de pestañas');
 
   console.log(`\n========================================`);
   console.log(`Resultados: ${passed} pruebas exitosas, ${failed} fallos.`);

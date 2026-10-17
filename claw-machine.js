@@ -230,9 +230,9 @@
     updateUrlInput() {
       if (!this.dom.inputUrl) return;
       if (this.currentMethod === 'POST') {
-        this.dom.inputUrl.value = 'https://play.neurodit.com/api/peluches';
+        this.dom.inputUrl.value = '/api/peluches';
       } else {
-        this.dom.inputUrl.value = `https://play.neurodit.com/api/peluches/${this.selectedSlot}`;
+        this.dom.inputUrl.value = `/api/peluches/${this.selectedSlot}`;
       }
     }
 
@@ -975,6 +975,34 @@
             this.playClickSound();
             this.dom.modalGuide.classList.remove('active');
           }
+        });
+      }
+
+      // Pestañas de Nivel Fundamental vs Avanzado en la Guía
+      const tabFund = document.getElementById('tab-guide-fundamental');
+      const tabAdv = document.getElementById('tab-guide-advanced');
+      const viewFund = document.getElementById('view-guide-fundamental');
+      const viewAdv = document.getElementById('view-guide-advanced');
+
+      if (tabFund && tabAdv && viewFund && viewAdv) {
+        tabFund.addEventListener('click', () => {
+          this.playClickSound();
+          tabFund.classList.add('active');
+          tabFund.setAttribute('aria-selected', 'true');
+          tabAdv.classList.remove('active');
+          tabAdv.setAttribute('aria-selected', 'false');
+          viewFund.classList.remove('hidden');
+          viewAdv.classList.add('hidden');
+        });
+
+        tabAdv.addEventListener('click', () => {
+          this.playClickSound();
+          tabAdv.classList.add('active');
+          tabAdv.setAttribute('aria-selected', 'true');
+          tabFund.classList.remove('active');
+          tabFund.setAttribute('aria-selected', 'false');
+          viewAdv.classList.remove('hidden');
+          viewFund.classList.add('hidden');
         });
       }
 
