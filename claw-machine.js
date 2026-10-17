@@ -28,39 +28,39 @@
   const CLAW_MISSIONS = [
     {
       id: 1,
-      title: 'Misión 1: Inspeccionar con GET 🔦',
+      title: 'Misión 1: Obtener Datos con GET 🔦',
       method: 'GET',
       targetSlot: 'A1',
-      instruction: 'Apunta la linterna a la casilla <strong>A1</strong> usando el método <strong>GET</strong> para consultar sus atributos sin alterar la máquina.',
+      instruction: 'Apunta la linterna a la casilla <strong>A1</strong> usando el método <strong>GET</strong> para obtener sus atributos sin alterar la máquina.',
       successMsg: '¡Excelente! Has ejecutado una petición GET. Como puedes ver, es una operación de solo lectura (segura e idempotente): obtuviste los datos con código 200 OK y la máquina permanece intacta.',
       hint: 'Selecciona el método GET, casilla A1 y pulsa "Enviar Petición HTTP".'
     },
     {
       id: 2,
-      title: 'Misión 2: Rellenar con POST 📦',
+      title: 'Misión 2: Registrar con POST 📦',
       method: 'POST',
       targetSlot: null, // cualquier espacio libre
-      instruction: 'Un espacio está disponible. Usa <strong>POST</strong> para enviar un nuevo peluche en formato JSON a la máquina.',
-      successMsg: '¡Genial! Con POST has creado un nuevo recurso en la máquina. El servidor respondió con 201 Created y le asignó una casilla única con su cabecera Location.',
-      hint: 'Selecciona POST, elige el peluche que deseas ingresar y presiona "Enviar Petición HTTP".'
+      instruction: 'Un espacio está disponible. Usa <strong>POST</strong> para registrar un nuevo peluche en formato JSON en la máquina.',
+      successMsg: '¡Genial! Con POST has registrado un nuevo recurso en la máquina. El servidor respondió con 201 Created y le asignó una casilla única con su cabecera Location.',
+      hint: 'Selecciona POST, elige el peluche que deseas registrar y presiona "Enviar Petición HTTP".'
     },
     {
       id: 3,
-      title: 'Misión 3: Mejorar Premio con PUT ✨',
+      title: 'Misión 3: Actualizar con PUT ✨',
       method: 'PUT',
       targetSlot: 'A2',
-      instruction: 'Un cliente canjeó puntos de fidelidad. Usa <strong>PUT</strong> en la casilla <strong>A2</strong> para reemplazarlo por su versión Dorada Legendaria 🌟.',
+      instruction: 'Un cliente canjeó puntos de fidelidad. Usa <strong>PUT</strong> en la casilla <strong>A2</strong> para actualizarlo por su versión Dorada Legendaria 🌟.',
       successMsg: '¡Brillante! El método PUT reemplaza por completo el estado del recurso existente por la nueva versión mejorada. La casilla A2 ahora es una edición especial.',
-      hint: 'Selecciona PUT, casilla A2 y envía la petición para transformar el peluche.'
+      hint: 'Selecciona PUT, casilla A2 y envía la petición para actualizar el peluche.'
     },
     {
       id: 4,
-      title: 'Misión 4: Bajar la Garra con DELETE 🦾',
+      title: 'Misión 4: Eliminar con DELETE 🦾',
       method: 'DELETE',
       targetSlot: 'A3',
-      instruction: '¡Un jugador ganó el peluche de la casilla <strong>A3</strong>! Ejecuta <strong>DELETE</strong> para que la garra mecánica baje, lo agarre y lo entregue por el conducto.',
+      instruction: '¡Un jugador ganó el peluche de la casilla <strong>A3</strong>! Ejecuta <strong>DELETE</strong> para eliminar el peluche del inventario y entregarlo por la bandeja.',
       successMsg: '¡Victoria! DELETE bajó la garra mecánica y eliminó el recurso del servidor. La casilla A3 ha quedado vacía y disponible para futuros peluches.',
-      hint: 'Selecciona DELETE, casilla A3 y pulsa "Enviar Petición HTTP" para accionar la garra mecánica.'
+      hint: 'Selecciona DELETE, casilla A3 y pulsa "Enviar Petición HTTP" para eliminar el peluche.'
     },
     {
       id: 5,

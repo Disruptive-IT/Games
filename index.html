@@ -996,7 +996,7 @@
         </div>
         <h2 class="claw-main-title">Garra HTTP: La Máquina Arcade</h2>
         <p class="claw-subtitle-text">
-          Aprende <strong>GET</strong> (linterna 🔦), <strong>POST</strong> (rellenar 📦), <strong>PUT</strong> (premio especial ✨) y <strong>DELETE</strong> (bajar la garra 🦾) en una máquina arcade interactiva.
+          Aprende <strong>GET</strong> (obtener 🔦), <strong>POST</strong> (registrar 📦), <strong>PUT</strong> (actualizar ✨) y <strong>DELETE</strong> (eliminar 🦾) en una máquina arcade interactiva.
         </p>
       </div>
 
@@ -1048,33 +1048,33 @@
 
           <!-- Selector de Método HTTP con verbos sencillos -->
           <div class="http-methods-bar" role="group" aria-label="Método HTTP">
-            <button class="btn-http-method method-get active" data-method="GET" title="Ver / Consultar peluche con la linterna">
+            <button class="btn-http-method method-get active" data-method="GET" title="Obtener datos del peluche">
               <span class="method-title-line">
                 <span class="method-dot"></span>
                 <span class="method-name">GET</span>
               </span>
-              <span class="method-verb-badge">🔦 Ver</span>
+              <span class="method-verb-badge">🔦 Obtener</span>
             </button>
-            <button class="btn-http-method method-post" data-method="POST" title="Meter nuevo peluche por la compuerta">
+            <button class="btn-http-method method-post" data-method="POST" title="Registrar un nuevo peluche en la máquina">
               <span class="method-title-line">
                 <span class="method-dot"></span>
                 <span class="method-name">POST</span>
               </span>
-              <span class="method-verb-badge">📦 Meter</span>
+              <span class="method-verb-badge">📦 Registrar</span>
             </button>
-            <button class="btn-http-method method-put" data-method="PUT" title="Cambiar por peluche dorado">
+            <button class="btn-http-method method-put" data-method="PUT" title="Actualizar el peluche existente">
               <span class="method-title-line">
                 <span class="method-dot"></span>
                 <span class="method-name">PUT</span>
               </span>
-              <span class="method-verb-badge">✨ Cambiar</span>
+              <span class="method-verb-badge">✨ Actualizar</span>
             </button>
-            <button class="btn-http-method method-delete" data-method="DELETE" title="Sacar peluche con la garra mecánica">
+            <button class="btn-http-method method-delete" data-method="DELETE" title="Eliminar peluche de la casilla">
               <span class="method-title-line">
                 <span class="method-dot"></span>
                 <span class="method-name">DELETE</span>
               </span>
-              <span class="method-verb-badge">🦾 Sacar</span>
+              <span class="method-verb-badge">🦾 Eliminar</span>
             </button>
           </div>
 
@@ -1140,7 +1140,7 @@
               <span class="navibot-dot-live"></span>
             </div>
             <div class="http-navibot-speech" id="http-navibot-speech">
-              Selecciona un método HTTP (como <strong>GET</strong> para alumbrar la casilla o <strong>POST</strong> para rellenar) y pulsa <strong>Enviar</strong>.
+              Selecciona un método HTTP (como <strong>GET</strong> para obtener datos o <strong>POST</strong> para registrar) y pulsa <strong>Enviar</strong>.
             </div>
           </div>
         </div>
@@ -1531,17 +1531,17 @@
         <button class="modal-close-btn" id="btn-close-claw-guide" aria-label="Cerrar modal">✕</button>
       </div>
 
-      <!-- Selector de Nivel: Fundamental (para nuevos) vs Avanzado (técnico) -->
-      <div class="guide-level-tabs" role="tablist" aria-label="Seleccionar nivel de explicación">
-        <button class="guide-tab-btn active" id="tab-guide-fundamental" role="tab" aria-selected="true" title="Explicación sencilla y corta para practicantes">
-          🌱 Nivel Fundamental (Fácil y Corto)
+      <!-- Selector de Nivel: Fundamental (para nuevos) -->
+      <div class="guide-level-tabs" role="tablist" aria-label="Nivel de explicación">
+        <button class="guide-tab-btn active" id="tab-guide-fundamental" role="tab" aria-selected="true" title="Conceptos fundamentales de métodos HTTP">
+          🌱 Nivel Fundamental
         </button>
-        <button class="guide-tab-btn" id="tab-guide-advanced" role="tab" aria-selected="false" title="Explicación técnica de arquitectura REST e idempotencia">
-          ⚡ Nivel Avanzado (Técnico)
+        <button class="guide-tab-btn" id="tab-guide-advanced" role="tab" aria-selected="false" style="display: none;" title="Explicación técnica avanzada">
+          ⚡ Nivel Avanzado
         </button>
       </div>
 
-      <!-- VISTA 1: NIVEL FUNDAMENTAL (SIMPLE, CORTO, SIN JARGON COMPLEJO) -->
+      <!-- VISTA 1: NIVEL FUNDAMENTAL (SIMPLE, CLARO Y DIRECTO) -->
       <div class="instructions-body guide-view-content" id="view-guide-fundamental">
         <p class="claw-guide-intro">
           Una <strong>API</strong> es como esta máquina de peluches: tú pides una acción con un botón y la máquina te responde al instante.
@@ -1555,7 +1555,7 @@
               <span class="guide-name">🕹️ ¿Qué quieres hacer?</span>
             </div>
             <p class="guide-desc">
-              ¿Quieres <strong>Ver (GET)</strong>, <strong>Meter uno (POST)</strong>, <strong>Cambiarlo (PUT)</strong> o <strong>Sacarlo (DELETE)</strong>?
+              ¿Quieres <strong>Obtener (GET)</strong>, <strong>Registrar (POST)</strong>, <strong>Actualizar (PUT)</strong> o <strong>Eliminar (DELETE)</strong>?
             </p>
           </div>
 
@@ -1565,7 +1565,7 @@
               <span class="guide-name">🎯 Elige la casilla</span>
             </div>
             <p class="guide-desc">
-              Cada peluche tiene su casilla (<strong>A1, A2, A3...</strong>), igual que el número de un locker o casillero.
+              Cada peluche tiene su casilla (<strong>A1, A2, A3...</strong>), igual que el número de un locker o ID de registro.
             </p>
           </div>
 
@@ -1580,17 +1580,17 @@
           </div>
         </div>
 
-        <h3 class="guide-methods-heading">📚 Los 4 Botones Explicados en 1 Frase:</h3>
+        <h3 class="guide-methods-heading">📚 Los 4 Métodos Explicados en 1 Frase:</h3>
 
         <div class="claw-methods-cheat-grid">
           <!-- GET -->
           <div class="cheat-method-card method-card-get">
             <div class="cheat-method-header">
               <span class="cheat-pill pill-get">GET</span>
-              <span class="cheat-analogy">🔦 Ver con Linterna</span>
+              <span class="cheat-analogy">🔦 Obtener Datos</span>
             </div>
-            <h4>Solo Mirar (No Cambia Nada)</h4>
-            <p>Alumbras el peluche para ver su nombre y precio. No tocas nada de la máquina ni gastas nada.</p>
+            <h4>Obtener Datos (Solo Consultar)</h4>
+            <p>Alumbras el peluche para obtener su nombre y precio. No tocas nada de la máquina ni gastas nada.</p>
             <span class="cheat-status-tag">Respuesta: 200 OK (¡Lo encontré!) o 404 (¡Casilla vacía!)</span>
           </div>
 
@@ -1598,21 +1598,21 @@
           <div class="cheat-method-card method-card-post">
             <div class="cheat-method-header">
               <span class="cheat-pill pill-post">POST</span>
-              <span class="cheat-analogy">📦 Meter Peluche Nuevo</span>
+              <span class="cheat-analogy">📦 Registrar Peluche</span>
             </div>
-            <h4>Agregar un Peluche Nuevo</h4>
-            <p>Abres la compuerta y metes un peluche nuevo en un hueco vacío de la máquina.</p>
-            <span class="cheat-status-tag">Respuesta: 201 Created (¡Guardado con éxito!)</span>
+            <h4>Registrar un Nuevo Peluche</h4>
+            <p>Abres la compuerta y registras un peluche nuevo con su información en una casilla libre de la máquina.</p>
+            <span class="cheat-status-tag">Respuesta: 201 Created (¡Peluche registrado con éxito!)</span>
           </div>
 
           <!-- PUT -->
           <div class="cheat-method-card method-card-put">
             <div class="cheat-method-header">
               <span class="cheat-pill pill-put">PUT</span>
-              <span class="cheat-analogy">✨ Cambiar por Dorado</span>
+              <span class="cheat-analogy">✨ Actualizar Peluche</span>
             </div>
-            <h4>Cambiar el Peluche Existente</h4>
-            <p>Sacas el peluche normal de esa casilla y lo cambias por su versión dorada y brillante de colección.</p>
+            <h4>Actualizar el Peluche Existente</h4>
+            <p>Actualizas el peluche existente en esa casilla por su versión dorada y brillante de colección.</p>
             <span class="cheat-status-tag">Respuesta: 200 OK (¡Peluche actualizado!)</span>
           </div>
 
@@ -1620,11 +1620,11 @@
           <div class="cheat-method-card method-card-delete">
             <div class="cheat-method-header">
               <span class="cheat-pill pill-delete">DELETE</span>
-              <span class="cheat-analogy">🦾 Bajar la Garra</span>
+              <span class="cheat-analogy">🦾 Eliminar Peluche</span>
             </div>
-            <h4>Sacar y Llevarte el Peluche</h4>
-            <p>La garra baja desde el techo, agarra el peluche, te lo entrega por la bandeja y deja la casilla vacía.</p>
-            <span class="cheat-status-tag">Respuesta: 200 OK (¡Peluche retirado!)</span>
+            <h4>Eliminar Peluche de la Casilla</h4>
+            <p>La garra baja desde el techo, retira el peluche, te lo entrega por la bandeja y deja la casilla vacía.</p>
+            <span class="cheat-status-tag">Respuesta: 200 OK (¡Peluche eliminado!)</span>
           </div>
         </div>
       </div>
