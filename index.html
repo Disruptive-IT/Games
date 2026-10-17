@@ -240,7 +240,38 @@
         </div>
       </article>
 
-      <!-- Juego 5: Docker Swarm Defender (Próximamente) -->
+      <!-- Juego 5: Pac-Roles: El Laberinto de los Permisos (ACTIVO / EN VIVO) -->
+      <article class="game-card card-featured card-pacroles" id="card-game-pacroles">
+        <div class="card-status-strip strip-pacroles">
+          <span class="status-live-dot dot-yellow"></span> EN VIVO • SEGURIDAD & PERMISOS
+        </div>
+        <div class="card-icon-banner banner-pacroles">
+          <div class="card-pacroles-icon-wrap">
+            <span class="game-emoji-big">🥷</span>
+            <span class="mini-role-badge">👮‍♂️</span>
+          </div>
+        </div>
+        <div class="card-info">
+          <h2 class="card-title">Pac-Roles: Laberinto de Permisos</h2>
+          <p class="card-desc">
+            Descubre qué son los Roles y Permisos jugando como Policía o Ladrón en un laberinto estilo Pac-Man. Si olvidas activar el permiso de ir a la derecha ➡️, ¡un candado rojo 🔒 te bloqueará el paso y te atraparán!
+          </p>
+          <div class="card-tags">
+            <span class="tag-pill">🕹️ Pac-Man Retro</span>
+            <span class="tag-pill">🔒 Roles & Permisos</span>
+            <span class="tag-pill">🪙 5 Monedas</span>
+            <span class="tag-pill">🌀 Túnel Secreto</span>
+            <span class="tag-pill">🎮 2D Canvas</span>
+          </div>
+        </div>
+        <div class="card-footer-action">
+          <a href="/pac-roles" class="btn-play-game btn-play-gold" id="btn-start-pacroles">
+            <span>▶ Jugar Pac-Roles</span>
+          </a>
+        </div>
+      </article>
+
+      <!-- Juego 6: Docker Swarm Defender (Próximamente) -->
       <article class="game-card card-coming-soon">
         <div class="card-status-strip strip-soon">
           PRÓXIMAMENTE • DEVOPS
@@ -1236,6 +1267,289 @@
     </div>
   </section>
 
+  <!-- =======================================================================
+       JUEGO 5: PAC-ROLES - EL LABERINTO DE LOS PERMISOS (RBAC & SEGURIDAD WEB)
+       ======================================================================= -->
+  <section class="pac-roles-stage hidden" id="pac-roles-stage" aria-label="Pac-Roles Laberinto de Permisos">
+    <!-- Barra Superior de Control de Pac-Roles -->
+    <div class="pac-header-bar">
+      <div class="pac-header-info">
+        <div class="pac-badge-tag">
+          <span class="pulse-gold-dot"></span> SEGURIDAD & PERMISOS (RBAC)
+        </div>
+        <h2 class="pac-main-title">Pac-Roles: El Laberinto de los Permisos</h2>
+        <p class="pac-subtitle-text">
+          Configura quién es quién y qué permisos tiene cada rol. Si intentas huir a la derecha sin el permiso <span class="highlight-badge">➡️ Ir a la Derecha</span>, ¡te chocarás contra un candado rojo 🔒!
+        </p>
+      </div>
+
+      <div class="pac-actions-toolbar">
+        <div class="pac-challenge-selector" role="group" aria-label="Retos Pedagógicos">
+          <button class="btn-pac-challenge active" data-challenge="1" title="Reto 1: Escape Cojo">
+            <span>🏃</span> Reto 1: Escape Cojo
+          </button>
+          <button class="btn-pac-challenge" data-challenge="2" title="Reto 2: Policía Desarmado">
+            <span>🕊️</span> Reto 2: Policía Desarmado
+          </button>
+          <button class="btn-pac-challenge" data-challenge="3" title="Reto 3: Túnel Secreto">
+            <span>🌀</span> Reto 3: Túnel Secreto
+          </button>
+          <button class="btn-pac-challenge" data-challenge="sandbox" title="Modo Libre">
+            <span>🕹️</span> Modo Libre
+          </button>
+        </div>
+
+        <button class="btn-pac-action btn-config-pill" id="btn-pac-config-toggle" title="Abrir panel de configuración de permisos">
+          <span>🛠️</span> Permisos
+        </button>
+        <button class="btn-pac-action btn-guide-blue" id="btn-pac-guide" title="Ver ayuda e instrucciones de Pac-Roles">
+          <span>❓</span> ¿Cómo se Juega? / Ayuda
+        </button>
+        <button class="btn-pac-action btn-reset-slate" id="btn-pac-reset" title="Reiniciar partida">
+          <span>🔄</span> Reiniciar
+        </button>
+      </div>
+    </div>
+
+    <!-- Banner Informativo del Reto Activo -->
+    <div class="pac-challenge-banner" id="pac-challenge-banner">
+      <span class="challenge-icon">🎯</span>
+      <div class="challenge-info-text">
+        <strong id="pac-active-challenge-title">Reto 1: "El Escape Cojo"</strong>:
+        <span id="pac-active-challenge-desc">Eres el Ladrón. Tu permiso "Ir a la Derecha ➡️" está apagado a propósito. ¡Descubre qué pasa al chocar contra el candado 🔒, abre el panel de permisos, actívalo y escapa!</span>
+      </div>
+    </div>
+
+    <!-- Zona de Trabajo Principal: Configuración de Roles + Laberinto Arcade -->
+    <div class="pac-workspace-grid">
+      <!-- Columna 1: Panel de Configuración de Roles y Permisos (Fase 1) -->
+      <div class="pac-config-col" id="pac-config-panel">
+        <div class="config-panel-card">
+          <div class="config-header">
+            <div class="config-title-row">
+              <span class="config-icon">🛠️</span>
+              <h3>Configurar Roles & Permisos</h3>
+            </div>
+            <span class="config-subtitle">Elige tu personaje y asigna los permisos de cada rol:</span>
+          </div>
+
+          <!-- Selector de Personaje del Jugador -->
+          <div class="role-player-selector">
+            <span class="selector-label">¿Quién quieres ser tú en esta partida?</span>
+            <div class="role-selector-buttons">
+              <button class="btn-role-select role-btn-thief active" id="btn-pac-role-thief">
+                <span class="role-avatar">🟡🥷</span>
+                <div class="role-btn-text">
+                  <strong>Jugar como LADRÓN</strong>
+                  <small>Escapar y robar 5 monedas</small>
+                </div>
+              </button>
+              <button class="btn-role-select role-btn-police" id="btn-pac-role-police">
+                <span class="role-avatar">🔵👮‍♂️</span>
+                <div class="role-btn-text">
+                  <strong>Jugar como POLICÍA</strong>
+                  <small>Perseguir y arrestar al ladrón</small>
+                </div>
+              </button>
+            </div>
+            <span class="role-ai-note">💡 El otro personaje será controlado automáticamente por la computadora respetando sus permisos.</span>
+          </div>
+
+          <!-- Columnas de Permisos por Rol -->
+          <div class="permissions-dual-grid">
+            <!-- Tarjeta 1: Permisos del Rol Ladrón -->
+            <div class="role-perm-card card-thief-perm">
+              <div class="role-perm-header">
+                <span class="role-chip chip-thief">🟡 ROL: LADRÓN</span>
+                <span class="role-task">El que huye y busca el botín</span>
+              </div>
+
+              <!-- Movilidad Ladrón -->
+              <div class="perm-section">
+                <span class="perm-section-label">🧭 Movilidad Básica:</span>
+                <div class="perm-switch-list">
+                  <label class="perm-switch-item">
+                    <input type="checkbox" id="toggle-thief-up" checked>
+                    <span class="switch-slider"></span>
+                    <span class="perm-label">⬆️ Ir Arriba</span>
+                  </label>
+                  <label class="perm-switch-item">
+                    <input type="checkbox" id="toggle-thief-down" checked>
+                    <span class="switch-slider"></span>
+                    <span class="perm-label">⬇️ Ir Abajo</span>
+                  </label>
+                  <label class="perm-switch-item">
+                    <input type="checkbox" id="toggle-thief-left" checked>
+                    <span class="switch-slider"></span>
+                    <span class="perm-label">⬅️ Ir a la Izquierda</span>
+                  </label>
+                  <label class="perm-switch-item item-highlight-warning">
+                    <input type="checkbox" id="toggle-thief-right">
+                    <span class="switch-slider"></span>
+                    <span class="perm-label">➡️ Ir a la Derecha <em class="badge-disabled-hint">(¡Apagado al inicio!)</em></span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Especiales Ladrón -->
+              <div class="perm-section">
+                <span class="perm-section-label">⚡ Permisos Especiales de su Rol:</span>
+                <div class="perm-switch-list">
+                  <label class="perm-switch-item">
+                    <input type="checkbox" id="toggle-thief-coins" checked>
+                    <span class="switch-slider"></span>
+                    <span class="perm-label">💰 Recoger Monedas</span>
+                  </label>
+                  <label class="perm-switch-item">
+                    <input type="checkbox" id="toggle-thief-tunnel" checked>
+                    <span class="switch-slider"></span>
+                    <span class="perm-label">🌀 Usar Túnel Secreto</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Mini Carnet Ladrón -->
+              <div class="digital-carnet-box">
+                <div class="carnet-label">🎫 Carnet Digital de Permisos (Tokens):</div>
+                <div class="claims-list" id="pac-thief-claims"></div>
+              </div>
+            </div>
+
+            <!-- Tarjeta 2: Permisos del Rol Policía -->
+            <div class="role-perm-card card-police-perm">
+              <div class="role-perm-header">
+                <span class="role-chip chip-police">🔵 ROL: POLICÍA</span>
+                <span class="role-task">El guardián de la ley</span>
+              </div>
+
+              <!-- Movilidad Policía -->
+              <div class="perm-section">
+                <span class="perm-section-label">🧭 Movilidad Básica:</span>
+                <div class="perm-switch-list">
+                  <label class="perm-switch-item">
+                    <input type="checkbox" id="toggle-police-up" checked>
+                    <span class="switch-slider"></span>
+                    <span class="perm-label">⬆️ Ir Arriba</span>
+                  </label>
+                  <label class="perm-switch-item">
+                    <input type="checkbox" id="toggle-police-down" checked>
+                    <span class="switch-slider"></span>
+                    <span class="perm-label">⬇️ Ir Abajo</span>
+                  </label>
+                  <label class="perm-switch-item">
+                    <input type="checkbox" id="toggle-police-left" checked>
+                    <span class="switch-slider"></span>
+                    <span class="perm-label">⬅️ Ir a la Izquierda</span>
+                  </label>
+                  <label class="perm-switch-item">
+                    <input type="checkbox" id="toggle-police-right" checked>
+                    <span class="switch-slider"></span>
+                    <span class="perm-label">➡️ Ir a la Derecha</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Especiales Policía -->
+              <div class="perm-section">
+                <span class="perm-section-label">⚡ Permisos Especiales de su Rol:</span>
+                <div class="perm-switch-list">
+                  <label class="perm-switch-item">
+                    <input type="checkbox" id="toggle-police-arrest" checked>
+                    <span class="switch-slider"></span>
+                    <span class="perm-label">🚨 Arrestar al Ladrón</span>
+                  </label>
+                  <label class="perm-switch-item">
+                    <input type="checkbox" id="toggle-police-turbo">
+                    <span class="switch-slider"></span>
+                    <span class="perm-label">⚡ Súper Velocidad (Turbo)</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Mini Carnet Policía -->
+              <div class="digital-carnet-box">
+                <div class="carnet-label">🎫 Carnet Digital de Permisos (Tokens):</div>
+                <div class="claims-list" id="pac-police-claims"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Botón Gigante Iniciar Partida -->
+          <div class="config-action-row">
+            <button class="btn-start-pac-game" id="btn-pac-start-game">
+              <span class="start-icon">▶️</span> ¡PROBAR PERMISOS Y JUGAR!
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Columna 2: Gabinete Arcade Pac-Man (Canvas 2D) -->
+      <div class="pac-arcade-col">
+        <div class="pac-cabinet-frame">
+          <!-- Marquesina Neón Superior -->
+          <div class="pac-marquee">
+            <div class="marquee-pixel-dots">
+              <span class="p-dot p-blue"></span>
+              <span class="p-dot p-yellow"></span>
+              <span class="p-dot p-red"></span>
+            </div>
+            <h3 class="marquee-title">🕹️ PAC-ROLES ARCADE • LABERINTO NEÓN 13x13</h3>
+            <div class="marquee-pixel-dots">
+              <span class="p-dot p-red"></span>
+              <span class="p-dot p-yellow"></span>
+              <span class="p-dot p-blue"></span>
+            </div>
+          </div>
+
+          <!-- HUD en vivo durante la partida -->
+          <div class="pac-live-hud">
+            <div class="hud-stat-pill">
+              <span class="stat-emoji">🪙</span> Monedas:
+              <strong id="pac-coins-count">0 / 5</strong>
+            </div>
+            <div class="hud-stat-pill">
+              <span class="stat-emoji">🚪</span> Salida:
+              <span id="pac-door-status" class="pac-door-status door-closed">🔒 Cerrada</span>
+            </div>
+            <div class="hud-stat-pill">
+              <span class="stat-emoji">🎭</span> Rol:
+              <span id="pac-player-role-badge" class="pac-player-role-badge badge-thief">🟡 Eres el Ladrón</span>
+            </div>
+          </div>
+
+          <!-- Banner Flotante de Acceso Denegado (Feedback Rojo Parpadeante) -->
+          <div class="pac-denied-banner hidden" id="pac-denied-banner">
+            <span class="denied-icon">🚫</span>
+            <span class="denied-text" id="pac-denied-banner-text">¡ACCESO DENEGADO! Tu personaje no tiene este permiso</span>
+          </div>
+
+          <!-- Lienzo Canvas 2D Pixel Art -->
+          <div class="pac-canvas-container">
+            <canvas id="pac-canvas" width="520" height="520"></canvas>
+          </div>
+
+          <!-- Controles Arcade Táctiles y de Teclado -->
+          <div class="pac-controls-dock">
+            <div class="controls-keyboard-hint">
+              <span>⌨️ Usa Flechas <strong>⬆️ ⬇️ ⬅️ ➡️</strong> o <strong>W A S D</strong></span>
+              <span>⚡ Barra Espaciadora para <strong>Turbo</strong></span>
+            </div>
+
+            <div class="dpad-container" aria-label="Controles táctiles en pantalla">
+              <button class="btn-dpad btn-dpad-up" id="btn-dpad-up" title="Ir Arriba">⬆️</button>
+              <div class="dpad-row-horizontal">
+                <button class="btn-dpad btn-dpad-left" id="btn-dpad-left" title="Ir a la Izquierda">⬅️</button>
+                <button class="btn-dpad btn-dpad-turbo" id="btn-dpad-turbo" title="Activar Turbo">⚡</button>
+                <button class="btn-dpad btn-dpad-right" id="btn-dpad-right" title="Ir a la Derecha">➡️</button>
+              </div>
+              <button class="btn-dpad btn-dpad-down" id="btn-dpad-down" title="Ir Abajo">⬇️</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Barra Flotante de Éxito / Explicación Educativa (Estilo Captura 5) -->
   <aside class="bottom-success-bar" id="bottom-success-bar" aria-hidden="true">
     <div class="success-bar-inner">
@@ -1723,12 +2037,143 @@
     </div>
   </div>
 
+  <!-- MODAL 8: Guía Educativa e Instrucciones de Pac-Roles: El Laberinto de los Permisos -->
+  <div class="modal-overlay" id="modal-pac-guide" role="dialog" aria-modal="true" aria-labelledby="pac-guide-title">
+    <div class="modal-card pac-guide-card">
+      <div class="instructions-header">
+        <div class="modal-header-title">
+          <span class="instructions-question-icon">🕹️</span>
+          <h2 id="pac-guide-title">¿Cómo se Juega? - Pac-Roles</h2>
+        </div>
+        <button class="modal-close-btn" id="btn-close-pac-guide" aria-label="Cerrar modal">✕</button>
+      </div>
+
+      <div class="instructions-body">
+        <p class="claw-guide-intro">
+          En software, los <strong>Roles y Permisos (RBAC)</strong> determinan quién puede hacer qué. En este laberinto arcade, ¡los permisos se vuelven 100% físicos!
+        </p>
+
+        <!-- 3 Pasos de la experiencia -->
+        <div class="claw-steps-row">
+          <div class="guide-card guide-gold">
+            <div class="guide-badge-row">
+              <span class="guide-num num-gold">1</span>
+              <span class="guide-name">🎭 Elige tu Rol</span>
+            </div>
+            <p class="guide-desc">
+              ¿Quieres ser el <strong>Ladrón 🟡</strong> (recoger botín y huir) o el <strong>Policía 🔵</strong> (patrullar y arrestar)? La computadora manejará al otro personaje.
+            </p>
+          </div>
+
+          <div class="guide-card guide-purple">
+            <div class="guide-badge-row">
+              <span class="guide-num num-purple">2</span>
+              <span class="guide-name">⚙️ Configura Permisos</span>
+            </div>
+            <p class="guide-desc">
+              Enciende o apaga interruptores. Si apagas <strong>➡️ Ir a la Derecha</strong>, ¡el personaje chocará contra una barrera roja invisible con candado 🔒!
+            </p>
+          </div>
+
+          <div class="guide-card guide-methods">
+            <div class="guide-badge-row">
+              <span class="guide-num" style="background:#06b6d4; color:#ffffff">3</span>
+              <span class="guide-name" style="color: #67e8f9">🕹️ ¡Comprueba en Vivo!</span>
+            </div>
+            <p class="guide-desc">
+              Entra al laberinto 13x13 con flechas o WASD. Observa cómo cada acción depende estrictamente de los permisos del carnet digital.
+            </p>
+          </div>
+        </div>
+
+        <h3 class="guide-methods-heading">⚡ Roles y Súper Permisos Especiales:</h3>
+
+        <div class="claw-methods-cheat-grid">
+          <!-- Rol Ladrón -->
+          <div class="cheat-method-card method-card-put">
+            <div class="cheat-method-header">
+              <span class="cheat-pill" style="background:#f59e0b; color:#000;">ROL: LADRÓN 🟡</span>
+              <span class="cheat-analogy">El Fugitivo</span>
+            </div>
+            <h4>Permisos Clave del Ladrón</h4>
+            <p><strong>💰 Recoger Monedas:</strong> Si no lo tiene activo, pasa por encima del oro y no puede agarrarlo.<br>
+            <strong>🌀 Usar Túnel Secreto:</strong> Le permite teletransportarse de un borde al otro del laberinto para burlar la ley.</p>
+            <span class="cheat-status-tag">Meta: Juntar 5 monedas y llegar a la puerta 🚪</span>
+          </div>
+
+          <!-- Rol Policía -->
+          <div class="cheat-method-card method-card-get">
+            <div class="cheat-method-header">
+              <span class="cheat-pill" style="background:#3b82f6; color:#fff;">ROL: POLICÍA 🔵</span>
+              <span class="cheat-analogy">El Guardián</span>
+            </div>
+            <h4>Permisos Clave del Policía</h4>
+            <p><strong>🚨 Arrestar al Ladrón:</strong> Si no lo tiene activo, choca con el ladrón y se pasan de largo sin efecto.<br>
+            <strong>⚡ Súper Velocidad (Turbo):</strong> Permite correr al doble de velocidad con la Barra Espaciadora.</p>
+            <span class="cheat-status-tag">Meta: Tocar al ladrón antes de que escape</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="instructions-footer">
+        <button class="btn-primary-purple" id="btn-gotit-pac-guide">
+          ¡Entendido, a configurar permisos y jugar!
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 9: Victoria - Pac-Roles -->
+  <div class="modal-overlay" id="modal-pac-victory" role="dialog" aria-modal="true" aria-labelledby="pac-victory-title">
+    <div class="modal-card pac-victory-card">
+      <div class="victory-trophy-badge">🏆</div>
+      <h2 class="final-title" id="pac-victory-title">¡Misión Cumplida!</h2>
+      <p class="final-subtitle" id="pac-victory-subtitle">¡Has alcanzado la victoria en el Laberinto de los Permisos!</p>
+
+      <div class="pac-explanation-box" id="pac-victory-reason">
+        <!-- Renderizado dinámicamente con la lección educativa -->
+      </div>
+
+      <div class="final-actions-row">
+        <button class="btn-primary-gradient" id="btn-pac-victory-replay">
+          <span>🔄 Jugar / Reconfigurar</span>
+        </button>
+        <button class="btn-secondary-dark" id="btn-pac-victory-catalog">
+          <span>🎮 Explorar Catálogo</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 10: Game Over / Atrapado - Pac-Roles -->
+  <div class="modal-overlay" id="modal-pac-gameover" role="dialog" aria-modal="true" aria-labelledby="pac-gameover-title">
+    <div class="modal-card pac-gameover-card">
+      <div class="victory-trophy-badge" style="filter: drop-shadow(0 0 16px rgba(239, 68, 68, 0.6));">🛑</div>
+      <h2 class="final-title" id="pac-gameover-title" style="color: #f87171;">¡Fin de la Partida!</h2>
+      <p class="final-subtitle" id="pac-gameover-subtitle">Analicemos qué permiso te faltó o qué ventaja tuvo tu rival</p>
+
+      <div class="pac-explanation-box" id="pac-gameover-reason">
+        <!-- Renderizado dinámicamente con la lección educativa -->
+      </div>
+
+      <div class="final-actions-row">
+        <button class="btn-primary-purple" id="btn-pac-gameover-reconfig">
+          <span>🛠️ Volver al Panel y Ajustar Permisos</span>
+        </button>
+        <button class="btn-secondary-dark" id="btn-pac-gameover-retry">
+          <span>🔄 Reintentar Partida</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Confeti / Partículas de Celebración en Canvas -->
   <canvas id="confetti-canvas" class="confetti-canvas" aria-hidden="true"></canvas>
 
-  <script src="game.js?v=2.4"></script>
-  <script src="chef-prompter.js?v=2.4"></script>
-  <script src="sdlc-game.js?v=2.4"></script>
-  <script src="claw-machine.js?v=2.4"></script>
+  <script src="game.js?v=2.5"></script>
+  <script src="chef-prompter.js?v=2.5"></script>
+  <script src="sdlc-game.js?v=2.5"></script>
+  <script src="claw-machine.js?v=2.5"></script>
+  <script src="pac-roles.js?v=2.5"></script>
 </body>
 </html>

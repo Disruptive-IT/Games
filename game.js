@@ -414,8 +414,10 @@
         btnStartChefPrompter: document.getElementById('btn-start-chef-prompter'),
         btnStartSdlc: document.getElementById('btn-start-sdlc'),
         btnStartClaw: document.getElementById('btn-start-claw'),
+        btnStartPacRoles: document.getElementById('btn-start-pacroles'),
         sdlcStage: document.getElementById('sdlc-game-stage'),
         clawStage: document.getElementById('claw-game-stage'),
+        pacRolesStage: document.getElementById('pac-roles-stage'),
         levelNavContainer: document.getElementById('level-nav-container'),
         levelIndicator: document.getElementById('level-indicator'),
         levelPills: [
@@ -462,6 +464,7 @@
       const isChefPrompter = path.includes('chef-prompter') || gameParam === 'chef-prompter' || gameParam === 'prompts';
       const isSdlc = path.includes('sdlc') || path.includes('ciclo') || gameParam === 'sdlc';
       const isClaw = path.includes('claw') || path.includes('garra') || gameParam === 'claw';
+      const isPacRoles = path.includes('pac') || path.includes('roles') || gameParam === 'pac-roles';
       const isConectaTablas = path.includes('conecta-tablas') || gameParam === 'conecta-tablas';
 
       if (isChefPrompter) {
@@ -470,6 +473,8 @@
         this.showSdlcView();
       } else if (isClaw) {
         this.showClawMachineView();
+      } else if (isPacRoles) {
+        this.showPacRolesView();
       } else if (isConectaTablas) {
         this.showGameView();
         let targetLevel = 0;
@@ -500,17 +505,13 @@
       if (this.dom.btnRestartHeader) this.dom.btnRestartHeader.classList.remove('hidden');
 
       const chefStage = document.getElementById('chef-prompter-stage');
-      if (chefStage) {
-        chefStage.classList.add('hidden');
-      }
+      if (chefStage) chefStage.classList.add('hidden');
       const sdlcStage = document.getElementById('sdlc-game-stage');
-      if (sdlcStage) {
-        sdlcStage.classList.add('hidden');
-      }
+      if (sdlcStage) sdlcStage.classList.add('hidden');
       const clawStage = document.getElementById('claw-game-stage');
-      if (clawStage) {
-        clawStage.classList.add('hidden');
-      }
+      if (clawStage) clawStage.classList.add('hidden');
+      const pacRolesStage = document.getElementById('pac-roles-stage');
+      if (pacRolesStage) pacRolesStage.classList.add('hidden');
     }
 
     showHubView() {
@@ -541,17 +542,13 @@
       }
 
       const chefStage = document.getElementById('chef-prompter-stage');
-      if (chefStage) {
-        chefStage.classList.add('hidden');
-      }
+      if (chefStage) chefStage.classList.add('hidden');
       const sdlcStage = document.getElementById('sdlc-game-stage');
-      if (sdlcStage) {
-        sdlcStage.classList.add('hidden');
-      }
+      if (sdlcStage) sdlcStage.classList.add('hidden');
       const clawStage = document.getElementById('claw-game-stage');
-      if (clawStage) {
-        clawStage.classList.add('hidden');
-      }
+      if (clawStage) clawStage.classList.add('hidden');
+      const pacRolesStage = document.getElementById('pac-roles-stage');
+      if (pacRolesStage) pacRolesStage.classList.add('hidden');
     }
 
     showChefPrompterView() {
@@ -577,17 +574,13 @@
       }
 
       const chefStage = document.getElementById('chef-prompter-stage');
-      if (chefStage) {
-        chefStage.classList.remove('hidden');
-      }
+      if (chefStage) chefStage.classList.remove('hidden');
       const sdlcStage = document.getElementById('sdlc-game-stage');
-      if (sdlcStage) {
-        sdlcStage.classList.add('hidden');
-      }
+      if (sdlcStage) sdlcStage.classList.add('hidden');
       const clawStage = document.getElementById('claw-game-stage');
-      if (clawStage) {
-        clawStage.classList.add('hidden');
-      }
+      if (clawStage) clawStage.classList.add('hidden');
+      const pacRolesStage = document.getElementById('pac-roles-stage');
+      if (pacRolesStage) pacRolesStage.classList.add('hidden');
     }
 
     showSdlcView() {
@@ -613,17 +606,13 @@
       }
 
       const chefStage = document.getElementById('chef-prompter-stage');
-      if (chefStage) {
-        chefStage.classList.add('hidden');
-      }
+      if (chefStage) chefStage.classList.add('hidden');
       const sdlcStage = document.getElementById('sdlc-game-stage');
-      if (sdlcStage) {
-        sdlcStage.classList.remove('hidden');
-      }
+      if (sdlcStage) sdlcStage.classList.remove('hidden');
       const clawStage = document.getElementById('claw-game-stage');
-      if (clawStage) {
-        clawStage.classList.add('hidden');
-      }
+      if (clawStage) clawStage.classList.add('hidden');
+      const pacRolesStage = document.getElementById('pac-roles-stage');
+      if (pacRolesStage) pacRolesStage.classList.add('hidden');
     }
 
     showClawMachineView() {
@@ -654,6 +643,49 @@
       if (sdlcStage) sdlcStage.classList.add('hidden');
       const clawStage = document.getElementById('claw-game-stage');
       if (clawStage) clawStage.classList.remove('hidden');
+      const pacRolesStage = document.getElementById('pac-roles-stage');
+      if (pacRolesStage) pacRolesStage.classList.add('hidden');
+    }
+
+    showPacRolesView() {
+      this.welcomeAccepted = true;
+      if (this.dom.modalWelcome) {
+        this.dom.modalWelcome.classList.remove('active');
+      }
+      this.dom.arcadeHub.classList.add('hidden');
+      this.dom.stage.classList.add('hidden');
+      this.dom.missionBanner.classList.add('hidden');
+      this.dom.levelNavContainer.classList.add('hidden');
+      this.dom.centerHub.classList.add('hidden');
+      this.dom.bottomSuccessBar.classList.remove('active');
+      this.dom.modalInstructions.classList.remove('active');
+
+      if (this.dom.btnLobbyNeurodit) this.dom.btnLobbyNeurodit.classList.add('hidden');
+      if (this.dom.btnToggleCatalog) this.dom.btnToggleCatalog.classList.remove('hidden');
+      if (this.dom.btnSound) this.dom.btnSound.classList.remove('hidden');
+      if (this.dom.btnHelpHeader) this.dom.btnHelpHeader.classList.remove('hidden');
+      if (this.dom.btnRestartHeader) this.dom.btnRestartHeader.classList.remove('hidden');
+      if (this.dom.modalFinalVictory) {
+        this.dom.modalFinalVictory.classList.remove('active');
+      }
+
+      const chefStage = document.getElementById('chef-prompter-stage');
+      if (chefStage) chefStage.classList.add('hidden');
+      const sdlcStage = document.getElementById('sdlc-game-stage');
+      if (sdlcStage) sdlcStage.classList.add('hidden');
+      const clawStage = document.getElementById('claw-game-stage');
+      if (clawStage) clawStage.classList.add('hidden');
+      const pacRolesStage = document.getElementById('pac-roles-stage');
+      if (pacRolesStage) pacRolesStage.classList.remove('hidden');
+
+      if (window.pacRolesGame) {
+        window.pacRolesGame.render();
+      }
+    }
+
+    navigateToPacRoles() {
+      window.history.pushState({ game: 'pac-roles' }, '', '/pac-roles');
+      this.showPacRolesView();
     }
 
     navigateToClawMachine() {
@@ -734,6 +766,13 @@
         });
       }
 
+      if (this.dom.btnStartPacRoles) {
+        this.dom.btnStartPacRoles.addEventListener('click', (e) => {
+          e.preventDefault();
+          this.navigateToPacRoles();
+        });
+      }
+
       // Pastillas selectoras de nivel
       this.dom.levelPills.forEach((pill, idx) => {
         if (pill) {
@@ -788,8 +827,12 @@
           const gameParam = params.get('game');
           const isClaw = path.includes('claw') || path.includes('garra') || gameParam === 'claw';
           const isSdlc = path.includes('sdlc') || path.includes('ciclo') || gameParam === 'sdlc';
+          const isPac = path.includes('pac') || path.includes('roles') || gameParam === 'pac-roles';
 
-          if (isClaw) {
+          if (isPac) {
+            const pacGuide = document.getElementById('modal-pac-guide');
+            if (pacGuide) pacGuide.classList.add('active');
+          } else if (isClaw) {
             const clawGuide = document.getElementById('modal-claw-guide');
             if (clawGuide) clawGuide.classList.add('active');
           } else if (isSdlc) {
@@ -817,6 +860,26 @@
           if (this.dom.modalWelcome) {
             this.dom.modalWelcome.classList.remove('active');
           }
+        });
+      }
+
+      // Botones de modales Pac-Roles
+      const btnClosePacGuide = document.getElementById('btn-close-pac-guide');
+      const btnGotitPacGuide = document.getElementById('btn-gotit-pac-guide');
+      const modalPacGuide = document.getElementById('modal-pac-guide');
+      if (btnClosePacGuide && modalPacGuide) {
+        btnClosePacGuide.addEventListener('click', () => modalPacGuide.classList.remove('active'));
+      }
+      if (btnGotitPacGuide && modalPacGuide) {
+        btnGotitPacGuide.addEventListener('click', () => modalPacGuide.classList.remove('active'));
+      }
+
+      const btnPacVictoryCatalog = document.getElementById('btn-pac-victory-catalog');
+      if (btnPacVictoryCatalog) {
+        btnPacVictoryCatalog.addEventListener('click', () => {
+          const victoryModal = document.getElementById('modal-pac-victory');
+          if (victoryModal) victoryModal.classList.remove('active');
+          this.navigateToHub();
         });
       }
 
@@ -849,8 +912,12 @@
         const gameParam = params.get('game');
         const isClaw = path.includes('claw') || path.includes('garra') || gameParam === 'claw';
         const isSdlc = path.includes('sdlc') || path.includes('ciclo') || gameParam === 'sdlc';
+        const isPac = path.includes('pac') || path.includes('roles') || gameParam === 'pac-roles';
 
-        if (isClaw) {
+        if (isPac) {
+          const resetBtn = document.getElementById('btn-pac-reset');
+          if (resetBtn) resetBtn.click();
+        } else if (isClaw) {
           const resetBtn = document.getElementById('btn-claw-reset');
           if (resetBtn) resetBtn.click();
         } else if (isSdlc) {

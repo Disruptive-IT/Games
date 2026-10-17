@@ -29,6 +29,7 @@ function runTests() {
     'chef-prompter.js',
     'sdlc-game.js',
     'claw-machine.js',
+    'pac-roles.js',
     'NaviBot-512x512.png',
     'Disruptive---LOGO + Alpha.png',
     '.env.local',
@@ -164,6 +165,34 @@ function runTests() {
   assert(htmlContent.includes('Obtener Datos (Solo Consultar)') && htmlContent.includes('Registrar un Nuevo Peluche'), 'HTML contiene terminología profesional y accesible (Obtener, Registrar, Actualizar, Eliminar)');
   assert(htmlContent.includes('🌱 Nivel Fundamental') && htmlContent.includes('tab-guide-advanced'), 'HTML muestra Nivel Fundamental y mantiene en reserva el nivel avanzado');
   assert(clawJsContent.includes('tab-guide-fundamental'), 'claw-machine.js implementa interactividad de cambio de pestañas');
+
+  // 8. Verificar lógica e integración de Pac-Roles: El Laberinto de los Permisos (pac-roles.js)
+  assert(htmlContent.includes('pac-roles-stage'), 'HTML contiene el contenedor #pac-roles-stage');
+  assert(htmlContent.includes('card-game-pacroles'), 'HTML contiene la tarjeta de catálogo de Pac-Roles');
+  assert(htmlContent.includes('pac-canvas'), 'HTML contiene el lienzo canvas #pac-canvas');
+  assert(htmlContent.includes('toggle-thief-right'), 'HTML contiene el toggle de permiso "Ir a la Derecha" para el Ladrón');
+  assert(htmlContent.includes('toggle-thief-coins'), 'HTML contiene el toggle de permiso "Recoger Monedas"');
+  assert(htmlContent.includes('toggle-thief-tunnel'), 'HTML contiene el toggle de permiso "Usar Túnel Secreto"');
+  assert(htmlContent.includes('toggle-police-arrest'), 'HTML contiene el toggle de permiso "Arrestar al Ladrón"');
+  assert(htmlContent.includes('toggle-police-turbo'), 'HTML contiene el toggle de permiso "Súper Velocidad (Turbo)"');
+  assert(htmlContent.includes('pac-denied-banner'), 'HTML contiene el banner de Acceso Denegado');
+  assert(htmlContent.includes('modal-pac-guide'), 'HTML contiene el modal de guía de Pac-Roles');
+  assert(htmlContent.includes('modal-pac-victory'), 'HTML contiene el modal de victoria de Pac-Roles');
+  assert(htmlContent.includes('modal-pac-gameover'), 'HTML contiene el modal de fin de partida de Pac-Roles');
+  assert(htmlContent.includes('pac-roles.js'), 'HTML importa el script pac-roles.js');
+
+  assert(jsContent.includes('pac-roles'), 'game.js maneja ruta /pac-roles');
+  assert(jsContent.includes('showPacRolesView'), 'game.js implementa showPacRolesView');
+  assert(jsContent.includes('navigateToPacRoles'), 'game.js implementa navigateToPacRoles');
+
+  const pacJsContent = fs.readFileSync(path.join(__dirname, 'pac-roles.js'), 'utf8');
+  assert(pacJsContent.includes('PacRolesGame'), 'pac-roles.js define la clase PacRolesGame');
+  assert(pacJsContent.includes('drawThiefSprite'), 'pac-roles.js dibuja el sprite en código del Ladrón');
+  assert(pacJsContent.includes('drawPoliceSprite'), 'pac-roles.js dibuja el sprite en código del Policía');
+  assert(pacJsContent.includes('hasPermission'), 'pac-roles.js valida estrictamente los permisos asignados');
+  assert(pacJsContent.includes('showDeniedBanner'), 'pac-roles.js muestra el banner de acceso denegado');
+  assert(pacJsContent.includes('playDeniedSound') && pacJsContent.includes('playCoinSound'), 'pac-roles.js implementa efectos de sonido Web Audio retro');
+  assert(pacJsContent.includes('loadChallenge'), 'pac-roles.js implementa los 3 retos guiados y modo libre');
 
   console.log(`\n========================================`);
   console.log(`Resultados: ${passed} pruebas exitosas, ${failed} fallos.`);
